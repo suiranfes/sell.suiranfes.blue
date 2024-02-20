@@ -2,6 +2,6 @@
 sell.suiranfes.blue quick x QR
 
 ## Tech
-- Framework: Flutter
-- Language: Dart
+- Framework: React
+- Language: React.js
 - DataBase: Firebase
