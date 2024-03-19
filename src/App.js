@@ -16,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn SUIRANFES
+          About Suiran Festival
         </a>
       </header>
     </div>
