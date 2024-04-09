@@ -3,8 +3,8 @@ sell.suiranfes.blue Quick x QR
 
 ## 技術
 - フレームワーク: React
-- 使用言語: React.js
-- データベース: Firebase
+- 使用言語: TypeScript
+- (データベース): Firebase
 
 ## コマンド
 
