@@ -153,20 +153,19 @@ function App() {
 
   return (
     <div className="App">
-      <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
-      <div>
+      <center>
+        <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
+
         <label>
           <input type="radio" name="rdo" value="0" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={stopOnRecognize} />認識時に自動停止
         </label>
         <label>
           <input type="radio" name="rdo" value="1" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={!stopOnRecognize} />認識時も処理継続
         </label>
-        
         <button onClick={toggleVideoStream}>{(qrParam.pause? '再開': '停止')}</button>
-        <p>QRコード：{code}</p>  
-        <p></p>
-        <p>合計金額:{sum}</p>
-      </div>
+      </center>
+      <p>QRコード: {code}</p>
+      <p>合計金額: {sum}</p>
       <button onClick={handleConfirm}>Open Confirmation Dialog</button>
       {showDialog && (
         <div
