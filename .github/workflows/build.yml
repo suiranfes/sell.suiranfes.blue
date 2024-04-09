@@ -6,7 +6,7 @@ name: Release-GitHub-Page
 on:
   push:
     branches:
-      - master
+      - main
 
 # ジョブの定義
 jobs:
