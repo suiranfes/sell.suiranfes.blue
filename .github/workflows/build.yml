@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: cp CNAME build/CNAME
       - run: npm install && npm run build
       - uses: peaceiris/actions-gh-pages@v3
         with:
