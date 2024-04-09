@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 export const columns = [
     { Header: "商品", accessor: "product" },
     { Header: "値段", accessor: "price" }
@@ -41,7 +40,7 @@ export const columns = [
   const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity: 0 })));
     const [_sum, setSum] = useState<number>(0);
-
+    const [_inputValue, set_InputValue] = useState(0);
     
     const decreaseQuantity = (index: number) => {
       const updatedList = [...itemList];
@@ -71,7 +70,7 @@ export const columns = [
           <thead>
             <tr>
               <th>品物名</th>
-              <th>減やす</th>
+              <th>減らす</th>
               <th>個数</th>
               <th>増やす</th>
             </tr>
@@ -91,7 +90,13 @@ export const columns = [
             ))}
           </tbody>
         </table>
-        <p>合計：{_sum}</p>
+        <p></p>
+        <input 
+          type="number"
+          onChange={(e) => set_InputValue(parseInt(e.target.value)-_sum)}
+        />
+        <p>合計: {_sum}</p>
+        <p>おつり: {_inputValue}</p>
       </div>
     );
   };
