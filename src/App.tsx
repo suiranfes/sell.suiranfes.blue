@@ -31,9 +31,6 @@ function Table({ data }: { data: { name: string, quantity: number }[] }) {
   );
 }
 
-
-
-
 function App() {
   
   const [stopOnRecognize, setStopOnRecognize] = React.useState(true);
@@ -65,7 +62,6 @@ function App() {
     setShowCalculator(false);
   };
 
-  
   const [code, setCode] = useState('');
   //console.log(code);
   //ここから変更
@@ -99,12 +95,9 @@ function App() {
     
     for(let i=0 ; i<sumArray.length-1 ; i++){
       sum =sum + sumArray[i]
-      
     }
     //console.log(sum);
   }
-  
-
  
   const onRecognizeCode = (e: QRCode) => {
     setCode(e.data);
@@ -112,7 +105,7 @@ function App() {
     const _code = e.data;
     if (_code.indexOf("焼きそば")===0){
       console.log("客だ！！（中）");
-      if (showDialog==false){
+      if (showDialog===false){
         handleConfirm();
       }
       
@@ -137,7 +130,7 @@ function App() {
       //表示する商品
       products = [];
       for(let i=0 ; i<_nameArray.length-1 ; i++){
-        if(_qtyArray[i]!=0){
+        if(_qtyArray[i]===0){
           products.push(
             {
               name:_nameArray[i],
@@ -147,7 +140,6 @@ function App() {
         }
       }
     }
-   
 
     if (stopOnRecognize) {
       setQRParam( e => { return {...e, pause: true}; });
