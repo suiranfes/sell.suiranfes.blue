@@ -143,7 +143,6 @@ function App() {
 
     if (stopOnRecognize) {
       setQRParam( e => { return {...e, pause: true}; });
-
     }
   }
 
@@ -155,7 +154,6 @@ function App() {
     <div className="App">
       <center>
         <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
-
         <label>
           <input type="radio" name="rdo" value="0" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={stopOnRecognize} />認識時に自動停止
         </label>
@@ -185,13 +183,12 @@ function App() {
           <h1>Confirmation</h1>
           <input
             type="number"
-            
             onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
           />
           <button onClick={handleCancel}>戻る</button>
           <button onClick={handleConfirmInput}>Confirm</button>
-          <p>合計金額:{sum}</p>
-          <p> おつり:{inputValue}</p>
+          <p>合計金額: {sum}</p>
+          <p>おつり: {inputValue}</p>
           <p></p>
           <div>
             <h1>商品一覧</h1>
@@ -219,7 +216,6 @@ function App() {
           <h1>電卓</h1>
           <button onClick={deleteCal}>戻る</button>
           <CreateCal />
-          
         </div>
       )}
     </div>
