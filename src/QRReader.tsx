@@ -83,7 +83,7 @@ const QRReader: React.FC<QRReaderProps> = (props) => {
       video.current.play();
   
       const canvas = new OffscreenCanvas(width, height);
-      const context = canvas.getContext('2d');
+      const context:any = canvas.getContext('2d');
 
       if (!timerId.current) {
         timerId.current = setInterval(() => {
