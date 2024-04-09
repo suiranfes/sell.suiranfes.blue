@@ -152,8 +152,8 @@ function App() {
 
   return (
     <div className="App">
+      <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
       <center>
-        <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
         <label>
           <input type="radio" name="rdo" value="0" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={stopOnRecognize} />認識時に自動停止
         </label>
