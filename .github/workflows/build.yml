@@ -17,7 +17,7 @@ jobs:
     # nodeのバージョン一覧
     strategy:
       matrix:
-        node-version: ['16.x']
+        node-version: ['20.x']
 
     # 各ステップの実行
     steps:
@@ -34,7 +34,7 @@ jobs:
     # パッケージのインストールとアプリのビルド
     - name: install and build
       run: |
-        npm install
+        npm ci
         npm run build
       env:
         CI: true
