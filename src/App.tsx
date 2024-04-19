@@ -8,9 +8,7 @@ import { Calculate, Clear } from '@mui/icons-material';
 import { Paper} from '@mui/material';
 //表の表示
 let products = [
-  { name: '商品1', quantity: 5 },
-  { name: '商品2', quantity: 10 },
-  { name: '商品3', quantity: 3 },
+  { name: '', quantity: 0 },
 ];
 
 // 表を描画するTableコンポーネント
