@@ -126,7 +126,8 @@ function App() {
   }
 
   // react-zxing の処理
-  const [qr_result, setResult] = useState(""); // qr_result はデバッグのために残す
+  // const [qr_result, setResult] = useState(""); // テキストを出力する際(デバッグ)に利用
+  const [, setResult] = useState("");
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
       const outputText = qr_result.getText();
@@ -138,11 +139,11 @@ function App() {
     },
   });
   // QRコードの読み取りを開始する
-  const startScanning = () => {
-    if (ref.current) {
-      ref.current.play(); // ビデオ再生を開始する
-    }
-  };
+  // const startScanning = () => {
+  //   if (ref.current) {
+  //     ref.current.play(); // ビデオ再生を開始する
+  //   }
+  // };
   // QRコードの読み取りを停止する
   const stopScanning = () => {
     if (ref.current) {
