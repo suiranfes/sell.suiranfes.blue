@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import QRReader, { QRCode } from './QRReader';
+import { useState } from 'react';
+import { useZxing } from 'react-zxing';
 import { CreateCal } from './showCal';
 
 import { Paper } from '@mui/material';
-import { BottomNavigation, BottomNavigationAction, IconButton } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import Button from '@mui/material/Button';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import ListIcon from '@mui/icons-material/List';
@@ -37,35 +37,30 @@ function Table({ data }: { data: { name: string, quantity: number }[] }) {
 }
 
 function App() {
-  const [stopOnRecognize] = React.useState(true);
-  const [qrParam, setQRParam] = useState({
-    width: 500,
-    height: 500,
-    pause: true,
-  });
-
+  // 入力したお金 (後の処理でお釣りを求める)
   const [inputValue, setInputValue] = useState(0);
+  // Page2 を表示
   const [showDialog, setShowDialog] = useState(false);
+
+  // 入力金額の確認
   const handleConfirmInput = () => {
-    // Handle the input value (e.g., send it to the server)
     console.log('Input value:', inputValue);
     setShowDialog(false);
   };
 
   const [code, setCode] = useState('');
-  //console.log(code);
-  //ここから変更
 
-  let sum =0;
-  if (code.indexOf("焼きそば")===0){
-    //console.log("客だ！！(外)");
-    
-    const allArray = code.split(";");
-    //console.log(allArray);
+  // 合計金額
+  let sum = 0;
+
+  // 模擬店かどうか判別
+  if (code.indexOf("焼きそば") === 0){
+    const allArray = code.split(";");// 品ごとに分割
     var nameArray:string[]=new Array( allArray.length-1 );
     var costArray:number[]=new Array( allArray.length-1 );
     var qtyArray:number[]=new Array( allArray.length-1 );
     var sumArray:number[]=new Array( allArray.length-1 );  
+    // それぞれの情報に分割
     for (let i = 0; i < allArray.length; i++){
       let a = allArray[i].split(",");
       let name = a[0];
@@ -77,35 +72,33 @@ function App() {
       qtyArray[i] = qty;
       sumArray[i] = eachSum;
     }
-    // console.log("↓");
-    // console.log(nameArray);
-    // console.log(costArray);
-    // console.log(qtyArray);
-    // console.log(sumArray);
-    
+
+    // 合計金額を求める処理
     for(let i = 0; i < sumArray.length-1; i++){
       sum = sum + sumArray[i]
     }
-    //console.log(sum);
+    // console.log(sum);
   }
- 
-  const onRecognizeCode = (e: QRCode) => {
-    setCode(e.data);
-    console.log(e.data);
-    const _code = e.data;
-    if (_code.indexOf("焼きそば")===0){
-      console.log("客だ！！（中）");
+
+  // QR コード読み込み後の処理
+  const onRecognizeCode = (e: string) => {
+    setCode(e);
+    console.log(e);
+    const _code = e;
+
+    // 模擬店かどうか判別
+    if (_code.indexOf("焼きそば") === 0){
       if (showDialog === false){
         Page2();
       }
-
+      // 品ごとに分割
       const _allArray = _code.split(";");
-      //console.log(allArray);
       var _nameArray:string[]=new Array( _allArray.length-1 );
       var _costArray:number[]=new Array( _allArray.length-1 );
       var _qtyArray:number[]=new Array( _allArray.length-1 );
       var _sumArray:number[]=new Array( _allArray.length-1 );  
-      for (let i = 0 ; i <_allArray.length ; i++){
+      // それぞれの要素に分割
+      for (let i = 0; i < _allArray.length; i++){
         let a =_allArray[i].split(",");
         let name = a[0];
         let cost = Number(a[1]);
@@ -119,27 +112,49 @@ function App() {
 
       //表示する商品
       products = [];
-      for(let i=0 ; i<_nameArray.length-1 ; i++){
-        if(_qtyArray[i]!==0){
+      for(let i = 0; i < _nameArray.length - 1; i++){
+        if(_qtyArray[i] !== 0){
           products.push(
             {
-              name:_nameArray[i],
+              name: _nameArray[i],
               quantity: _qtyArray[i]
             }
           );
         }
       }
     }
+  }
 
-    if (stopOnRecognize) {
-      setQRParam( e => { return {...e, pause: true}; });
+  // react-zxing の処理
+  const [qr_result, setResult] = useState("");
+  const { ref } = useZxing({
+    onDecodeResult(qr_result) {
+      const outputText = qr_result.getText();
+
+      stopScanning(); // QR コードが読み取れた時に止める
+      Page2(); // Page2 を開く
+      onRecognizeCode(outputText); // 結果を渡す
+      setResult(outputText);
+    },
+  });
+  // QRコードの読み取りを開始する
+  const startScanning = () => {
+    if (ref.current) {
+      ref.current.play(); // ビデオ再生を開始する
     }
+  };
+  // QRコードの読み取りを停止する
+  const stopScanning = () => {
+    if (ref.current) {
+      ref.current.pause(); // ビデオ再生を停止する
+    }
+  };
+  // ページリロード
+  function reloadPage() {
+    window.location.reload();
   }
 
-  const toggleVideoStream = () => {
-    setQRParam( e => { return {...e, pause: !e.pause}; });
-  }
-
+  // ページ処理
   const [isVisible1, setIsVisible1] = useState<boolean>(true);
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
@@ -147,16 +162,22 @@ function App() {
     setIsVisible1(true);
     setIsVisible2(false);
     setIsVisible3(false);
+
+    reloadPage();
   }
   const Page2 = () => {
     setIsVisible1(false);
     setIsVisible2(true);
     setIsVisible3(false);
+
+    stopScanning();
   }
   const Page3 = () => {
     setIsVisible1(false);
     setIsVisible2(false);
     setIsVisible3(true);
+
+    stopScanning();
   }
 
   return (
@@ -169,9 +190,20 @@ function App() {
       {isVisible1 &&
       <div id="QR">
         <h2>QR コード</h2>
-        <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
-        <Button variant="outlined" color="primary" sx={{ marginRight: 2 }} onClick={toggleVideoStream}>{(qrParam.pause? '読み込み再開': '読み込み停止')}</Button>
-        <p>合計金額: {sum} 円</p>
+        <video ref={ref}
+               style={{
+                width: "100%",
+                borderRadius: "16px",
+               }} />
+        {/*
+        <p>
+          <span>Last result: </span>
+          <span>{qr_result}</span>
+        </p>
+        */}
+        <Button variant="outlined" onClick={reloadPage}>読み取りを再開</Button>
+
+        {/* <p>合計金額: {sum} 円</p> */}
       </div>
       }
 
