@@ -173,7 +173,6 @@ function App() {
       {showDialog && (
         <div
         style={{
-              border: "solid 2px #090e0f",
               alignItems: 'center',
               position: 'absolute',
               top: '10px',
@@ -206,11 +205,10 @@ function App() {
       {showCalculator && (
         <div
         style={{
-              border: "solid 2px #090e0f",
               alignItems: 'center',
               position: 'absolute',
               top: '10px',
-              background:"#e8e868",
+              background:"#eff",
               zIndex: 999,
               height: "100%",
               width: "100%",
@@ -218,7 +216,7 @@ function App() {
           }}
   
         className="custom-dialog">
-          <Paper sx={{fontSize: "50px", background:"#ffcfff" , position: 'relative', top: 0, left: 0, right: 0 }} elevation={3}>
+          <Paper sx={{fontSize: "50px", background:"#dff" , position: 'relative', top: 0, left: 0, right: 0 }} elevation={3}>
             電卓<IconButton sx={{float:"right",fontSize:"large"}}  onClick={deleteCal}><Clear /></IconButton> 
           </Paper>
           <CreateCal />
