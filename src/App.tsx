@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import QRReader, { QRCode } from './QRReader';
-import {CreateCal} from './showCal';
+import { CreateCal } from './showCal';
 
-import Button from '@mui/material/Button';
+import { Paper } from '@mui/material';
 import { BottomNavigation, BottomNavigationAction, IconButton } from '@mui/material';
-import { Calculate, Clear } from '@mui/icons-material';
-import { Paper} from '@mui/material';
-//表の表示
+import Button from '@mui/material/Button';
+import QrCodeIcon from '@mui/icons-material/QrCode2';
+import ListIcon from '@mui/icons-material/List';
+import CalculateIcon from '@mui/icons-material/Calculate';
+
+// Default Data
 let products = [
   { name: '', quantity: 0 },
 ];
@@ -34,40 +37,25 @@ function Table({ data }: { data: { name: string, quantity: number }[] }) {
 }
 
 function App() {
-  
-  const [stopOnRecognize, setStopOnRecognize] = React.useState(true);
+  const [stopOnRecognize] = React.useState(true);
   const [qrParam, setQRParam] = useState({
     width: 500,
     height: 500,
     pause: true,
   });
-  
+
   const [inputValue, setInputValue] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
-  const [showCalculator, setShowCalculator] = useState(false);
-  const handleConfirm = () => {
-    setShowDialog(true);
-  };
-  const handleCancel = () => {
-    setShowDialog(false);
-  };
   const handleConfirmInput = () => {
     // Handle the input value (e.g., send it to the server)
     console.log('Input value:', inputValue);
     setShowDialog(false);
   };
 
-  const handleCal = () =>{
-    setShowCalculator(true);
-  };
-  const deleteCal = () =>{
-    setShowCalculator(false);
-  };
-
   const [code, setCode] = useState('');
   //console.log(code);
   //ここから変更
-  
+
   let sum =0;
   if (code.indexOf("焼きそば")===0){
     //console.log("客だ！！(外)");
@@ -78,16 +66,16 @@ function App() {
     var costArray:number[]=new Array( allArray.length-1 );
     var qtyArray:number[]=new Array( allArray.length-1 );
     var sumArray:number[]=new Array( allArray.length-1 );  
-    for (let i = 0 ; i <allArray.length ; i++){
-      let a =allArray[i].split(",");
+    for (let i = 0; i < allArray.length; i++){
+      let a = allArray[i].split(",");
       let name = a[0];
       let cost = Number(a[1]);
       let qty = Number(a[2]);
       let eachSum = Number(a[3]);
-      nameArray[i]=name;
-      costArray[i]=cost;
-      qtyArray[i]=qty;
-      sumArray[i]=eachSum;
+      nameArray[i] = name;
+      costArray[i] = cost;
+      qtyArray[i] = qty;
+      sumArray[i] = eachSum;
     }
     // console.log("↓");
     // console.log(nameArray);
@@ -95,8 +83,8 @@ function App() {
     // console.log(qtyArray);
     // console.log(sumArray);
     
-    for(let i=0 ; i<sumArray.length-1 ; i++){
-      sum =sum + sumArray[i]
+    for(let i = 0; i < sumArray.length-1; i++){
+      sum = sum + sumArray[i]
     }
     //console.log(sum);
   }
@@ -107,28 +95,28 @@ function App() {
     const _code = e.data;
     if (_code.indexOf("焼きそば")===0){
       console.log("客だ！！（中）");
-      if (showDialog===false){
-        handleConfirm();
+      if (showDialog === false){
+        Page2();
       }
-      
+
       const _allArray = _code.split(";");
-    //console.log(allArray);
-    var _nameArray:string[]=new Array( _allArray.length-1 );
-    var _costArray:number[]=new Array( _allArray.length-1 );
-    var _qtyArray:number[]=new Array( _allArray.length-1 );
-    var _sumArray:number[]=new Array( _allArray.length-1 );  
-    for (let i = 0 ; i <_allArray.length ; i++){
-      let a =_allArray[i].split(",");
-      let name = a[0];
-      let cost = Number(a[1]);
-      let qty = Number(a[2]);
-      let eachSum = Number(a[3]);
-      _nameArray[i]=name;
-      _costArray[i]=cost;
-      _qtyArray[i]=qty;
-      _sumArray[i]=eachSum;
-    }
-      
+      //console.log(allArray);
+      var _nameArray:string[]=new Array( _allArray.length-1 );
+      var _costArray:number[]=new Array( _allArray.length-1 );
+      var _qtyArray:number[]=new Array( _allArray.length-1 );
+      var _sumArray:number[]=new Array( _allArray.length-1 );  
+      for (let i = 0 ; i <_allArray.length ; i++){
+        let a =_allArray[i].split(",");
+        let name = a[0];
+        let cost = Number(a[1]);
+        let qty = Number(a[2]);
+        let eachSum = Number(a[3]);
+        _nameArray[i] = name;
+        _costArray[i] = cost;
+        _qtyArray[i] = qty;
+        _sumArray[i] = eachSum;
+      }
+
       //表示する商品
       products = [];
       for(let i=0 ; i<_nameArray.length-1 ; i++){
@@ -152,78 +140,76 @@ function App() {
     setQRParam( e => { return {...e, pause: !e.pause}; });
   }
 
+  const [isVisible1, setIsVisible1] = useState<boolean>(true);
+  const [isVisible2, setIsVisible2] = useState<boolean>(false);
+  const [isVisible3, setIsVisible3] = useState<boolean>(false);
+  const Page1 = () => {
+    setIsVisible1(true);
+    setIsVisible2(false);
+    setIsVisible3(false);
+  }
+  const Page2 = () => {
+    setIsVisible1(false);
+    setIsVisible2(true);
+    setIsVisible3(false);
+  }
+  const Page3 = () => {
+    setIsVisible1(false);
+    setIsVisible2(false);
+    setIsVisible3(true);
+  }
+
   return (
-    <div className="App">
-      <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
-      <center>
-        <label>
-          <input type="radio" name="rdo" value="0" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={stopOnRecognize} />認識時に自動停止
-        </label>
-        <label>
-          <input type="radio" name="rdo" value="1" onChange={(e) => setStopOnRecognize(e.target.value === "0")} checked={!stopOnRecognize} />認識時も処理継続
-        </label>
-        <Button variant="outlined" color="primary" sx={{ marginRight: 2 }} onClick={toggleVideoStream}>{(qrParam.pause? '再開': '停止')}</Button>
-      </center>
-      <p>QRコード: {code}</p>
-      <p></p>
-      <p>合計金額: {sum}</p>
-      <Button variant="outlined" onClick={handleConfirm}>Open Confirmation Dialog</Button>
-      {showDialog && (
-        <div
-        style={{
-              alignItems: 'center',
-              position: 'absolute',
-              top: '10px',
-              background:"#e8f8f8",
-              zIndex: 999,
-              height: "100%",
-              width: "100%",
-              maxWidth: "540px",
-          }}
-  
-        className="custom-dialog">
-          <h1>Confirmation</h1>
-          <input
+    <div className="App"
+         style={{
+           margin: "0 10% 68px 10%",
+         }}>
+
+      {/* Page1 */}
+      {isVisible1 &&
+      <div id="QR">
+        <h2>QR コード</h2>
+        <QRReader {...qrParam} gecognizeCallback={onRecognizeCode} />
+        <Button variant="outlined" color="primary" sx={{ marginRight: 2 }} onClick={toggleVideoStream}>{(qrParam.pause? '読み込み再開': '読み込み停止')}</Button>
+        <p>合計金額: {sum} 円</p>
+      </div>
+      }
+
+      {/* Page2 */}
+      {isVisible2 &&
+      <div id="QRb">
+        <h2>確認</h2>
+        <input
             type="number"
             onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
           />
-          <Button variant="outlined" onClick={handleCancel}>戻る</Button>
-          <Button variant="outlined" onClick={handleConfirmInput}>Confirm</Button>
-          <p>合計金額: {sum}</p>
-          <p>おつり: {inputValue}</p>
+          <Button variant="outlined" onClick={Page1}>戻る</Button>
+          <Button variant="outlined" onClick={handleConfirmInput}>確認</Button>
+          <p>合計金額: {sum} 円</p>
+          <p>おつり: {inputValue} 円</p>
           <p></p>
           <div>
-            <h1>商品一覧</h1>
+            <h2>商品一覧</h2>
             <Table data={products} />
           </div> 
-        </div>
-      )}
+      </div>
+      }
+
+      {/* Page3 */}
+      {isVisible3 &&
+      <div id="clalculator">
+        <h2>電卓</h2>
+        <CreateCal />
+      </div>
+      }
       
-      <Button variant="outlined" onClick={handleCal}>電卓</Button>
-      {showCalculator && (
-        <div
-        style={{
-              alignItems: 'center',
-              position: 'absolute',
-              top: '10px',
-              background:"#eff",
-              zIndex: 999,
-              height: "100%",
-              width: "100%",
-              maxWidth: "540px",
-          }}
-  
-        className="custom-dialog">
-          <Paper sx={{fontSize: "50px", background:"#dff" , position: 'relative', top: 0, left: 0, right: 0 }} elevation={3}>
-            電卓<IconButton sx={{float:"right",fontSize:"large"}}  onClick={deleteCal}><Clear /></IconButton> 
-          </Paper>
-          <CreateCal />
-        </div>
-      )}
-       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-      <BottomNavigation>
-        <BottomNavigationAction label ="電卓" icon={< Calculate/>} onClick={handleCal}/>
-      </BottomNavigation>
+      {/* footer */}
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <BottomNavigation>
+          <BottomNavigationAction label ="QR コード" icon={<QrCodeIcon />} onClick={Page1}/>
+          <BottomNavigationAction label ="計算" icon={<ListIcon />} onClick={Page2}/>
+          <BottomNavigationAction label ="電卓" icon={<CalculateIcon />} onClick={Page3}/>
+        </BottomNavigation>
       </Paper>
     </div>
   );
