@@ -126,15 +126,15 @@ function App() {
   }
 
   // react-zxing の処理
-  const [qr_result, setResult] = useState("");
+  const [qr_result, setResult] = useState(""); // qr_result はデバッグのために残す
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
       const outputText = qr_result.getText();
 
       stopScanning(); // QR コードが読み取れた時に止める
-      Page2(); // Page2 を開く
       onRecognizeCode(outputText); // 結果を渡す
       setResult(outputText);
+      Page2(); // Page2 を開く
     },
   });
   // QRコードの読み取りを開始する
@@ -170,14 +170,14 @@ function App() {
     setIsVisible2(true);
     setIsVisible3(false);
 
-    stopScanning();
+    // stopScanning();
   }
   const Page3 = () => {
     setIsVisible1(false);
     setIsVisible2(false);
     setIsVisible3(true);
 
-    stopScanning();
+    // stopScanning();
   }
 
   return (
@@ -201,7 +201,7 @@ function App() {
           <span>{qr_result}</span>
         </p>
         */}
-        <Button variant="outlined" onClick={reloadPage}>読み取りを再開</Button>
+        <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button>
 
         {/* <p>合計金額: {sum} 円</p> */}
       </div>
