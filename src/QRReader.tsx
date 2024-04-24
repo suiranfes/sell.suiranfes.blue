@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import jsqr, { QRCode } from 'jsqr';
+import { error } from 'console';
 export type { QRCode } from 'jsqr';
 
 export type QRReaderProps = {
@@ -80,7 +81,9 @@ const QRReader: React.FC<QRReaderProps> = (props) => {
     
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       video.current.srcObject = stream;
-      video.current.play();
+      video.current.play().catch(error =>{
+        console.log(error);
+      });
   
       const canvas = new OffscreenCanvas(width, height);
       const context:any = canvas.getContext('2d');
