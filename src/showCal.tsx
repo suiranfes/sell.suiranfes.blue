@@ -111,11 +111,11 @@ export const columns = [
               <tr key={index}>
                 <td>{item.product}</td>
                 <td>
-                  <Button onClick={() => decreaseQuantity(index)}>-</Button>
+                  <Button variant="outlined" onClick={() => decreaseQuantity(index)}>-</Button>
                 </td>
-                <td>{item.quantity}</td>
+                <td align='center'>{item.quantity}</td>
                 <td>
-                  <Button onClick={() => increaseQuantity(index)}>+</Button>
+                  <Button variant="outlined" onClick={() => increaseQuantity(index)}>+</Button>
                 </td>
               </tr>
             ))}
