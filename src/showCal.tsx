@@ -1,9 +1,10 @@
+import { Button } from '@mui/material';
 import React, { useState } from 'react';
 
 export const columns = [
     { Header: "商品", accessor: "product" },
     { Header: "値段", accessor: "price" }
-    ];
+  ];
   
   export const productData = [
     {product: "焼きそば",      price: "350"},
@@ -63,6 +64,36 @@ export const columns = [
       });
       setSum(sum);
   };
+    
+  const setLocalStorage = () => {
+      let d = new Date();
+      let year = d.getFullYear();
+      let month = d.getMonth() + 1;
+      let day = d.getDate();
+      let hour = d.getHours().toString().padStart(2, '0');
+      let minute = d.getMinutes().toString().padStart(2, '0');
+      let seconds = d.getSeconds().toString().padStart(2, '0');
+      let UTCtime = d.getTime().toString().slice(0,-3);
+      const date = UTCtime+")"+year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;  
+      //console.log(date);
+      let saveData:string[]=[];
+      for(let i= 0;i<itemList.length;i++){
+        if(itemList[i].quantity != 0){
+          saveData.push(JSON.stringify([itemList[i].product,itemList[i].quantity]))
+        } 
+      }
+      //localStorageに保存
+      localStorage.setItem(date,saveData.join());
+      const keys  = Object.keys(localStorage);
+      console.log(date);
+      console.log(keys);
+      console.log(localStorage.getItem(date))
+    }
+    const deleteLocalStorage = () => {
+      localStorage.clear();
+      const keys  = Object.keys(localStorage);
+      console.log(keys);
+    }
 
     return (
       <div>
@@ -97,6 +128,8 @@ export const columns = [
         />
         <p>合計: {_sum}</p>
         <p>おつり: {_inputValue}</p>
+        <Button onClick={setLocalStorage}>ローカルストレージに値を保存する</Button>
+        <Button onClick={deleteLocalStorage}>消す</Button>
       </div>
     );
   };
