@@ -1,7 +1,7 @@
 {
   "homepage": "https://sell.suiranfes.blue",
-  "name": "quickr",
-  "version": "0.1.0",
+  "name": "quickqr",
+  "version": "24.4.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
