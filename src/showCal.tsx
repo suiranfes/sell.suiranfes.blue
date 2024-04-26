@@ -78,7 +78,7 @@ export const columns = [
       //console.log(date);
       let saveData:string[]=[];
       for(let i= 0;i<itemList.length;i++){
-        if(itemList[i].quantity != 0){
+        if(itemList[i].quantity !== 0){
           saveData.push(JSON.stringify([itemList[i].product,itemList[i].quantity]))
         } 
       }
@@ -128,8 +128,8 @@ export const columns = [
         />
         <p>合計: {_sum}</p>
         <p>おつり: {_inputValue}</p>
-        <Button onClick={setLocalStorage}>ローカルストレージに値を保存する</Button>
-        <Button onClick={deleteLocalStorage}>消す</Button>
+        <Button onClick={setLocalStorage}>データを保存</Button>
+        <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button>
       </div>
     );
   };

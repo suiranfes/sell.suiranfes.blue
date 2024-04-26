@@ -74,7 +74,7 @@ function App() {
     item: string;
     quantity: number;
   }
-  const [SellItem,setSellIetm] = useState<SellItem[]>([{item:"焼きそば",quantity:0},{item:"フランクフルト",quantity:0},{item:"チュロス",quantity:0},{item:"クレープ",quantity:0},{item:"チョコバナナ",quantity:0},{item:"つぶつぶアイス",quantity:0},
+  const [_SellItem,setSellIetm] = useState<SellItem[]>([{item:"焼きそば",quantity:0},{item:"フランクフルト",quantity:0},{item:"チュロス",quantity:0},{item:"クレープ",quantity:0},{item:"チョコバナナ",quantity:0},{item:"つぶつぶアイス",quantity:0},
   {item:"かき氷",quantity:0},{item:"肉巻きおにぎり",quantity:0},{item:"ドリンク",quantity:0},{item:"ペットボトル",quantity:0}
   ]);
   const [data, setData] = useState<Item[]>(items);
@@ -151,34 +151,34 @@ function App() {
     }
     newSophisticatedQuantityArray=sophisticatedQuantityArray.flat();
     console.log(newSophisticatedQuantityArray);
-    for(let i = 0;i<SellItem.length;i++){
-      SellItem[i].quantity=0;
+    for(let i = 0;i<_SellItem.length;i++){
+      _SellItem[i].quantity=0;
     }
       
     for (let i=0;i<newSophisticatedQuantityArray.length;i++){
-      if(newSophisticatedQuantityArray[i]==="焼きそば"){SellItem[0].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="フランクフルト"){SellItem[1].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="チュロス"){SellItem[2].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="クレープ"){SellItem[3].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="チョコバナナ"){SellItem[4].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="つぶつぶアイス"){SellItem[5].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="かき氷"){SellItem[6].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="肉巻きおにぎり"){SellItem[7].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="ドリンク各種"){SellItem[8].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="ペットボトル"){SellItem[9].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="焼きそば"){_SellItem[0].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="フランクフルト"){_SellItem[1].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="チュロス"){_SellItem[2].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="クレープ"){_SellItem[3].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="チョコバナナ"){_SellItem[4].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="つぶつぶアイス"){_SellItem[5].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="かき氷"){_SellItem[6].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="肉巻きおにぎり"){_SellItem[7].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="ドリンク各種"){_SellItem[8].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      if(newSophisticatedQuantityArray[i]==="ペットボトル"){_SellItem[9].quantity+=Number(newSophisticatedQuantityArray[i+1])}
     }
-    console.log(SellItem[0].quantity);
+    console.log(_SellItem[0].quantity);
     setSellIetm([
-      {item:"焼きそば",quantity:SellItem[0].quantity},
-      {item:"フランクフルト",quantity:SellItem[1].quantity},
-      {item:"チュロス",quantity:SellItem[2].quantity},
-      {item:"クレープ",quantity:SellItem[3].quantity},
-      {item:"チョコバナナ",quantity:SellItem[4].quantity},
-      {item:"つぶつぶアイス",quantity:SellItem[5].quantity},
-      {item:"かき氷",quantity:SellItem[6].quantity},
-      {item:"肉巻きおにぎり",quantity:SellItem[7].quantity},
-      {item:"ドリンク",quantity:SellItem[8].quantity},
-      {item:"ペットボトル",quantity:SellItem[9].quantity}
+      {item:"焼きそば",quantity:_SellItem[0].quantity},
+      {item:"フランクフルト",quantity:_SellItem[1].quantity},
+      {item:"チュロス",quantity:_SellItem[2].quantity},
+      {item:"クレープ",quantity:_SellItem[3].quantity},
+      {item:"チョコバナナ",quantity:_SellItem[4].quantity},
+      {item:"つぶつぶアイス",quantity:_SellItem[5].quantity},
+      {item:"かき氷",quantity:_SellItem[6].quantity},
+      {item:"肉巻きおにぎり",quantity:_SellItem[7].quantity},
+      {item:"ドリンク",quantity:_SellItem[8].quantity},
+      {item:"ペットボトル",quantity:_SellItem[9].quantity}
     ]);
   }
 
@@ -435,9 +435,9 @@ function App() {
             </thead>
             <tbody>
               <tr>
-                <td>{SellItem[0].quantity}</td><td>{SellItem[1].quantity}</td><td>{SellItem[2].quantity}</td><td>{SellItem[3].quantity}</td>
-                <td>{SellItem[4].quantity}</td><td>{SellItem[5].quantity}</td><td>{SellItem[6].quantity}</td><td>{SellItem[7].quantity}</td>
-                <td>{SellItem[8].quantity}</td><td>{SellItem[9].quantity}</td>
+                <td>{_SellItem[0].quantity}</td><td>{_SellItem[1].quantity}</td><td>{_SellItem[2].quantity}</td><td>{_SellItem[3].quantity}</td>
+                <td>{_SellItem[4].quantity}</td><td>{_SellItem[5].quantity}</td><td>{_SellItem[6].quantity}</td><td>{_SellItem[7].quantity}</td>
+                <td>{_SellItem[8].quantity}</td><td>{_SellItem[9].quantity}</td>
               </tr>
             </tbody>
           </table>
