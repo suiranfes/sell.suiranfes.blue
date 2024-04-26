@@ -107,7 +107,7 @@ function App() {
               <td>{item.time}</td>
               <td>{item.quantity}</td>
               <td>
-                <button onClick={() => handleDelete(index,item.time)}>削除</button>
+                <Button onClick={() => {handleDelete(index,item.time); updateData();}}>削除</Button>
               </td>
             </tr>
           ))}
