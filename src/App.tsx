@@ -9,7 +9,6 @@ import QrCodeIcon from '@mui/icons-material/QrCode2';
 import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
-// import { sortAndDeduplicateDiagnostics } from 'typescript';
 
 // Default Data
 let products = [
@@ -42,29 +41,8 @@ function App() {
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
   let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
-  // const [qrParam, setQRParam] = useState({
-  //   wtimeth: 500,
-  //   height: 500,
-  //   pause: true,
-  // });
   // 入力したお金 (後の処理でお釣りを求める)
   const [inputValue, setInputValue] = useState(0);
-  // Page2 を表示
-  const [, setShowDialog] = useState(false);
-  // const [showDialog, setShowDialog] = useState(false);
-  // const [showCalculator, setShowCalculator] = useState(false);
-  // const [showData, setShowData] = useState(false);
-  // const handleConfirm = () => {
-  //   setShowDialog(true);
-  // };
-  // const handleCancel = () => {
-  //   setShowDialog(false);
-  // };
-  // 入力金額の確認
-  const handleConfirmInput = () => {
-    console.log('Input value:', inputValue);
-    setShowDialog(false);
-  };
 
   interface Item {
     time: string;
@@ -389,7 +367,7 @@ function App() {
           <span>{qr_result}</span>
         </p>
         */}
-        <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button>
+        {/* <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button> */}
 
         {/* <p>合計金額: {sum} 円</p> */}
       </div>
@@ -398,19 +376,16 @@ function App() {
       {isVisible2 &&
       <div id="QRb">
         <h2>確認</h2>
-          <input
-            type="number"
-            onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
-          />
-          <Button variant="outlined" onClick={Page1}>戻る</Button>
-          <Button variant="outlined" onClick={handleConfirmInput}>確認</Button>
-          <p>合計金額: {sum} 円</p>
-          <p>おつり: {inputValue} 円</p>
-          <p></p>
-          <div>
-            <h2>商品一覧</h2>
-            <Table data={products} />
-          </div> 
+        <input
+          type="number"
+          onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
+        />
+        {/* <Button variant="outlined" onClick={Page1}>戻る</Button> */}
+        <p>合計金額: {sum} 円</p>
+        <p>おつり: {inputValue} 円</p>
+        <p></p>
+        {/* <h2>商品一覧</h2> */}
+        <Table data={products} />
       </div>
       }
 
@@ -426,21 +401,21 @@ function App() {
       {isVisible4 &&
       <div id="data">
         <h2>データ</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>焼きそば</th><th>フランクフルト</th><th>チュロス</th><th>クレープ</th><th>チョコバナナ</th>
-                <th>つぶつぶアイス</th><th>かき氷</th><th>肉巻きおにぎり</th><th>ドリンク各種</th><th>ペットボトル</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{_SellItem[0].quantity}</td><td>{_SellItem[1].quantity}</td><td>{_SellItem[2].quantity}</td><td>{_SellItem[3].quantity}</td>
-                <td>{_SellItem[4].quantity}</td><td>{_SellItem[5].quantity}</td><td>{_SellItem[6].quantity}</td><td>{_SellItem[7].quantity}</td>
-                <td>{_SellItem[8].quantity}</td><td>{_SellItem[9].quantity}</td>
-              </tr>
-            </tbody>
-          </table>
+        <table>
+          <thead>
+            <tr>
+              <th>焼きそば</th><th>フランクフルト</th><th>チュロス</th><th>クレープ</th><th>チョコバナナ</th>
+              <th>つぶつぶアイス</th><th>かき氷</th><th>肉巻きおにぎり</th><th>ドリンク各種</th><th>ペットボトル</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{_SellItem[0].quantity}</td><td>{_SellItem[1].quantity}</td><td>{_SellItem[2].quantity}</td><td>{_SellItem[3].quantity}</td>
+              <td>{_SellItem[4].quantity}</td><td>{_SellItem[5].quantity}</td><td>{_SellItem[6].quantity}</td><td>{_SellItem[7].quantity}</td>
+              <td>{_SellItem[8].quantity}</td><td>{_SellItem[9].quantity}</td>
+            </tr>
+          </tbody>
+        </table>
         <DataTable items={items}/>        
       </div>      
       }
