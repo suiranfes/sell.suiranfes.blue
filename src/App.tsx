@@ -10,8 +10,8 @@ import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 
-import { CSVDownloadButton_1 }from './csvDownload';
-import CSV_2_TableComponent from './csvDownload';
+import { CSVDownloadButton1 } from './csvDownload';
+import CSVTableComponent2 from './csvDownload';
 import { productData } from './data';
 
 // Default Data
@@ -49,11 +49,9 @@ function Table({ data }: { data: { name: string, quantity: number }[] }) {
     </table>
   );
 }
-interface Props {
-  items: SellItem[];
-}
+
 //買われた総数を表示する表のコンポーネント
-const ItemTable: React.FC<Props> = ({ items }) => {
+const ItemTable: React.FC<{items: SellItem[]}> = ({ items }) => {
   return (
     <table>
       <thead>
@@ -75,9 +73,9 @@ const ItemTable: React.FC<Props> = ({ items }) => {
 };
 
 function App() {
-  interface DataObject {
-    [key: string]: any;
-}
+  // interface DataObject {
+  //   [key: string]: any;
+  // }
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
@@ -158,11 +156,6 @@ function App() {
     let sophisticatedQuantityArray:string[][]=[];
     let newSophisticatedQuantityArray:string[]=[];
     for(let i=0;i<localStorage.length;i++){
-      // quantityArray[i]=quantityArray[i].split("[").join();
-      // quantityArray[i]=quantityArray[i].split("]").join();
-      // quantityArray[i]=quantityArray[i].split(/"/).join();
-      // quantityArray[i]=quantityArray[i].split(/"/).join();
-      // quantityArray[i]=quantityArray[i].split(",,").join();
       quantityArray[i]=quantityArray[i].replace(/[\[\]"]/g, '');
       sophisticatedQuantityArray[i]=quantityArray[i].split(",");
     }
@@ -424,9 +417,9 @@ function App() {
       <div id="data">
         <h2>データ</h2>
         <div>
-            <h1>CSV Downloader</h1>
-            <CSVDownloadButton_1 data={_SellItem} />
-            <CSV_2_TableComponent data = {data}/>
+            <h1>データ出力</h1>
+            <CSVDownloadButton1 data={_SellItem} />
+            <CSVTableComponent2 data={data}/>
         </div>
           <ItemTable items={_SellItem} />
           <DataTable items={data}/>        
