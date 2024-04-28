@@ -1,18 +1,24 @@
+// External Library
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
-import { CreateCal } from './showCal';
 
+// Internal Component
+import { productData } from './data';
+import { CreateCal } from './showCal';
+import { CSVDownloadButton1 } from './csvDownload';
+import CSVTableComponent2 from './csvDownload';
+
+// Material UI
 import { Paper } from '@mui/material';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
+// Icons
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
-
-import { CSVDownloadButton1 } from './csvDownload';
-import CSVTableComponent2 from './csvDownload';
-import { productData } from './data';
 
 // Default Data
 let products = [
@@ -83,7 +89,6 @@ function App() {
   const[QR_flag,setFlag] =useState(false);
   // 入力したお金 (後の処理でお釣りを求める)
   const [inputValue, setInputValue] = useState(0);
-
 
   const in_order_to_set_array:SellItem[]=productData.map((data)=>{
     const one_of_productData ={
@@ -391,12 +396,13 @@ function App() {
       {isVisible2 &&
       <div id="QRb">
         <h2>確認</h2>
-        <input
+        <p>合計金額: {sum} 円</p>
+        <TextField
+          label="入力金額" variant="outlined"
           type="number"
           onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
         />
         {/* <Button variant="outlined" onClick={Page1}>戻る</Button> */}
-        <p>合計金額: {sum} 円</p>
         <p>おつり: {inputValue} 円</p>
         <p></p>
         {/* <h2>商品一覧</h2> */}

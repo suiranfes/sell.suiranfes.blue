@@ -1,6 +1,7 @@
-import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { productData } from './data';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 export const columns = [
     { Header: "商品", accessor: "product" },
@@ -107,11 +108,12 @@ export const columns = [
           </tbody>
         </table>
         <p></p>
-        <input 
+        <p>合計: {_sum}</p>
+        <TextField
+          label="入力金額" variant="outlined"
           type="number"
           onChange={(e) => set_InputValue(parseInt(e.target.value)-_sum)}
         />
-        <p>合計: {_sum}</p>
         <p>おつり: {_inputValue}</p>
         <Button onClick={setLocalStorage}>データを保存</Button>
         <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button>
