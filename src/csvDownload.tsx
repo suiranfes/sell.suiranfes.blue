@@ -3,7 +3,6 @@ import { productData } from './data';
 
 import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
-import { Visibility } from '@mui/icons-material';
 
 interface DataObject {
     [key: string]: any;
