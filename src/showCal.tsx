@@ -1,42 +1,27 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
+import { productData } from './data';
 
 export const columns = [
     { Header: "商品", accessor: "product" },
     { Header: "値段", accessor: "price" }
   ];
   
-  export const productData = [
-    {product: "焼きそば",      price: "350"},
-    {product: "フランクフルト",price: "200"},
-    {product: "肉巻きおにぎり",price: "350"},
-    {product: "チュロス",      price: "250"},
-    {product: "かき氷",        price: "200"},
-    {product: "チョコバナナ",  price: "300"},
-    {product: "つぶつぶアイス",price: "350"},
-    {product: "クレープ",      price: "300"},
-    {product: "ドリンク各種",  price: "300"},
-    {product: "ペットボトル",  price: "150"}
-  ];
-
   interface Item {
     product: string;
-    price: number;
+    price:number;
     quantity: number;
   }
 
-  const _productData: Item[] = [
-    {product: "焼きそば",      price: 350, quantity:0},
-    {product: "フランクフルト",price: 200, quantity:0},
-    {product: "肉巻きおにぎり",price: 350, quantity:0},
-    {product: "チュロス",      price: 250, quantity:0},
-    {product: "かき氷",        price: 200, quantity:0},
-    {product: "チョコバナナ",  price: 300, quantity:0},
-    {product: "つぶつぶアイス",price: 350, quantity:0},
-    {product: "クレープ",      price: 300, quantity:0},
-    {product: "ドリンク各種",  price: 300, quantity:0},
-    {product: "ペットボトル",  price: 150, quantity:0}
-  ]
+  const _productData: Item[] = productData.map((data)=>{
+    const one_of_productData ={
+      ...data,
+      price:Number(data.price),
+      quantity:0
+    }
+    return one_of_productData;
+  });
+
   
   const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity: 0 })));
