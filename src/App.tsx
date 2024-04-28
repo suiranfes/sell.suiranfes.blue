@@ -10,10 +10,23 @@ import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 
+import { CSVDownloadButton1 } from './csvDownload';
+import CSVTableComponent2 from './csvDownload';
+import { productData } from './data';
+
 // Default Data
 let products = [
   { name: '', quantity: 0 },
 ];
+
+interface Item {
+  time: string;
+  quantity: string;
+}
+interface SellItem {
+  item: string;
+  quantity: number;
+}
 
 // 表を描画するTableコンポーネント
 function Table({ data }: { data: { name: string, quantity: number }[] }) {
@@ -37,26 +50,53 @@ function Table({ data }: { data: { name: string, quantity: number }[] }) {
   );
 }
 
+//買われた総数を表示する表のコンポーネント
+const ItemTable: React.FC<{items: SellItem[]}> = ({ items }) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {items.map((_item, index) => (
+            <th key={index}>{_item.item}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {items.map((_item, index) => (
+            <td key={index}>{_item.quantity}</td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
+  );
+};
+
 function App() {
+  // interface DataObject {
+  //   [key: string]: any;
+  // }
+
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
   let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
+  const[QR_flag,setFlag] =useState(false);
   // 入力したお金 (後の処理でお釣りを求める)
   const [inputValue, setInputValue] = useState(0);
 
-  interface Item {
-    time: string;
-    quantity: string;
-  }
-  interface SellItem {
-    item: string;
-    quantity: number;
-  }
-  const [_SellItem,setSellIetm] = useState<SellItem[]>([{item:"焼きそば",quantity:0},{item:"フランクフルト",quantity:0},{item:"チュロス",quantity:0},{item:"クレープ",quantity:0},{item:"チョコバナナ",quantity:0},{item:"つぶつぶアイス",quantity:0},
-  {item:"かき氷",quantity:0},{item:"肉巻きおにぎり",quantity:0},{item:"ドリンク",quantity:0},{item:"ペットボトル",quantity:0}
-  ]);
+
+  const in_order_to_set_array:SellItem[]=productData.map((data)=>{
+    const one_of_productData ={
+      item:data.product,
+      quantity:0
+    }
+    return one_of_productData;
+  });;
+  const [_SellItem,setSellIetm] = useState<SellItem[]>(in_order_to_set_array);
+
   const [data, setData] = useState<Item[]>(items);
   const DataTable: React.FC<{ items: Item[] }> = ({ items }) => {
+    //console.log(items);
     const handleDelete = (index: number,time: string) => {
       const newData = [...data];
       newData.splice(index, 1);
@@ -112,19 +152,11 @@ function App() {
     items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
     setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
     
-    setSellIetm([{item:"焼きそば",quantity:0},{item:"フランクフルト",quantity:0},{item:"チュロス",quantity:0},{item:"クレープ",quantity:0},{item:"チョコバナナ",quantity:0},{item:"つぶつぶアイス",quantity:0},
-    {item:"かき氷",quantity:0},{item:"肉巻きおにぎり",quantity:0},{item:"ドリンク",quantity:0},{item:"ペットボトル",quantity:0}
-    ]);
-
+    setSellIetm(in_order_to_set_array);
     let sophisticatedQuantityArray:string[][]=[];
     let newSophisticatedQuantityArray:string[]=[];
     for(let i=0;i<localStorage.length;i++){
-      quantityArray[i]=quantityArray[i].split("[").join();
-      quantityArray[i]=quantityArray[i].split("]").join();
-      quantityArray[i]=quantityArray[i].split(/"/).join();
-      quantityArray[i]=quantityArray[i].split(/"/).join();
-      quantityArray[i]=quantityArray[i].split(",,").join();
-      quantityArray[i]=quantityArray[i].split(",,").join();
+      quantityArray[i]=quantityArray[i].replace(/[[\]""]/g, '');
       sophisticatedQuantityArray[i]=quantityArray[i].split(",");
     }
     newSophisticatedQuantityArray=sophisticatedQuantityArray.flat();
@@ -132,32 +164,16 @@ function App() {
     for(let i = 0;i<_SellItem.length;i++){
       _SellItem[i].quantity=0;
     }
-      
+      // console.log(productData[0].product);
+      // console.log(in_order_to_set_array);
+
     for (let i=0;i<newSophisticatedQuantityArray.length;i++){
-      if(newSophisticatedQuantityArray[i]==="焼きそば"){_SellItem[0].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="フランクフルト"){_SellItem[1].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="チュロス"){_SellItem[2].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="クレープ"){_SellItem[3].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="チョコバナナ"){_SellItem[4].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="つぶつぶアイス"){_SellItem[5].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="かき氷"){_SellItem[6].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="肉巻きおにぎり"){_SellItem[7].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="ドリンク各種"){_SellItem[8].quantity+=Number(newSophisticatedQuantityArray[i+1])}
-      if(newSophisticatedQuantityArray[i]==="ペットボトル"){_SellItem[9].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      for (let k=0;k<productData.length;k++){
+        if(newSophisticatedQuantityArray[i]===productData[k].product){_SellItem[k].quantity+=Number(newSophisticatedQuantityArray[i+1])}
+      }
     }
-    console.log(_SellItem[0].quantity);
-    setSellIetm([
-      {item:"焼きそば",quantity:_SellItem[0].quantity},
-      {item:"フランクフルト",quantity:_SellItem[1].quantity},
-      {item:"チュロス",quantity:_SellItem[2].quantity},
-      {item:"クレープ",quantity:_SellItem[3].quantity},
-      {item:"チョコバナナ",quantity:_SellItem[4].quantity},
-      {item:"つぶつぶアイス",quantity:_SellItem[5].quantity},
-      {item:"かき氷",quantity:_SellItem[6].quantity},
-      {item:"肉巻きおにぎり",quantity:_SellItem[7].quantity},
-      {item:"ドリンク",quantity:_SellItem[8].quantity},
-      {item:"ペットボトル",quantity:_SellItem[9].quantity}
-    ]);
+    console.log(_SellItem);
+    setSellIetm(_SellItem);
   }
 
   const [code, setCode] = useState('');
@@ -191,6 +207,7 @@ function App() {
     }
     // console.log(sum);
   }
+  
 
   // QR コード読み込み後の処理
   const onRecognizeCode = (e: string) => {
@@ -200,15 +217,6 @@ function App() {
 
     // 模擬店かどうか判別
     if (_code.indexOf("焼きそば") === 0){
-      // // ローカルストレージに値を保存する
-      // //localStorage.setItem("key", "valueeeeeeeeeeeeeeeeeeeeeeeeee");
-
-      // // ローカルストレージから値を取得する
-      // const value = localStorage.getItem("key");
-      // console.log(value);
-      // //localStorage.removeItem("key");
-      // const value1 = localStorage.getItem("key");
-      // console.log(value1);
       // 品ごとに分割
       const _allArray = _code.replace(/\s+/g, "").split(";");
       var _nameArray:string[]=new Array( _allArray.length - 1 );
@@ -279,18 +287,23 @@ function App() {
       items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
       setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
     }
-  }
+  
+}
 
   // react-zxing の処理
   // const [qr_result, setResult] = useState(""); // テキストを出力する際(デバッグ)に利用
   const [, setResult] = useState("");
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
-      const outputText = qr_result.getText();
+      console.log(qr_result);
+      if(QR_flag===false){
+        setFlag(true);
+        const outputText = qr_result.getText();
 
-      onRecognizeCode(outputText); // 結果を渡す
-      setResult(outputText);
-      Page2(); // Page2 を開く
+        onRecognizeCode(outputText); // 結果を渡す
+        setResult(outputText);
+        Page2(); // Page2 を開く
+      }
       stopScanning(); // QR コードが読み取れた時に止める
     },
   });
@@ -322,6 +335,8 @@ function App() {
     setIsVisible3(false);
     setIsVisible4(false);
     reloadPage();
+    //QRコード後の処理のフラグを消すこと！
+    setFlag(false);
   }
   const Page2 = () => {
     setIsVisible1(false);
@@ -401,22 +416,13 @@ function App() {
       {isVisible4 &&
       <div id="data">
         <h2>データ</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>焼きそば</th><th>フランクフルト</th><th>チュロス</th><th>クレープ</th><th>チョコバナナ</th>
-              <th>つぶつぶアイス</th><th>かき氷</th><th>肉巻きおにぎり</th><th>ドリンク各種</th><th>ペットボトル</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{_SellItem[0].quantity}</td><td>{_SellItem[1].quantity}</td><td>{_SellItem[2].quantity}</td><td>{_SellItem[3].quantity}</td>
-              <td>{_SellItem[4].quantity}</td><td>{_SellItem[5].quantity}</td><td>{_SellItem[6].quantity}</td><td>{_SellItem[7].quantity}</td>
-              <td>{_SellItem[8].quantity}</td><td>{_SellItem[9].quantity}</td>
-            </tr>
-          </tbody>
-        </table>
-        <DataTable items={items}/>        
+        <div>
+            <h1>データ出力</h1>
+            <CSVDownloadButton1 data={_SellItem} />
+            <CSVTableComponent2 data={data}/>
+        </div>
+          <ItemTable items={_SellItem} />
+          <DataTable items={data}/>        
       </div>      
       }
 
