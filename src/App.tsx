@@ -9,10 +9,10 @@ import QrCodeIcon from '@mui/icons-material/QrCode2';
 import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
+
 import { CSVDownloadButton_1 }from './csvDownload';
 import CSV_2_TableComponent from './csvDownload';
 import { productData } from './data';
-// import { sortAndDeduplicateDiagnostics } from 'typescript';
 
 // Default Data
 let products = [
@@ -83,29 +83,8 @@ function App() {
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
   let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
   const[QR_flag,setFlag] =useState(false);
-  // const [qrParam, setQRParam] = useState({
-  //   wtimeth: 500,
-  //   height: 500,
-  //   pause: true,
-  // });
   // 入力したお金 (後の処理でお釣りを求める)
   const [inputValue, setInputValue] = useState(0);
-  // Page2 を表示
-  const [, setShowDialog] = useState(false);
-  // const [showDialog, setShowDialog] = useState(false);
-  // const [showCalculator, setShowCalculator] = useState(false);
-  // const [showData, setShowData] = useState(false);
-  // const handleConfirm = () => {
-  //   setShowDialog(true);
-  // };
-  // const handleCancel = () => {
-  //   setShowDialog(false);
-  // };
-  // 入力金額の確認
-  const handleConfirmInput = () => {
-    console.log('Input value:', inputValue);
-    setShowDialog(false);
-  };
 
 
   const in_order_to_set_array:SellItem[]=productData.map((data)=>{
@@ -148,7 +127,7 @@ function App() {
               <td>{item.time}</td>
               <td>{item.quantity}</td>
               <td>
-                <button onClick={() => handleDelete(index,item.time)}>削除</button>
+                <Button onClick={() => {handleDelete(index,item.time); updateData();}}>削除</Button>
               </td>
             </tr>
           ))}
@@ -410,7 +389,7 @@ function App() {
           <span>{qr_result}</span>
         </p>
         */}
-        <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button>
+        {/* <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button> */}
 
         {/* <p>合計金額: {sum} 円</p> */}
       </div>
@@ -419,19 +398,16 @@ function App() {
       {isVisible2 &&
       <div id="QRb">
         <h2>確認</h2>
-          <input
-            type="number"
-            onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
-          />
-          <Button variant="outlined" onClick={Page1}>戻る</Button>
-          <Button variant="outlined" onClick={handleConfirmInput}>確認</Button>
-          <p>合計金額: {sum} 円</p>
-          <p>おつり: {inputValue} 円</p>
-          <p></p>
-          <div>
-            <h2>商品一覧</h2>
-            <Table data={products} />
-          </div> 
+        <input
+          type="number"
+          onChange={(e) => setInputValue(parseInt(e.target.value)-sum)}
+        />
+        {/* <Button variant="outlined" onClick={Page1}>戻る</Button> */}
+        <p>合計金額: {sum} 円</p>
+        <p>おつり: {inputValue} 円</p>
+        <p></p>
+        {/* <h2>商品一覧</h2> */}
+        <Table data={products} />
       </div>
       }
 
