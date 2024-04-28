@@ -156,7 +156,7 @@ function App() {
     let sophisticatedQuantityArray:string[][]=[];
     let newSophisticatedQuantityArray:string[]=[];
     for(let i=0;i<localStorage.length;i++){
-      quantityArray[i]=quantityArray[i].replace(/[\[\]"]/g, '');
+      quantityArray[i]=quantityArray[i].replace(/[[\]""]/g, '');
       sophisticatedQuantityArray[i]=quantityArray[i].split(",");
     }
     newSophisticatedQuantityArray=sophisticatedQuantityArray.flat();

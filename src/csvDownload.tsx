@@ -110,12 +110,12 @@ const CSVTableComponent2: React.FC<{data: Item[]}> = ({ data }) => {
     //const top_data = to_top_data;
     for(let i=0;i<data.length;i++){
       let to_row_data:any[] = [data[i].time];
-      const tidyData:string[] = data[i].quantity.replace(/[\[\]"]/g, '').split(",");
+      const tidyData:string[] = data[i].quantity.replace(/[[\]""]/g, '').split(",");
       for(let j=0;j<productData.length;j++){
         for(let k=0;k<tidyData.length-1;k++){
             if (productData[j].product===tidyData[k]){to_row_data.push(Number(tidyData[k+1]));}
         } 
-        if(data[i].quantity.replace(/[\[\]"]/g, '').indexOf(productData[j].product)===-1){to_row_data.push(0);}
+        if(data[i].quantity.replace(/[[\]""]/g, '').indexOf(productData[j].product)===-1){to_row_data.push(0);}
       }
       to_entire_data.push(to_row_data);
     }
