@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { productData } from './data';
 
+import Button from '@mui/material/Button';
+import DownloadIcon from '@mui/icons-material/Download';
+import { Visibility } from '@mui/icons-material';
+
 interface DataObject {
     [key: string]: any;
 }
@@ -52,10 +56,10 @@ export const CSVDownloadButton1: React.FC<{ data: DataObject[] }> = ({ data }) =
     };
 
     return (
-        <div>
-            <input type="text" value={fileName} onChange={handleFileNameChange} />
-      <button onClick={handleDownload}>データをダウンロード</button>
-        </div>
+      <div>
+        <input type="text" value={fileName} onChange={handleFileNameChange} style={{display: "none"}} />
+        <Button onClick={handleDownload} endIcon={<DownloadIcon />}>合計個数データ</Button>
+      </div>
     );
 };
 
@@ -135,8 +139,8 @@ const CSVTableComponent2: React.FC<{data: Item[]}> = ({ data }) => {
   
     return (
       <div>
-        <input type="text" value={fileName} onChange={handleFileNameChange} />
-      <button onClick={handleDownload}>データをダウンロード</button>
+        <input type="text" value={fileName} onChange={handleFileNameChange} style={{display: "none"}} />
+        <Button onClick={handleDownload} endIcon={<DownloadIcon />}>それぞれの個数データ</Button>
       </div>
     );
   };
