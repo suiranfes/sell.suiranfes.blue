@@ -422,13 +422,10 @@ function App() {
       {isVisible4 &&
       <div id="data">
         <h2>データ</h2>
-        <div>
-            <h1>データ出力</h1>
-            <CSVDownloadButton1 data={_SellItem} />
-            <CSVTableComponent2 data={data}/>
-        </div>
-          <ItemTable items={_SellItem} />
-          <DataTable items={data}/>        
+        <CSVDownloadButton1 data={_SellItem} />
+        <ItemTable items={_SellItem} />
+        <CSVTableComponent2 data={data}/>
+        <DataTable items={data}/>
       </div>      
       }
 
