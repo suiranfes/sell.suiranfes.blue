@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
 
+//firebase
+import db from "./firebase";
+
 // Internal Component
 import { productData } from './data';
 import { CreateCal } from './showCal';
@@ -19,6 +22,7 @@ import QrCodeIcon from '@mui/icons-material/QrCode2';
 import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
+import DataFromFirebase from './dataFromFirebase';
 
 // Default Data
 let products = [
@@ -297,6 +301,7 @@ function App() {
 
   // react-zxing の処理
   // const [qr_result, setResult] = useState(""); // テキストを出力する際(デバッグ)に利用
+  
   const [, setResult] = useState("");
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
@@ -307,6 +312,7 @@ function App() {
 
         onRecognizeCode(outputText); // 結果を渡す
         setResult(outputText);
+        
         Page2(); // Page2 を開く
       }
       stopScanning(); // QR コードが読み取れた時に止める
@@ -423,6 +429,8 @@ function App() {
       <div id="data">
         <h2>データ</h2>
         <div>
+          <p>他のレジのも含めたデータ</p>
+          <DataFromFirebase/>
             <h1>データ出力</h1>
             <CSVDownloadButton1 data={_SellItem} />
             <CSVTableComponent2 data={data}/>

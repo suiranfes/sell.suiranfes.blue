@@ -9,7 +9,19 @@ export const productData = [
     {product: "チョコバナナ",  price: "300"},
     {product: "つぶつぶアイス",price: "350"},
     {product: "クレープ",      price: "300"},
-    {product: "ドリンク各種",  price: "300"},
+    {product: "ドリンク",  price: "300"},
     {product: "ペットボトル",  price: "150"},
-    // {product:"与謝野晶子",price:"1700"}
+    //{product:"与謝野晶子",price:"1700"}
+    //{product:"与謝野晶子mk.2",price:"17000000"}
   ];
+  // // _Item の定義
+  // interface _Item {
+  //   product: string;
+  //   quantity: number;
+  // }
+  // export const change_productData: _Item[] = productData.map((data)=>{
+  //   return {
+  //     product: data.product,
+  //     quantity: 0
+  //   }
+  // });
