@@ -3,7 +3,6 @@ import { productData } from './data';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-
 export const columns = [
     { Header: "商品", accessor: "product" },
     { Header: "値段", accessor: "price" }
@@ -79,10 +78,8 @@ export const columns = [
     const deleteLocalStorage = () => {
       localStorage.clear();
       const keys  = Object.keys(localStorage);
-      console.log(keys);
-      
+      console.log(keys);      
     }
-    
 
     return (
       <div>
