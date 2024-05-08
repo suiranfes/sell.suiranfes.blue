@@ -78,7 +78,7 @@ export const columns = [
     const deleteLocalStorage = () => {
       localStorage.clear();
       const keys  = Object.keys(localStorage);
-      console.log(keys);      
+      console.log(keys);
     }
 
     return (
