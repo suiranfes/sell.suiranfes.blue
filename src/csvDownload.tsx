@@ -56,6 +56,7 @@ export const CSVDownloadButton1: React.FC<{ data: SellItem[] }> = ({ data }) => 
     interface Obj {
       [prop: string]: any   // これを記述することで、どんなプロパティでも持てるようになる
   }
+  // なぜかここでfirebaseに保存!!!
     let newData:Obj = convertArrayToObject(data);
     let d = new Date();
     let UTCtime = d.getTime().toString().slice(0,-3);
@@ -79,7 +80,9 @@ export const CSVDownloadButton1: React.FC<{ data: SellItem[] }> = ({ data }) => 
 }    
 
     const handleDownload = () => {
-      createTodo();
+      if(window.navigator.onLine){
+        createTodo();
+      }
       const csvData = convertArrayOfObjectsToCSV(data);
       downloadCSV(csvData, _getTime() + "_" + fileName);
     };
