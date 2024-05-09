@@ -81,25 +81,25 @@ const DataFromFirebase: React.FC = () => {
   };
 
   useEffect(() => {
-    if(window.navigator.onLine){
+    if (window.navigator.onLine) {
       fetchData();
     } else {
       console.log("インターネットがないようです(´;ω;｀)");
     }
-    
-   }, []);
 
-   const NoneInternet:React.FC=()=>{
-    if(!window.navigator.onLine){
-    return(
-      <h3>インターネットがないようです(´;ω;｀)</h3>
-    )
-  } else {
-    return(
-      <div></div>
-    )
+  }, []);
+
+  const NoneInternet: React.FC = () => {
+    if (!window.navigator.onLine) {
+      return (
+        <h3>インターネットがないようです(´;ω;｀)</h3>
+      )
+    } else {
+      return (
+        <div></div>
+      )
+    }
   }
-   }
   //買われた総数を表示する表のコンポーネント
   const ItemTable: React.FC<{ items: _Item[] }> = ({ items }) => {
     return (
@@ -121,11 +121,11 @@ const DataFromFirebase: React.FC = () => {
       </table>
     );
   };
-    return (
-      <div>
-        <ItemTable items={newProductData}/>
-        <NoneInternet/>
-      </div>
-    );
-  };
+  return (
+    <div>
+      <ItemTable items={newProductData} />
+      <NoneInternet />
+    </div>
+  );
+};
 export default DataFromFirebase;

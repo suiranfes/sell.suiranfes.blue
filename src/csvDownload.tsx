@@ -57,14 +57,14 @@ export const CSVDownloadButton1: React.FC<{ data: SellItem[] }> = ({ data }) => 
   }
 
   // なぜかここでfirebaseに保存!!!
-  let newData:Obj = convertArrayToObject(data);
+  let newData: Obj = convertArrayToObject(data);
   let d = new Date();
-  let UTCtime = d.getTime().toString().slice(0,-3);
-  newData.time = UTCtime; 
+  let UTCtime = d.getTime().toString().slice(0, -3);
+  newData.time = UTCtime;
   newData.where = where;//どこのレジなのかを保存
   //console.log(convertArrayToObject(data));
   const createTodo = async () => {
-    await addDoc(collection(db,"post"),newData)
+    await addDoc(collection(db, "post"), newData)
   };
 
   interface ItemNum {
@@ -80,7 +80,7 @@ export const CSVDownloadButton1: React.FC<{ data: SellItem[] }> = ({ data }) => 
   }
 
   const handleDownload = () => {
-    if(window.navigator.onLine){
+    if (window.navigator.onLine) {
       createTodo();
     }
     const csvData = convertArrayOfObjectsToCSV(data);
