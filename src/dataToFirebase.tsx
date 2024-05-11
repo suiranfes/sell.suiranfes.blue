@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 
 //firebase
@@ -8,10 +8,9 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 interface Obj {
   [prop: string]: any   // これを記述することで、どんなプロパティでも持てるようになる
 }
-interface ItemNum {
-  [key: string]: number;
-}
-
+// interface ItemNum {
+//   [key: string]: number;
+// }
 
 export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({ data, data2 }) => {
   // const [where, setWhere] = useState("0");
@@ -70,7 +69,6 @@ export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({
     } else {
       alert("インターネットがないぴょん ∑(O_O；)ｼｮｯｸ!!");
     }
-
   }
   return (
     <div>

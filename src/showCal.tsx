@@ -23,7 +23,6 @@ const _productData: Item[] = productData.map((data) => {
   return one_of_productData;
 });
 
-
 const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity: 0 })));
   const [_sum, setSum] = useState<number>(0);
@@ -75,11 +74,11 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     console.log(keys);
     console.log(localStorage.getItem(date))
   }
-  const deleteLocalStorage = () => {
-    localStorage.clear();
-    const keys = Object.keys(localStorage);
-    console.log(keys);
-  }
+  // const deleteLocalStorage = () => {
+  //   localStorage.clear();
+  //   const keys = Object.keys(localStorage);
+  //   console.log(keys);
+  // }
   const deleteData = () => {
     setItemList(items.map(item => ({ ...item, quantity: 0 })));
     setSum(0);
@@ -131,4 +130,5 @@ const CreateCal = () => {
     <ItemTable items={_productData} />
   );
 }
+
 export { CreateCal };
