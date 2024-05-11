@@ -82,6 +82,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   }
   const deleteData = () => {
     setItemList(items.map(item => ({ ...item, quantity: 0 })));
+    setSum(0);
   }
 
   return (
