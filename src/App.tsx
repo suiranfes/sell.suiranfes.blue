@@ -6,22 +6,20 @@ import { useZxing } from 'react-zxing';
 // import db from "./firebase";
 
 // Internal Component
+import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
 import { productData } from './data';
 import { CreateCal } from './showCal';
-import { CSVDownloadButton1 } from './csvDownload';
-import CSVTableComponent2 from './csvDownload';
 
 // Material UI
-import { Paper } from '@mui/material';
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 // Icons
-import QrCodeIcon from '@mui/icons-material/QrCode2';
-import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
+import ListIcon from '@mui/icons-material/List';
+import QrCodeIcon from '@mui/icons-material/QrCode2';
 import DataFromFirebase from './dataFromFirebase';
 import { PreserveDataComponent } from './dataToFirebase';
 
