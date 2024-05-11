@@ -5,6 +5,9 @@ import Button from '@mui/material/Button';
 import db from "./firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
+// Icon
+import PublicIcon from '@mui/icons-material/Public';
+
 interface Obj {
   [prop: string]: any   // これを記述することで、どんなプロパティでも持てるようになる
 }
@@ -59,21 +62,21 @@ export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({
     }
     getPassword();
     if (window.navigator.onLine) {
-      let pass = prompt("パスワードを入力して下さい！");
+      let pass = prompt("パスワードを入力して下さい。");
       if (passwordArray.includes(pass)) {
         createData(data, "post", pass);
         createData(data2, "detailData", pass);
       } else {
-        alert("パスワードが違います (ꐦ`•ω•´)")
+        alert("パスワードが間違っています。")
       }
     } else {
-      alert("インターネットがないぴょん ∑(O_O；)ｼｮｯｸ!!");
+      alert("インターネットが接続されていません。");
     }
   }
   return (
     <div>
       {/* <input type='number' value={where} onChange={_setWhere} /> */}
-      <Button onClick={preserveData} >firebaseへ</Button>
+      <Button onClick={preserveData} endIcon={<PublicIcon />}>データを共有する</Button>
     </div>
   )
 }

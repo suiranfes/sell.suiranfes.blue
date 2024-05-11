@@ -2,10 +2,8 @@
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
 
-// firebase
-// import db from "./firebase";
-
 // Internal Component
+import './style.css';
 import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
 import { productData } from './data';
 import { CreateCal } from './showCal';
@@ -427,12 +425,14 @@ function App() {
       {isVisible4 &&
         <div id="data">
           <h2>データ</h2>
-          <p>他のレジのも含めたデータ</p>
-          <DataFromFirebase />
-          <CSVDownloadButton1 data={_SellItem} />
-          <CSVTableComponent2 data={data} />
+          <h3>全体のデータ</h3>
           <PreserveDataComponent data={_SellItem} data2={data} />
+          <DataFromFirebase />
+          <h3>あなたのデータ</h3>
+          <CSVDownloadButton1 data={_SellItem} />
           <ItemTable items={_SellItem} />
+          <p>---</p>
+          <CSVTableComponent2 data={data} />
           <DataTable items={data} />
         </div>
       }

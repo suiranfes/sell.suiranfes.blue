@@ -3,6 +3,10 @@ import { productData } from './data';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+// Icons
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CheckIcon from '@mui/icons-material/Check';
+
 export const columns = [
   { Header: "商品", accessor: "product" },
   { Header: "値段", accessor: "price" }
@@ -111,16 +115,16 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         </tbody>
       </table>
       <p></p>
-      <p>合計: {_sum}</p>
+      <p>合計: {_sum} 円</p>
       <TextField
         label="入力金額" variant="outlined"
         type="number"
         onChange={(e) => set_InputValue(parseInt(e.target.value) - _sum)}
       />
-      <p>おつり: {_inputValue}</p>
-      <Button onClick={setLocalStorage}>データを保存</Button>
+      <p>おつり: {_inputValue} 円</p>
+      <Button onClick={deleteData} endIcon={<DeleteForeverIcon />}>データを消す</Button>|{/*左の縦棒はあえて*/}
+      <Button onClick={setLocalStorage} endIcon={<CheckIcon />}>データを保存</Button>
       {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
-      <Button onClick={deleteData}>データを消す</Button>
     </div>
   );
 };
