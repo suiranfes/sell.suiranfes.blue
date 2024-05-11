@@ -23,6 +23,7 @@ import ListIcon from '@mui/icons-material/List';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import DataFromFirebase from './dataFromFirebase';
+import { PreserveDataComponent } from './dataToFirebase';
 
 // Default Data
 let products = [
@@ -432,6 +433,7 @@ function App() {
           <DataFromFirebase />
           <CSVDownloadButton1 data={_SellItem} />
           <CSVTableComponent2 data={data} />
+          <PreserveDataComponent data={_SellItem} data2={data} />
           <ItemTable items={_SellItem} />
           <DataTable items={data} />
         </div>

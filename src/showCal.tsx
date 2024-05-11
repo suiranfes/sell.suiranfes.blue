@@ -80,6 +80,9 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     const keys = Object.keys(localStorage);
     console.log(keys);
   }
+  const deleteData = () => {
+    setItemList(items.map(item => ({ ...item, quantity: 0 })));
+  }
 
   return (
     <div>
@@ -116,23 +119,11 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
       />
       <p>おつり: {_inputValue}</p>
       <Button onClick={setLocalStorage}>データを保存</Button>
-      <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button>
+      {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
+      <Button onClick={deleteData}>データを消す</Button>
     </div>
   );
 };
-
-// Example usage:
-// const ExampleComponent: React.FC = () => {
-//   const initialItems: Item[] = [
-//    { name: 'Item 1' },
-//    { name: 'Item 2' },
-//    { name: 'Item 3' },
-//    { name: 'Item 4' },
-//    { name: 'Item 5' },
-//   ];
-
-//   return <ItemTable items={initialItems} />;
-// };
 
 const CreateCal = () => {
   return (
