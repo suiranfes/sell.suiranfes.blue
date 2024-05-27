@@ -9,7 +9,7 @@ import { productData } from './data';
 import { CreateCal } from './showCal';
 
 // Material UI
-import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
@@ -337,6 +337,7 @@ function App() {
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
   const [isVisible4, setIsVisible4] = useState<boolean>(false);
+  const [BarColor,setBarColor] =useState<string[]>(["#afeeee","white","white","white"]);
   const Page1 = () => {
     setIsVisible1(true);
     setIsVisible2(false);
@@ -351,6 +352,7 @@ function App() {
     setIsVisible2(true);
     setIsVisible3(false);
     setIsVisible4(false);
+    setBarColor(["white","#afeeee","white","white"])
     // stopScanning();
   }
   const Page3 = () => {
@@ -358,6 +360,7 @@ function App() {
     setIsVisible2(false);
     setIsVisible3(true);
     setIsVisible4(false);
+    setBarColor(["white","white","#afeeee","white"])
     // stopScanning();
   }
   const Page4 = () => {
@@ -365,6 +368,7 @@ function App() {
     setIsVisible2(false);
     setIsVisible3(false);
     setIsVisible4(true);
+    setBarColor(["white","white","white","#afeeee"])
     updateData();
     // stopScanning();
   }
@@ -440,10 +444,10 @@ function App() {
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>
-          <BottomNavigationAction label="QR コード" icon={<QrCodeIcon />} onClick={Page1} />
-          <BottomNavigationAction label="計算" icon={<ListIcon />} onClick={Page2} />
-          <BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page3} />
-          <BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page4} />
+          <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード"  icon={<QrCodeIcon />} onClick={Page1} /></Box>
+          <Box bgcolor={BarColor[1]}><BottomNavigationAction label="計算" icon={<ListIcon />} onClick={Page2} /></Box>
+          <Box bgcolor={BarColor[2]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page3} /></Box>
+          <Box bgcolor={BarColor[3]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page4} /></Box>
         </BottomNavigation>
       </Paper>
     </div>
