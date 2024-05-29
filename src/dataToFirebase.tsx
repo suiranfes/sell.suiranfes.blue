@@ -54,7 +54,7 @@ export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({
     const getPassword = async () => {
       const querySnapshot = await getDocs(collection(db, "passwords"));
       const fetchedData = querySnapshot.docs.map(doc => doc.data());
-      console.log(fetchedData);
+      //console.log(fetchedData);
       //passwordArray
       for (let i = 0; i < fetchedData.length; i++) {
         passwordArray[i] = fetchedData[i].password;

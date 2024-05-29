@@ -105,10 +105,12 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const deleteData = () => {
-    setItemList(items.map(item => ({ ...item, quantity: 0 })));
-    setSum(0);
-    set_InputValue("");
-    setchange(0);
+    if(window.confirm("本当に削除しますか？")===true){
+      setItemList(items.map(item => ({ ...item, quantity: 0 })));
+      setSum(0);
+      set_InputValue("");
+      setchange(0);
+    }
   }
 
   // const returnChange = () => {
