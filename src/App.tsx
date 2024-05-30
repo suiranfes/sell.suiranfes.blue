@@ -188,7 +188,7 @@ function App() {
   let sum = 0;
 
   // 模擬店かどうか判別
-  if (code.indexOf("焼きそば") === 0) {
+  if (code.indexOf("チュロス") === 0) {
     const allArray = code.split(";");// 品ごとに分割
     var nameArray: string[] = new Array(allArray.length - 1);
     var costArray: number[] = new Array(allArray.length - 1);
@@ -222,7 +222,7 @@ function App() {
     const _code = e;
 
     // 模擬店かどうか判別
-    if (_code.indexOf("焼きそば") === 0) {
+    if (_code.indexOf("チュロス") === 0) {
       // 品ごとに分割
       const _allArray = _code.replace(/\s+/g, "").split(";");
       var _nameArray: string[] = new Array(_allArray.length - 1);
