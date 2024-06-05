@@ -1,6 +1,9 @@
 // External Library
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
+// (Firebase)
+import DataFromFirebase from './dataFromFirebase';
+import { PreserveDataComponent } from './dataToFirebase';
 
 // Internal Component
 import './style.css';
@@ -12,12 +15,10 @@ import { CreateCal } from './showCal';
 import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
 
-// Icons
+// Material Icons
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
-import DataFromFirebase from './dataFromFirebase';
-import { PreserveDataComponent } from './dataToFirebase';
 
 // Default Data
 let products = [
@@ -37,7 +38,6 @@ interface Item2 {
   price: number;
   quantity: number;
 }
-
 
 //買われた総数を表示する表のコンポーネント
 const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
@@ -61,16 +61,16 @@ const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
   );
 };
 
-function App() {  
+function App() {
   const _productData: Item2[] = productData.map((data) => {
-  const one_of_productData = {
-    ...data,
-    price: Number(data.price),
-    quantity: 0
-  }
-  return one_of_productData;
-});
-  const[all_products,setAll_products ]= useState<Item2[]>(_productData);
+    const one_of_productData = {
+      ...data,
+      price: Number(data.price),
+      quantity: 0
+    }
+    return one_of_productData;
+  });
+  const [all_products, setAll_products] = useState<Item2[]>(_productData);
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
@@ -200,7 +200,6 @@ function App() {
   //   // console.log(sum);
   // }
 
-
   // QR コード読み込み後の処理
   const onRecognizeCode = (e: string) => {
     //setCode(e);
@@ -240,17 +239,17 @@ function App() {
       // let UTCtime = d.getTime().toString().slice(0, -3);
       // const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
       //console.log(date);
-      
+
       all_products.splice(0);
       for (let i = 0; i < _nameArray.length - 1; i++) {
         all_products.push(
           {
             product: _nameArray[i],
-            price:_costArray[i],
+            price: _costArray[i],
             quantity: _qtyArray[i]
           }
         );
-      } 
+      }
       console.log(all_products);//showCalに渡したい
       setAll_products(all_products);
       //表示する商品
@@ -270,7 +269,6 @@ function App() {
       for (let i = 0; i < products.length; i++) {
         saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
       }
-
 
       //localStorageに保存
       // localStorage.setItem(date, saveData.join());
@@ -312,7 +310,6 @@ function App() {
         setResult(outputText);
 
         Page2(); // Page2 を開く
-
       }
       stopScanning(); // QR コードが読み取れた時に止める
     },
@@ -338,27 +335,27 @@ function App() {
   const [isVisible1, setIsVisible1] = useState<boolean>(true);
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
-  const [BarColor,setBarColor] =useState<string[]>(["#afeeee","white","white"]);
+  const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white"]);
   const Page1 = () => {
     setIsVisible1(true);
     setIsVisible2(false);
     setIsVisible3(false);
     reloadPage();
-    //QRコード後の処理のフラグを消すこと！
+    // QRコード後の処理のフラグを消すこと！
     setFlag(false);
   }
   const Page2 = () => {
     setIsVisible1(false);
     setIsVisible2(true);
     setIsVisible3(false);
-    setBarColor(["white","#afeeee","white"])
+    setBarColor(["white", "#afeeee", "white"])
     // stopScanning();
   }
   const Page3 = () => {
     setIsVisible1(false);
     setIsVisible2(false);
     setIsVisible3(true);
-    setBarColor(["white","white","#afeeee"])
+    setBarColor(["white", "white", "#afeeee"])
     updateData();
     // stopScanning();
   }
@@ -379,23 +376,22 @@ function App() {
               borderRadius: "16px",
             }} />
           {/*
-        <p>
-          <span>Last result: </span>
-          <span>{qr_result}</span>
-        </p>
-        */}
+          <p>
+            <span>Last result: </span>
+            <span>{qr_result}</span>
+          </p>
+          */}
           {/* <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button> */}
 
           {/* <p>合計金額: {sum} 円</p> */}
         </div>
       }
 
-
       {/* Page2 */}
       {isVisible2 &&
         <div id="clalculator">
           <h2>電卓</h2>
-          <CreateCal data ={all_products}/>
+          <CreateCal data={all_products} />
         </div>
       }
 
@@ -418,7 +414,7 @@ function App() {
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>
-          <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード"  icon={<QrCodeIcon />} onClick={Page1} /></Box>
+          <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード" icon={<QrCodeIcon />} onClick={Page1} /></Box>
           <Box bgcolor={BarColor[1]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page2} /></Box>
           <Box bgcolor={BarColor[2]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page3} /></Box>
         </BottomNavigation>

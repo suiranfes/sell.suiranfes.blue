@@ -1,5 +1,5 @@
-//ここに商品のデータを入力してください
-//スペースを入れないように気を付けてください
+// ここに商品のデータを入力してください
+// スペースを入れないように気を付けてください
 export const productData = [
   { product: "チュロス", price: "200" },
   { product: "かき氷", price: "200" },
@@ -11,6 +11,6 @@ export const productData = [
   { product: "ドリンク各種", price: "300" },
   { product: "クレープ", price: "350" },
   { product: "肉巻きおにぎり", price: "400" },
-  //{product:"与謝野晶子",price:"1700"}
-  //{product:"与謝野晶子mk.2",price:"17000000"}
+  // {product:"サンプルデータ", price: "200"},
+  // {product:"サンプルデータ2", price: "350"},
 ];
