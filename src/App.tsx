@@ -11,12 +11,10 @@ import { CreateCal } from './showCal';
 // Material UI
 import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 
 // Icons
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
-import ListIcon from '@mui/icons-material/List';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import DataFromFirebase from './dataFromFirebase';
 import { PreserveDataComponent } from './dataToFirebase';
@@ -34,28 +32,12 @@ interface SellItem {
   item: string;
   quantity: number;
 }
-
-// 表を描画するTableコンポーネント
-function Table({ data }: { data: { name: string, quantity: number }[] }) {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>商品名</th>
-          <th>個数</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((product, index) => (
-          <tr key={index}>
-            <td>{product.name}</td>
-            <td>{product.quantity}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+interface Item2 {
+  product: string;
+  price: number;
+  quantity: number;
 }
+
 
 //買われた総数を表示する表のコンポーネント
 const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
@@ -79,17 +61,21 @@ const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
   );
 };
 
-function App() {
-  // interface DataObject {
-  //   [key: string]: any;
-  // }
+function App() {  
+  const _productData: Item2[] = productData.map((data) => {
+  const one_of_productData = {
+    ...data,
+    price: Number(data.price),
+    quantity: 0
+  }
+  return one_of_productData;
+});
+  const[all_products,setAll_products ]= useState<Item2[]>(_productData);
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
   let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
   const [QR_flag, setFlag] = useState(false);
-  // 入力したお金 (後の処理でお釣りを求める)
-  const [inputValue, setInputValue] = useState(0);
 
   const in_order_to_set_array: SellItem[] = productData.map((data) => {
     const one_of_productData = {
@@ -182,42 +168,42 @@ function App() {
     setSellIetm(_SellItem);
   }
 
-  const [code, setCode] = useState('');
+  // const [code, setCode] = useState('');
 
-  // 合計金額
-  let sum = 0;
+  // // 合計金額
+  // let sum = 0;
 
-  // 模擬店かどうか判別
-  if (code.indexOf("チュロス") === 0) {
-    const allArray = code.split(";");// 品ごとに分割
-    var nameArray: string[] = new Array(allArray.length - 1);
-    var costArray: number[] = new Array(allArray.length - 1);
-    var qtyArray: number[] = new Array(allArray.length - 1);
-    var sumArray: number[] = new Array(allArray.length - 1);
-    // それぞれの情報に分割
-    for (let i = 0; i < allArray.length; i++) {
-      let a = allArray[i].split(",");
-      let name = a[0];
-      let cost = Number(a[1]);
-      let qty = Number(a[2]);
-      let eachSum = Number(a[3]);
-      nameArray[i] = name;
-      costArray[i] = cost;
-      qtyArray[i] = qty;
-      sumArray[i] = eachSum;
-    }
+  // // 模擬店かどうか判別
+  // if (code.indexOf("チュロス") === 0) {
+  //   const allArray = code.split(";");// 品ごとに分割
+  //   var nameArray: string[] = new Array(allArray.length - 1);
+  //   var costArray: number[] = new Array(allArray.length - 1);
+  //   var qtyArray: number[] = new Array(allArray.length - 1);
+  //   var sumArray: number[] = new Array(allArray.length - 1);
+  //   // それぞれの情報に分割
+  //   for (let i = 0; i < allArray.length; i++) {
+  //     let a = allArray[i].split(",");
+  //     let name = a[0];
+  //     let cost = Number(a[1]);
+  //     let qty = Number(a[2]);
+  //     let eachSum = Number(a[3]);
+  //     nameArray[i] = name;
+  //     costArray[i] = cost;
+  //     qtyArray[i] = qty;
+  //     sumArray[i] = eachSum;
+  //   }
 
-    // 合計金額を求める処理
-    for (let i = 0; i < sumArray.length - 1; i++) {
-      sum = sum + sumArray[i]
-    }
-    // console.log(sum);
-  }
+  //   // 合計金額を求める処理
+  //   for (let i = 0; i < sumArray.length - 1; i++) {
+  //     sum = sum + sumArray[i]
+  //   }
+  //   // console.log(sum);
+  // }
 
 
   // QR コード読み込み後の処理
   const onRecognizeCode = (e: string) => {
-    setCode(e);
+    //setCode(e);
     console.log(e);
     const _code = e;
 
@@ -244,17 +230,29 @@ function App() {
 
       // local strage
       // const keys  = Object.keys(localStorage);
-      let d = new Date();
-      let year = d.getFullYear();
-      let month = d.getMonth() + 1;
-      let day = d.getDate();
-      let hour = d.getHours().toString().padStart(2, '0');
-      let minute = d.getMinutes().toString().padStart(2, '0');
-      let seconds = d.getSeconds().toString().padStart(2, '0');
-      let UTCtime = d.getTime().toString().slice(0, -3);
-      const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
+      // let d = new Date();
+      // let year = d.getFullYear();
+      // let month = d.getMonth() + 1;
+      // let day = d.getDate();
+      // let hour = d.getHours().toString().padStart(2, '0');
+      // let minute = d.getMinutes().toString().padStart(2, '0');
+      // let seconds = d.getSeconds().toString().padStart(2, '0');
+      // let UTCtime = d.getTime().toString().slice(0, -3);
+      // const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
       //console.log(date);
-
+      
+      all_products.splice(0);
+      for (let i = 0; i < _nameArray.length - 1; i++) {
+        all_products.push(
+          {
+            product: _nameArray[i],
+            price:_costArray[i],
+            quantity: _qtyArray[i]
+          }
+        );
+      } 
+      console.log(all_products);//showCalに渡したい
+      setAll_products(all_products);
       //表示する商品
       products = [];
       for (let i = 0; i < _nameArray.length - 1; i++) {
@@ -267,31 +265,34 @@ function App() {
           );
         }
       }
+      //console.log(products);
       let saveData: string[] = [];
       for (let i = 0; i < products.length; i++) {
         saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
       }
-      //localStorageに保存
-      localStorage.setItem(date, saveData.join());
-      console.log(date);
-      console.log(saveData.join());
 
-      timeArray = [];
-      quantityArray = [];
-      let keySplitArray: string[][] = []
-      for (let i = 0; i < localStorage.length; i++) {
-        keySplitArray.push(Object.keys(localStorage)[i].split(')'));
-      }
-      keySplitArray.sort(function (a, b) { return (Number(a[0]) - Number(b[0])); });
-      for (let i = 0; i < localStorage.length; i++) {
-        timeArray.unshift(keySplitArray[i][1]);
-      }
-      console.log(timeArray);
-      for (let i = 0; i < localStorage.length; i++) {
-        quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]));
-      }
-      items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
-      setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
+
+      //localStorageに保存
+      // localStorage.setItem(date, saveData.join());
+      // console.log(date);
+      // console.log(saveData.join());
+
+      // timeArray = [];
+      // quantityArray = [];
+      // let keySplitArray: string[][] = []
+      // for (let i = 0; i < localStorage.length; i++) {
+      //   keySplitArray.push(Object.keys(localStorage)[i].split(')'));
+      // }
+      // keySplitArray.sort(function (a, b) { return (Number(a[0]) - Number(b[0])); });
+      // for (let i = 0; i < localStorage.length; i++) {
+      //   timeArray.unshift(keySplitArray[i][1]);
+      // }
+      // console.log(timeArray);
+      // for (let i = 0; i < localStorage.length; i++) {
+      //   quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]));
+      // }
+      // items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
+      // setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
     }
 
   }
@@ -311,6 +312,7 @@ function App() {
         setResult(outputText);
 
         Page2(); // Page2 を開く
+
       }
       stopScanning(); // QR コードが読み取れた時に止める
     },
@@ -336,13 +338,11 @@ function App() {
   const [isVisible1, setIsVisible1] = useState<boolean>(true);
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
-  const [isVisible4, setIsVisible4] = useState<boolean>(false);
-  const [BarColor,setBarColor] =useState<string[]>(["#afeeee","white","white","white"]);
+  const [BarColor,setBarColor] =useState<string[]>(["#afeeee","white","white"]);
   const Page1 = () => {
     setIsVisible1(true);
     setIsVisible2(false);
     setIsVisible3(false);
-    setIsVisible4(false);
     reloadPage();
     //QRコード後の処理のフラグを消すこと！
     setFlag(false);
@@ -351,24 +351,14 @@ function App() {
     setIsVisible1(false);
     setIsVisible2(true);
     setIsVisible3(false);
-    setIsVisible4(false);
-    setBarColor(["white","#afeeee","white","white"])
+    setBarColor(["white","#afeeee","white"])
     // stopScanning();
   }
   const Page3 = () => {
     setIsVisible1(false);
     setIsVisible2(false);
     setIsVisible3(true);
-    setIsVisible4(false);
-    setBarColor(["white","white","#afeeee","white"])
-    // stopScanning();
-  }
-  const Page4 = () => {
-    setIsVisible1(false);
-    setIsVisible2(false);
-    setIsVisible3(false);
-    setIsVisible4(true);
-    setBarColor(["white","white","white","#afeeee"])
+    setBarColor(["white","white","#afeeee"])
     updateData();
     // stopScanning();
   }
@@ -399,34 +389,18 @@ function App() {
           {/* <p>合計金額: {sum} 円</p> */}
         </div>
       }
+
+
       {/* Page2 */}
       {isVisible2 &&
-        <div id="QRb">
-          <h2>確認</h2>
-          <p>合計金額: {sum} 円</p>
-          <TextField
-            label="入力金額" variant="outlined"
-            type="number"
-            onChange={(e) => setInputValue(parseInt(e.target.value) - sum)}
-          />
-          {/* <Button variant="outlined" onClick={Page1}>戻る</Button> */}
-          <p>おつり: {inputValue} 円</p>
-          <p></p>
-          {/* <h2>商品一覧</h2> */}
-          <Table data={products} />
+        <div id="clalculator">
+          <h2>電卓</h2>
+          <CreateCal data ={all_products}/>
         </div>
       }
 
       {/* Page3 */}
       {isVisible3 &&
-        <div id="clalculator">
-          <h2>電卓</h2>
-          <CreateCal />
-        </div>
-      }
-
-      {/* Page4 */}
-      {isVisible4 &&
         <div id="data">
           <h2>データ</h2>
           <h3>全体のデータ</h3>
@@ -445,9 +419,8 @@ function App() {
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>
           <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード"  icon={<QrCodeIcon />} onClick={Page1} /></Box>
-          <Box bgcolor={BarColor[1]}><BottomNavigationAction label="計算" icon={<ListIcon />} onClick={Page2} /></Box>
-          <Box bgcolor={BarColor[2]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page3} /></Box>
-          <Box bgcolor={BarColor[3]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page4} /></Box>
+          <Box bgcolor={BarColor[1]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page2} /></Box>
+          <Box bgcolor={BarColor[2]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page3} /></Box>
         </BottomNavigation>
       </Paper>
     </div>
