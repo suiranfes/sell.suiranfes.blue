@@ -83,7 +83,7 @@ interface Item {
 const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
   const [fileName, setFileName] = useState('analysis_data.csv');
 
-//  preserveData(data,"detailData",);
+  //  preserveData(data,"detailData",);
   let to_entire_data: any[][] = [];
 
   let to_top_data: string[] = [""];

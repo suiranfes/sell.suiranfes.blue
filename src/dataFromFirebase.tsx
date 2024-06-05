@@ -86,8 +86,8 @@ const DataFromFirebase: React.FC = () => {
     } else {
       console.log("インターネットが接続されていません。)");
     }
-  // 下は ESLint で出るエラーの対策用
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // 下は ESLint で出るエラーの対策用
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const NoneInternet: React.FC = () => {
