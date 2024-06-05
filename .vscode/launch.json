@@ -5,7 +5,7 @@
             "type": "node-terminal",
             "request": "launch",
             "name": "Build",
-            "command": "npx yarn run start",
+            "command": "npm start",
             "cwd": "${workspaceFolder}"
         }
     ]
