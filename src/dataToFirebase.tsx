@@ -16,6 +16,17 @@ interface Obj {
 // }
 
 export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({ data, data2 }) => {
+  const getPassword = async () => {
+    const querySnapshot = await getDocs(collection(db, "passwords"));
+    const fetchedData = querySnapshot.docs.map(doc => doc.data());
+    //console.log(fetchedData);
+    //passwordArray
+    for (let i = 0; i < fetchedData.length; i++) {
+      passwordArray[i] = fetchedData[i].password;
+    }
+  }
+
+  getPassword();
   // const [where, setWhere] = useState("0");
   let passwordArray: string[] = [];
 
@@ -51,16 +62,8 @@ export const PreserveDataComponent: React.FC<{ data: Obj[], data2: Obj[] }> = ({
       newData.where = passwordArray.indexOf(where) + 1;//どこのレジなのかを保存
       saveData(post, newData);
     }
-    const getPassword = async () => {
-      const querySnapshot = await getDocs(collection(db, "passwords"));
-      const fetchedData = querySnapshot.docs.map(doc => doc.data());
-      //console.log(fetchedData);
-      //passwordArray
-      for (let i = 0; i < fetchedData.length; i++) {
-        passwordArray[i] = fetchedData[i].password;
-      }
-    }
-    getPassword();
+
+    // getPassword();
     if (window.navigator.onLine) {
       let pass = prompt("パスワードを入力して下さい。");
       if (passwordArray.includes(pass)) {

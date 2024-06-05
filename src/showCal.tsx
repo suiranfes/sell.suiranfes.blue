@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { productData } from './data';
+
+// Material UI
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-// Icons
+// Material Icons
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -18,29 +19,28 @@ interface Item {
   quantity: number;
 }
 
-const _productData: Item[] = productData.map((data) => {
-  const one_of_productData = {
-    ...data,
-    price: Number(data.price),
-    quantity: 0
-  }
-  return one_of_productData;
-});
-
 const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
-  const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity: 0 })));
-  const [_sum, setSum] = useState<number>(0);
+  console.log(items);
+  // const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity:0 })));
+  const [itemList, setItemList] = useState<Item[]>(items);
+  let sum1 = 0;
+  items.forEach(item => {
+    sum1 += item.quantity * item.price;
+  });
+  console.log(sum1);
+  const [_sum, setSum] = useState<number>(sum1);
   const [_inputValue, set_InputValue] = useState("");
   const [change, setchange] = useState(0);
+
 
   const decreaseQuantity = (index: number) => {
     const updatedList = [...itemList];
     updatedList[index].quantity = Math.max(0, updatedList[index].quantity - 1);
     setItemList(updatedList);
     calculateSum(updatedList);
-    if(isNaN(parseInt(_inputValue))){
+    if (isNaN(parseInt(_inputValue))) {
       setchange(0);
-    }else{
+    } else {
       setchange(parseInt(_inputValue) - calculateSum(updatedList));
     }
   };
@@ -50,9 +50,9 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     updatedList[index].quantity++;
     setItemList(updatedList);
     calculateSum(updatedList);
-    if(isNaN(parseInt(_inputValue))){
+    if (isNaN(parseInt(_inputValue))) {
       setchange(0);
-    }else{
+    } else {
       setchange(parseInt(_inputValue) - calculateSum(updatedList));
     }
   };
@@ -63,7 +63,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
       sum += item.quantity * item.price;
     });
     setSum(sum);
-    return(sum);
+    return (sum);
   };
 
   const setLocalStorage = () => {
@@ -90,36 +90,24 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     console.log(keys);
     console.log(localStorage.getItem(date))
   }
-  // const deleteLocalStorage = () => {
-  //   localStorage.clear();
-  //   const keys = Object.keys(localStorage);
-  //   console.log(keys);
-  // }
+
   const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     set_InputValue(e.target.value);
-    if(isNaN(parseInt(e.target.value))){
+    if (isNaN(parseInt(e.target.value))) {
       setchange(0);
-    }else{
+    } else {
       setchange(parseInt(e.target.value) - _sum);
-    }  
+    }
   };
 
   const deleteData = () => {
-    if(window.confirm("本当に削除しますか？")===true){
+    if (window.confirm("本当に削除しますか？") === true) {
       setItemList(items.map(item => ({ ...item, quantity: 0 })));
       setSum(0);
       set_InputValue("");
       setchange(0);
     }
   }
-
-  // const returnChange = () => {
-  //   if(isNaN(parseInt(_inputValue))){
-  //     return(0);
-  //   }else{
-  //     return(parseInt(_inputValue) - _sum);
-  //   }
-  // }
 
   return (
     <div>
@@ -163,9 +151,9 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   );
 };
 
-const CreateCal = () => {
+const CreateCal: React.FC<{ data: Item[] }> = ({ data }) => {
   return (
-    <ItemTable items={_productData} />
+    <ItemTable items={data} />
   );
 }
 
