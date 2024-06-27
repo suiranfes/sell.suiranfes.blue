@@ -1,11 +1,11 @@
-// External Library
+// External Libraries
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
 // (Firebase)
 import DataFromFirebase from './dataFromFirebase';
 import { PreserveDataComponent } from './dataToFirebase';
 
-// Internal Component
+// Internal Components
 import './style.css';
 import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
 import { productData } from './data';
@@ -25,6 +25,7 @@ let products = [
   { name: '', quantity: 0 },
 ];
 
+// Interfaces
 interface Item {
   time: string;
   quantity: string;
@@ -39,7 +40,7 @@ interface Item2 {
   quantity: number;
 }
 
-//買われた総数を表示する表のコンポーネント
+// 買われた総数を表示する表のコンポーネント
 const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
   return (
     <table>

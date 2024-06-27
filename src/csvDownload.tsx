@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { productData } from './data';
 
+// Material UI / Icons
 import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
-
 
 interface DataObject {
   [key: string]: any;
@@ -45,10 +45,6 @@ function _getTime() {
   let seconds = d.getSeconds().toString().padStart(2, '0');
   return (year + month + day + "-" + hour + minute + seconds);
 }
-
-
-
-
 
 // CSVダウンロードボタンのReactコンポーネント(総数)
 export const CSVDownloadButton1: React.FC<{ data: SellItem[] }> = ({ data }) => {

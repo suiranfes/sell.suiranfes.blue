@@ -1,15 +1,18 @@
 import React from 'react';
+
+// Material UI
 import Button from '@mui/material/Button';
 
-//firebase
+// Material Icons
+import PublicIcon from '@mui/icons-material/Public';
+
+// Firebase
 import db from "./firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
-// Icon
-import PublicIcon from '@mui/icons-material/Public';
-
 interface Obj {
-  [prop: string]: any   // これを記述することで、どんなプロパティでも持てるようになる
+  // すべてのプロパティーを許可
+  [prop: string]: any
 }
 // interface ItemNum {
 //   [key: string]: number;

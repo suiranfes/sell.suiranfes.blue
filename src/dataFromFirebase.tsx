@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { productData } from './data'; // データ
 
-// firebase
+// Firebase
 import db from "./firebase";
 import { collection, getDocs } from 'firebase/firestore';
 
 const DataFromFirebase: React.FC = () => {
-  // _Item の定義
   interface _Item {
     product: string;
     quantity: number;
