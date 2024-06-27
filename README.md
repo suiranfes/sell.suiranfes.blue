@@ -1,22 +1,28 @@
-# Quick QR
+# 翠巒祭 販売システム - Quick QR
 sell.suiranfes.blue
 
 ## 技術
-- フレームワーク: React[^1]
-- 使用言語: TypeScript
+- メインライブラリ: React
+- 言語: TypeScript
 - データベース: Firebase
-
-[^1]: (厳密にはメインライブラリ)
-
-## デザイン
-- フレームワーク: Material UI
+- デザイン: Material UI
 - フォント: IBM Plex Sans, IBM Plex Sans JP
 
-## コマンド
+### 動作方法
+1. [*node.js* と *npm* をインストール](https://nodejs.jp/)
 
-### `npm i`
-依存ライブラリをインストールします。
+1. 依存ライブラリをインストール
+    ```shell
+    $ npm i
+    ```
 
-### `npm start`
-開発者モードとして動作可能です。
-ブラウザで https://localhost:3000 にアクセスすることで利用できます。
+1. アプリケーションを開発者モードで動作
+    ```shell
+    $ npm start
+    ```
+
+1. ブラウザでアクセス  
+ローカルホスト: http://localhost:3000
+
+## ライセンス
+[MIT ライセンス](./LICENSE)の下にライセンスされています。
