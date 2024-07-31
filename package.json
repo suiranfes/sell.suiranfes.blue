@@ -18,11 +18,10 @@
     "firebase": "^10.12.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
     "react-zxing": "^2.0.0",
     "styled-components": "^6.1.11",
-    "typescript": "^4.9.5",
+    "typescript": "^5.5.4",
     "web-vitals": "^3.5.0",
     "workbox-background-sync": "^7.1.0",
     "workbox-broadcast-update": "^7.1.0",
@@ -40,10 +39,10 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +65,8 @@
   "devDependencies": {
     "@types/react-table": "^7.7.20",
     "@types/styled-components": "^5.1.34",
-    "gh-pages": "^6.1.1"
+    "@vitejs/plugin-react": "^4.3.1",
+    "gh-pages": "^6.1.1",
+    "vite": "^5.3.5"
   }
 }
