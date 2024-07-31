@@ -13,6 +13,8 @@ interface SellItem {
   quantity: number;
 }
 
+const a = 2;
+
 // オブジェクトの配列をCSV形式の文字列に変換する関数
 function convertArrayOfObjectsToCSV(data: DataObject[]): string {
   const csv = data.map(row => {
