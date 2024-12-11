@@ -19,7 +19,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "types": [
+      "vite-plugin-pwa/client"
+    ]
   },
   "include": [
     "src",
