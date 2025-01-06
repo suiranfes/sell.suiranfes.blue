@@ -70,7 +70,7 @@ export const UserComponent: React.FC<{}> = () => {
     if (isAuthenticated) {
       const now_id = localStorage.getItem("ID");
       logout();
-      const response = await axios.post('/api', {
+      const response = await axios.post(GAS_URL, {
         ID: now_id,
         data: "logout",
       });
@@ -101,7 +101,7 @@ export const UserComponent: React.FC<{}> = () => {
         localStorage.setItem('isUser', "true");
         setIsAuthenticated(true);
         refreshLocal();
-        const response = await axios.post('/api', {
+        const response = await axios.post(GAS_URL, {
           ID: localStorage.getItem("ID"),
           data: "login",
         });
