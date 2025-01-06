@@ -4,7 +4,7 @@ sell.suiranfes.blue
 ## 技術
 - メインライブラリ: React
 - 言語: TypeScript
-- データベース: Firebase
+- データベース: Google Spread Sheet
 - デザイン: Material UI
 - フォント: IBM Plex Sans, IBM Plex Sans JP
 

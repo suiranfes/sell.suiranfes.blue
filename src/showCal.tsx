@@ -8,6 +8,9 @@ import TextField from '@mui/material/TextField';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CheckIcon from '@mui/icons-material/Check';
 
+//GSsheet
+import { reflectLocal } from './localToGSsheet';
+
 export const columns = [
   { Header: "商品", accessor: "product" },
   { Header: "値段", accessor: "price" }
@@ -20,14 +23,14 @@ interface Item {
 }
 
 const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
-  console.log(items);
+  // console.log(items);
   // const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity:0 })));
   const [itemList, setItemList] = useState<Item[]>(items);
   let sum1 = 0;
   items.forEach(item => {
     sum1 += item.quantity * item.price;
   });
-  console.log(sum1);
+  // console.log(sum1);
   const [_sum, setSum] = useState<number>(sum1);
   const [_inputValue, set_InputValue] = useState("");
   const [change, setchange] = useState(0);
@@ -67,6 +70,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const setLocalStorage = () => {
+    if (localStorage.getItem("isUser") == "false"){
+      alert("ユーザーページからログインしてください");
+      return;
+    }
     let d = new Date();
     let year = d.getFullYear();
     let month = d.getMonth() + 1;
@@ -76,7 +83,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     let seconds = d.getSeconds().toString().padStart(2, '0');
     let UTCtime = d.getTime().toString().slice(0, -3);
     const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
-    //console.log(date);
+    // console.log(date);
     let saveData: string[] = [];
     for (let i = 0; i < itemList.length; i++) {
       if (itemList[i].quantity !== 0) {
@@ -85,10 +92,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     }
     //localStorageに保存
     localStorage.setItem(date, saveData.join());
-    const keys = Object.keys(localStorage);
-    console.log(date);
-    console.log(keys);
-    console.log(localStorage.getItem(date))
+    reflectLocal();
   }
 
   const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,16 +105,19 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const deleteData = () => {
-    if (window.confirm("本当に削除しますか？") === true) {
+    // if (window.confirm("本当に削除しますか？") === true) {
       setItemList(items.map(item => ({ ...item, quantity: 0 })));
       setSum(0);
       set_InputValue("");
       setchange(0);
-    }
+    // }
   }
 
   return (
     <div>
+      <Button variant="outlined" onClick={deleteData} endIcon={<DeleteForeverIcon />}>データを消す</Button>
+      <br />
+      <br />
       <table>
         <thead>
           <tr>
@@ -144,8 +151,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         onChange={handleInputValueChange}
       />
       <p>おつり: {change} 円</p>
-      <Button onClick={deleteData} endIcon={<DeleteForeverIcon />}>データを消す</Button>|{/*左の縦棒はあえて*/}
-      <Button onClick={setLocalStorage} endIcon={<CheckIcon />}>データを保存</Button>
+      <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon />}>データを保存</Button>
       {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
     </div>
   );

@@ -1,9 +1,16 @@
 // External Libraries
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
-// (Firebase)
-import DataFromFirebase from './dataFromFirebase';
-import { PreserveDataComponent } from './dataToFirebase';
+
+// googlespreadsheet
+import { reflectLocal } from './localToGSsheet';
+import { UserComponent } from './user';
+// import { LoginErrorComponent } from './loginError';
+
+// localStrage
+// import { local_key_array } from './localStorageLib';
+import { LocalStorageLib } from './localStorageLib';
+const localStorageLib = new LocalStorageLib();
 
 // Internal Components
 import './style.css';
@@ -19,6 +26,7 @@ import Button from '@mui/material/Button';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 
 // Default Data
 let products = [
@@ -78,14 +86,14 @@ function App() {
   let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
   const [QR_flag, setFlag] = useState(false);
 
-  const in_order_to_set_array: SellItem[] = productData.map((data) => {
+  const set_array: SellItem[] = productData.map((data) => {
     const one_of_productData = {
       item: data.product,
       quantity: 0
     }
     return one_of_productData;
   });;
-  const [_SellItem, setSellIetm] = useState<SellItem[]>(in_order_to_set_array);
+  const [_SellItem, setSellIetm] = useState<SellItem[]>(set_array);
 
   const [data, setData] = useState<Item[]>(items);
   const DataTable: React.FC<{ items: Item[] }> = ({ items }) => {
@@ -118,7 +126,7 @@ function App() {
               <td>{item.time}</td>
               <td>{item.quantity}</td>
               <td>
-                <Button onClick={() => { handleDelete(index, item.time); updateData(); }}>削除</Button>
+                <Button onClick={() => { handleDelete(index, item.time); updateData(); reflectLocal(); }}>削除</Button>
               </td>
             </tr>
           ))}
@@ -130,42 +138,40 @@ function App() {
   const updateData = () => {
     timeArray = [];
     quantityArray = [];
-    let keySplitArray: string[][] = []
-    for (let i = 0; i < localStorage.length; i++) {
-      keySplitArray.push(Object.keys(localStorage)[i].split(')'));
-    }
-    keySplitArray.sort(function (a, b) { return (Number(a[0]) - Number(b[0])); });
-    for (let i = 0; i < localStorage.length; i++) {
+    let keySplitArray: string[][] = localStorageLib.local_key_array();
+    //console.log(keySplitArray);
+
+    for (let i = 0; i < localStorage.length -2; i++) {//左の-2でIDとisUser（ユーザー認証情報）の分のループを除く //以下同文
       timeArray.unshift(keySplitArray[i][1]);
     }
-    console.log(timeArray);
-    for (let i = 0; i < localStorage.length; i++) {
+    //console.log(timeArray);
+    for (let i = 0; i < localStorage.length -2; i++) {
       quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]));
     }
     items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
     setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
 
-    setSellIetm(in_order_to_set_array);
+    setSellIetm(set_array);
     let sophisticatedQuantityArray: string[][] = [];
     let newSophisticatedQuantityArray: string[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length -2; i++) {
       quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
       sophisticatedQuantityArray[i] = quantityArray[i].split(",");
     }
     newSophisticatedQuantityArray = sophisticatedQuantityArray.flat();
-    console.log(newSophisticatedQuantityArray);
+    //console.log(newSophisticatedQuantityArray);
     for (let i = 0; i < _SellItem.length; i++) {
       _SellItem[i].quantity = 0;
     }
     // console.log(productData[0].product);
-    // console.log(in_order_to_set_array);
+    // console.log(set_array);
 
     for (let i = 0; i < newSophisticatedQuantityArray.length; i++) {
       for (let k = 0; k < productData.length; k++) {
         if (newSophisticatedQuantityArray[i] === productData[k].product) { _SellItem[k].quantity += Number(newSophisticatedQuantityArray[i + 1]) }
       }
     }
-    console.log(_SellItem);
+    //console.log(_SellItem);
     setSellIetm(_SellItem);
   }
 
@@ -251,7 +257,7 @@ function App() {
           }
         );
       }
-      console.log(all_products);//showCalに渡したい
+      //console.log(all_products);//showCalに渡したい
       setAll_products(all_products);
       //表示する商品
       products = [];
@@ -336,11 +342,13 @@ function App() {
   const [isVisible1, setIsVisible1] = useState<boolean>(true);
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
-  const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white"]);
+  const [isVisible4, setIsVisible4] = useState<boolean>(false);
+  const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white","white"]);
   const Page1 = () => {
     setIsVisible1(true);
     setIsVisible2(false);
     setIsVisible3(false);
+    setIsVisible4(false);
     reloadPage();
     // QRコード後の処理のフラグを消すこと！
     setFlag(false);
@@ -349,15 +357,26 @@ function App() {
     setIsVisible1(false);
     setIsVisible2(true);
     setIsVisible3(false);
-    setBarColor(["white", "#afeeee", "white"])
+    setIsVisible4(false);
+    setBarColor(["white", "#afeeee", "white" ,"white"])
     // stopScanning();
   }
   const Page3 = () => {
     setIsVisible1(false);
     setIsVisible2(false);
     setIsVisible3(true);
-    setBarColor(["white", "white", "#afeeee"])
+    setIsVisible4(false);
+    setBarColor(["white", "white", "#afeeee","white"])
+    reflectLocal();//localstorageのデータを全てスプレッドシートに送る
     updateData();
+    // stopScanning();
+  }
+  const Page4 = () => {
+    setIsVisible1(false);
+    setIsVisible2(false);
+    setIsVisible3(false);
+    setIsVisible4(true);
+    setBarColor(["white", "white", "white", "#afeeee"]);
     // stopScanning();
   }
 
@@ -366,7 +385,7 @@ function App() {
       style={{
         margin: "0 10% 68px 10%",
       }}>
-
+      {/* <LoginErrorComponent/> */}
       {/* Page1 */}
       {isVisible1 &&
         <div id="QR">
@@ -400,9 +419,9 @@ function App() {
       {isVisible3 &&
         <div id="data">
           <h2>データ</h2>
+          {/*
           <h3>全体のデータ</h3>
-          <PreserveDataComponent data={_SellItem} data2={data} />
-          <DataFromFirebase />
+          */}
           <h3>あなたのデータ</h3>
           <CSVDownloadButton1 data={_SellItem} />
           <ItemTable items={_SellItem} />
@@ -411,13 +430,20 @@ function App() {
           <DataTable items={data} />
         </div>
       }
-
+      {/* Page4 */}
+      {isVisible4 &&
+        <div>
+          <h2>ユーザー</h2>
+          <UserComponent/>
+        </div>
+      }
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>
           <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード" icon={<QrCodeIcon />} onClick={Page1} /></Box>
           <Box bgcolor={BarColor[1]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page2} /></Box>
           <Box bgcolor={BarColor[2]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page3} /></Box>
+          <Box bgcolor={BarColor[3]}><BottomNavigationAction label="ユーザー" icon={<AccessibilityNewIcon />} onClick={Page4} /></Box>
         </BottomNavigation>
       </Paper>
     </div>

@@ -81,11 +81,11 @@ interface Item {
 const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
   const [fileName, setFileName] = useState('analysis_data.csv');
 
-  //  preserveData(data,"detailData",);
+  // preserveData(data,"detailData",);
   let to_entire_data: any[][] = [];
 
   let to_top_data: string[] = [""];
-  console.log(data);
+  // console.log(data);
   for (let i = 0; i < productData.length; i++) {
     to_top_data.push(productData[i].product);
   }
@@ -102,7 +102,7 @@ const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
     }
     to_entire_data.push(to_row_data);
   }
-  console.log(to_entire_data);
+  // console.log(to_entire_data);
 
   // const [tableData] = useState(sampleData);
 
