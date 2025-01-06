@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './user.css';
 
+// Material UI
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { CircularProgress } from '@mui/material';
+
 export const UserComponent: React.FC<{}> = () => {
   type SheetRow = (string | number)[]; // 1行のデータ
 
@@ -17,14 +22,17 @@ export const UserComponent: React.FC<{}> = () => {
   const [inputValue, setInputValue] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [effectLoader,setEffectLoader] = useState<number>(0); //これが変わると↓のが呼び出される
+  const [isResponseEnd,setIsResponseEnd] = useState<boolean>(true);
 
   const GAS_URL = import.meta.env.VITE_GAS_API_URL;
 
   useEffect(() => {
     // console.log("OK");
     const fetchData = async () => {
+      setIsResponseEnd(false);
       try {
         const response = await axios.get(GAS_URL);
+        setIsResponseEnd(true);
         const studentIDArray: number[] = [];
         for (const sheet of response.data) {
           if (sheet.sheetName === 'user') {
@@ -158,17 +166,29 @@ export const UserComponent: React.FC<{}> = () => {
   };
   return (
     <div>
-      <input
-        type="number"
-        value={inputValue}
-        onChange={handleChange}
-        placeholder="Enter number"
-        style={{ fontSize: '16px', padding: '8px', margin: '10px' }}
-        disabled={isAuthenticated} // ログイン時は編集不可
-      />
-      <button onClick={handleLoginLogout} style={{ padding: '8px 16px', fontSize: '16px' }}>
-        {isAuthenticated ? 'ログアウト' : 'ログイン'}
-      </button>
+      {/* <div>{String(isResponseEnd)}</div> */}
+      <div style={{ display: 'flex', alignItems: 'center'}}>
+        <TextField
+          variant="outlined"
+          type="number"
+          value={inputValue}
+          onChange={handleChange}
+          placeholder="Enter number"
+          style={{ fontSize: '16px', padding: '8px', margin: '10px' }}
+          disabled={isAuthenticated} // ログイン時は編集不可
+        />
+        {!isResponseEnd ? 
+          <CircularProgress/>
+          :
+          <Button
+            onClick={handleLoginLogout}
+            style={{ padding: '8px 16px', fontSize: '16px' }}
+            variant="outlined">
+            {isAuthenticated ? 'ログアウト' : 'ログイン'}
+          </Button>
+        }
+      </div>
+
       <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
         {inputValue === '' ? '入力してください' : isAuthenticated ? '認証成功' : '認証失敗'}
       </p>
