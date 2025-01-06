@@ -16,7 +16,7 @@ const reflectLocal = async () => {
     const local_all_data = localStorageLib.local_all_array();
     const labeles_all_data = local_all_data.unshift(to_top_data);
     console.log(local_all_data);
-    const response = await axios.post('/api', {
+    const response = await axios.post(GAS_URL, {
       ID: localStorage.getItem("ID"),
       data: local_all_data,
     });
