@@ -12,3 +12,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           npm install && npm run build
+        env:
+          VITE_GAS_API_URL: ${{ secrets.VITE_GAS_API_URL }}
