@@ -16,11 +16,12 @@ export const UserComponent: React.FC<{}> = () => {
   const [purchaseData, setPurchaseData] = useState<ResponseData>([]);
   const [inputValue, setInputValue] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [effectLoader,setEffectLoader] = useState<number>(0); //これが変わると↓のが呼び出される
 
   const GAS_URL = import.meta.env.VITE_GAS_API_URL;
 
   useEffect(() => {
-
+    // console.log("OK");
     const fetchData = async () => {
       try {
         const response = await axios.get(GAS_URL);
@@ -48,7 +49,7 @@ export const UserComponent: React.FC<{}> = () => {
       setInputValue(storedID);
       setIsAuthenticated(storedIsUser);
     }
-  }, []);
+  }, [effectLoader]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -56,6 +57,7 @@ export const UserComponent: React.FC<{}> = () => {
   };
 
   const handleLoginLogout = async () => {
+    setEffectLoader(effectLoader + 1);
     //ログアウト
     if (isAuthenticated) {
       const now_id = localStorage.getItem("ID");
