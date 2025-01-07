@@ -3,6 +3,13 @@ import React, { useState } from 'react';
 // Material UI
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 // Material Icons
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -120,34 +127,39 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={deleteData} endIcon={<DeleteForeverIcon />}>データを消す</Button>
-      <br />
-      <br />
-      <table>
-        <thead>
-          <tr>
-            <th>品物名</th>
-            <th>減らす</th>
-            <th>個数</th>
-            <th>増やす</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itemList.map((item, index) => (
-            <tr key={index}>
-              <td>{item.product}</td>
-              <td>
-                <Button variant="outlined" onClick={() => decreaseQuantity(index)}>-</Button>
-              </td>
-              <td align='center'>{item.quantity}</td>
-              <td>
-                <Button variant="outlined" onClick={() => increaseQuantity(index)}>+</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p></p>
+      <p>
+        <Button variant="outlined" onClick={deleteData} endIcon={<DeleteForeverIcon />}>データを消す</Button>
+      </p>
+      <TableContainer sx={{ maxWidth: 500 }} component={Paper}>
+        <Table size='small' aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>商品名</TableCell>
+              <TableCell></TableCell>
+              <TableCell>個数&nbsp;(個)</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {itemList.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  {item.product}
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="outlined" onClick={() => decreaseQuantity(index)}>-</Button>
+                </TableCell>
+                <TableCell align="right">
+                  {item.quantity}
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="outlined" onClick={() => increaseQuantity(index)}>+</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <p>合計: {_sum} 円</p>
       <TextField
         label="入力金額" variant="outlined"
@@ -156,7 +168,9 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         onChange={handleInputValueChange}
       />
       <p>おつり: {change} 円</p>
-      <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon /> } disabled={isDisabled}>データを保存</Button>
+      <p>
+        <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon />} disabled={isDisabled}>データを保存</Button>
+      </p>
       {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
     </div>
   );
