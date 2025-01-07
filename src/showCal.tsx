@@ -34,6 +34,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   const [_sum, setSum] = useState<number>(sum1);
   const [_inputValue, set_InputValue] = useState("");
   const [change, setchange] = useState(0);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
 
   const decreaseQuantity = (index: number) => {
@@ -70,6 +71,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const setLocalStorage = () => {
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);//GASにいっぱいリクエストするとGASが死ぬ
+    }, 1500);
     if (localStorage.getItem("isUser") == "false"|| localStorage.getItem("isUser") == null){
       alert("ユーザーページからログインしてください");
       return;
@@ -151,7 +156,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         onChange={handleInputValueChange}
       />
       <p>おつり: {change} 円</p>
-      <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon />}>データを保存</Button>
+      <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon /> } disabled={isDisabled}>データを保存</Button>
       {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
     </div>
   );
