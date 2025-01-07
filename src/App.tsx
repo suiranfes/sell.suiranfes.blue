@@ -19,7 +19,7 @@ import { productData } from './data';
 import { CreateCal } from './showCal';
 
 // Material UI
-import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box, IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -34,6 +34,7 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import { Delete as DeleteIcon } from '@mui/icons-material';
 
 // Default Data
 let products = [
@@ -136,7 +137,11 @@ function App() {
                 <TableCell>{item.time}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>
-                  <Button onClick={() => { handleDelete(index, item.time); updateData(); reflectLocal(); }}>削除</Button>
+                  <IconButton
+                    color="primary"
+                    onClick={() => { handleDelete(index, item.time); updateData(); reflectLocal(); }}>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}

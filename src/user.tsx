@@ -6,6 +6,8 @@ import './user.css';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { CircularProgress } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+import SaveIcon from '@mui/icons-material/Save';
 
 export const UserComponent: React.FC<{}> = () => {
   type SheetRow = (string | number)[]; // 1行のデータ
@@ -178,11 +180,18 @@ export const UserComponent: React.FC<{}> = () => {
           disabled={isAuthenticated} // ログイン時は編集不可
         />
         {!isResponseEnd ? 
-          <CircularProgress/>
+          <Button
+            disabled
+            endIcon={<CircularProgress size="24px" color='inherit' />}
+            size='large'
+            variant="outlined">
+            ロード中
+          </Button>
           :
           <Button
             onClick={handleLoginLogout}
-            style={{ padding: '8px 16px', fontSize: '16px' }}
+            endIcon={<LoginIcon />}
+            size='large'
             variant="outlined">
             {isAuthenticated ? 'ログアウト' : 'ログイン'}
           </Button>
