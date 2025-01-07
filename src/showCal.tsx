@@ -70,7 +70,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const setLocalStorage = () => {
-    if (localStorage.getItem("isUser") == "false"){
+    if (localStorage.getItem("isUser") == "false"|| localStorage.getItem("isUser") == null){
       alert("ユーザーページからログインしてください");
       return;
     }
