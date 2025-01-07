@@ -5,9 +5,8 @@ import './user.css';
 // Material UI
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { CircularProgress } from '@mui/material';
+import { Alert, CircularProgress } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import SaveIcon from '@mui/icons-material/Save';
 
 export const UserComponent: React.FC<{}> = () => {
   type SheetRow = (string | number)[]; // 1行のデータ
@@ -168,6 +167,18 @@ export const UserComponent: React.FC<{}> = () => {
   };
   return (
     <div>
+      {(localStorage.getItem("isUser") == "true") ?
+        <Alert severity='success'>ようこそ {localStorage.getItem("ID")} さま。</Alert>
+      :
+        <Alert severity='warning'>ログインされていません。</Alert>
+      }
+
+      {/*
+      <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
+        {inputValue === '' ? '入力してください' : isAuthenticated ? '認証成功' : '認証失敗'}
+      </p>
+      */}
+
       {/* <div>{String(isResponseEnd)}</div> */}
       <div style={{ display: 'flex', alignItems: 'center'}}>
         <TextField
@@ -175,7 +186,7 @@ export const UserComponent: React.FC<{}> = () => {
           type="number"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Enter number"
+          placeholder="パスワードを入力"
           style={{ fontSize: '16px', padding: '8px', margin: '10px' }}
           disabled={isAuthenticated} // ログイン時は編集不可
         />
@@ -197,10 +208,6 @@ export const UserComponent: React.FC<{}> = () => {
           </Button>
         }
       </div>
-
-      <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
-        {inputValue === '' ? '入力してください' : isAuthenticated ? '認証成功' : '認証失敗'}
-      </p>
     </div>
   );
 };
