@@ -1,5 +1,4 @@
 import { productData } from "./data";
-import axios from 'axios';
 import { LocalStorageLib } from "./localStorageLib";
 const localStorageLib = new LocalStorageLib();
 
@@ -16,11 +15,13 @@ const reflectLocal = async () => {
     const local_all_data = localStorageLib.local_all_array();
     const labeles_all_data = local_all_data.unshift(to_top_data);
     console.log(local_all_data);
-    const response = await axios.post(GAS_URL, {
-      ID: localStorage.getItem("ID"),
-      data: local_all_data,
+
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ID: localStorage.getItem("ID"), data: local_all_data })
     });
-    console.log(response);
   }
 };
 
