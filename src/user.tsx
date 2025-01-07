@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './user.css';
+import axios from 'axios';
 
 // Material UI
 import Button from '@mui/material/Button';
@@ -34,15 +34,27 @@ export const UserComponent: React.FC<{}> = () => {
       try {
         const response = await axios.get(GAS_URL);
         setIsResponseEnd(true);
+        const data = response.data; 
+        //  fetchでGETしたいけどできなかったです。( ;∀;)
+        // const response = await fetch(GAS_URL,{
+        //   method : "GET",
+        //   // mode: 'no-cors',
+        //   //mode: 'cors',
+        //   headers:{ 'Content-Type': 'application/json' ,},
+        // });
+        // console.log(response);
+        // const data = await response.json();
+        
+        
         const studentIDArray: number[] = [];
-        for (const sheet of response.data) {
+        for (const sheet of data) {
           if (sheet.sheetName === 'user') {
             for (let i = 0; i < sheet.rows.length - 1; i++) {
               studentIDArray[i] = sheet.rows[i + 1][0];
             }
           }
         }
-        setPurchaseData(response.data);
+        setPurchaseData(data);
         setUserData(studentIDArray);
       } catch (error) {
         console.error('データ取得中にエラーが発生しました:', error);
@@ -66,16 +78,19 @@ export const UserComponent: React.FC<{}> = () => {
   };
 
   const handleLoginLogout = async () => {
-    setEffectLoader(effectLoader + 1);
     //ログアウト
     if (isAuthenticated) {
       const now_id = localStorage.getItem("ID");
       logout();
-      const response = await axios.post(GAS_URL, {
-        ID: now_id,
-        data: "logout",
+      setIsResponseEnd(false);
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ID: now_id, data: "logout" })
+      }).then(()=>{
+        setEffectLoader(effectLoader + 1);
       });
-      //console.log(response);
     }
     //ログイン
     else {
@@ -101,12 +116,16 @@ export const UserComponent: React.FC<{}> = () => {
         localStorage.setItem('ID', inputValue);
         localStorage.setItem('isUser', "true");
         setIsAuthenticated(true);
+        setIsResponseEnd(false);
         refreshLocal();
-        const response = await axios.post(GAS_URL, {
-          ID: localStorage.getItem("ID"),
-          data: "login",
+        await fetch(GAS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ID: localStorage.getItem("ID"), data: "login" })
+        }).then(()=>{
+          setEffectLoader(effectLoader + 1);
         });
-        //console.log(response);
       }
       else {
         localStorage.setItem('isUser', "false");
