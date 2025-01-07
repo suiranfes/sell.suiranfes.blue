@@ -119,7 +119,7 @@ const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
   return (
     <div>
       <input type="text" value={fileName} onChange={handleFileNameChange} style={{ display: "none" }} />
-      <Button onClick={handleDownload} endIcon={<DownloadIcon />}>それぞれの個数データ</Button>
+      <Button onClick={handleDownload} endIcon={<DownloadIcon />}>会計別個数データ</Button>
     </div>
   );
 };

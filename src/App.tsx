@@ -19,8 +19,15 @@ import { productData } from './data';
 import { CreateCal } from './showCal';
 
 // Material UI
-import { BottomNavigation, BottomNavigationAction, Box, Paper } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 // Material Icons
 import CalculateIcon from '@mui/icons-material/Calculate';
@@ -51,22 +58,24 @@ interface Item2 {
 // 買われた総数を表示する表のコンポーネント
 const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          {items.map((_item, index) => (
-            <th key={index}>{_item.item}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {items.map((_item, index) => (
-            <td key={index}>{_item.quantity}</td>
-          ))}
-        </tr>
-      </tbody>
-    </table>
+    <TableContainer component={Paper}>
+      <Table size='small' aria-label='simple table'>
+        <TableHead>
+          <TableRow>
+            {items.map((_item, index) => (
+              <TableCell key={index}>{_item.item}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            {items.map((_item, index) => (
+              <TableCell key={index}>{_item.quantity}</TableCell>
+            ))}
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
@@ -96,7 +105,7 @@ function App() {
   const [_SellItem, setSellIetm] = useState<SellItem[]>(set_array);
 
   const [data, setData] = useState<Item[]>(items);
-  const DataTable: React.FC<{ items: Item[] }> = ({ items }) => {
+  const DataTable: React.FC<{ items: Item[] }> = () => {
     //console.log(items);
     const handleDelete = (index: number, time: string) => {
       const newData = [...data];
@@ -112,26 +121,28 @@ function App() {
     };
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>時間</th>
-            <th>品物の個数</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.time}</td>
-              <td>{item.quantity}</td>
-              <td>
-                <Button onClick={() => { handleDelete(index, item.time); updateData(); reflectLocal(); }}>削除</Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer sx={{ maxWidth: 500 }} component={Paper}>
+        <Table size='small' aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              <TableCell>時間</TableCell>
+              <TableCell>品物の個数</TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.time}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
+                <TableCell>
+                  <Button onClick={() => { handleDelete(index, item.time); updateData(); reflectLocal(); }}>削除</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   };
 
@@ -425,7 +436,7 @@ function App() {
           <h3>あなたのデータ</h3>
           <CSVDownloadButton1 data={_SellItem} />
           <ItemTable items={_SellItem} />
-          <p>---</p>
+          <hr />
           <CSVTableComponent2 data={data} />
           <DataTable items={data} />
         </div>
