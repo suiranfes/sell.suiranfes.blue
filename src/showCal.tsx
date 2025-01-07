@@ -14,9 +14,13 @@ import Paper from '@mui/material/Paper';
 // Material Icons
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CheckIcon from '@mui/icons-material/Check';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 //GSsheet
 import { reflectLocal } from './localToGSsheet';
+import { IconButton } from '@mui/material';
+import { Add } from '@mui/icons-material';
 
 export const columns = [
   { Header: "商品", accessor: "product" },
@@ -135,9 +139,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
           <TableHead>
             <TableRow>
               <TableCell>商品名</TableCell>
-              <TableCell></TableCell>
-              <TableCell>個数&nbsp;(個)</TableCell>
-              <TableCell></TableCell>
+              <TableCell align="center">個数&nbsp;(個)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -146,14 +148,14 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
                 <TableCell>
                   {item.product}
                 </TableCell>
-                <TableCell align="right">
-                  <Button variant="outlined" onClick={() => decreaseQuantity(index)}>-</Button>
-                </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
+                <IconButton color='primary' onClick={() => decreaseQuantity(index)}>
+                    <RemoveIcon />
+                  </IconButton>
                   {item.quantity}
-                </TableCell>
-                <TableCell align="right">
-                  <Button variant="outlined" onClick={() => increaseQuantity(index)}>+</Button>
+                  <IconButton color='primary' onClick={() => increaseQuantity(index)}>
+                    <AddIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
