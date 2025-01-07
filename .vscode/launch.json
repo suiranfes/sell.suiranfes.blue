@@ -1,12 +1,12 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node-terminal",
-            "request": "launch",
-            "name": "Build",
-            "command": "npm start",
-            "cwd": "${workspaceFolder}"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Build",
+      "command": "npm start",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
 }
