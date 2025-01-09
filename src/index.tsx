@@ -19,6 +19,5 @@ loadData().then(()=>{//データを読み込んでから描画
   );
 })
 
-
 serviceWorkerRegistration.register();
 reportWebVitals();
