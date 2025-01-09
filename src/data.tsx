@@ -1,41 +1,42 @@
-import React, { useEffect, useState } from "react";
+interface OriginProduct {
+  itemName: string;
+  itemPrice: number;
+  itemImage: string;
+}
 
 interface Product {
   product: string;
   price: string;
 }
 
-const AppWithJson = ( url: string ): Product[] => {
-  const [data, setData] = useState<Product[]>([]);
+const url = "https://suiranfes.github.io/mock-store-datas/products.json";
 
-  const tempData: Product[] = [];
+async function fetchData(): Promise<Product[]> {
+  const response = await fetch(url);
+  const data: OriginProduct[] = await response.json();
 
-  useEffect(() => {
-    fetch(url)
-      .then(response => response.json())
-      .then(jsonData => {
-        const tempData: Product[] = jsonData.map((item: any) => ({
-          product: item.itemName,
-          price: item.itemPrice.toString()
-        }));
-        setData(tempData);
-        console.log(tempData);
-      })
-      .catch(error => console.error('Error fetching JSON:', error));
-  }, []);
+  // 変換
+  const transformedData: Product[] = data.map(item => ({
+    product: item.itemName,
+    price: item.itemPrice.toString()
+  }));
 
-  data.map((item: any) => (
-    tempData.push({ product: item.itemName, price: item.itemPrice.toString() })
-  ));
+  return transformedData;
+}
 
-  return tempData;
-};
+// データ取得を実行
+let productData: Product[] = [];
 
-export const productData = AppWithJson("https://suiranfes.github.io/mock-store-datas/products.json");
+fetchData().then(data => {
+  console.log(data);
+  productData = data;
+});
+
+export { productData };
 
 // ここに商品のデータを入力してください
 // スペースを入れないように気を付けてください
-// export const productData = [
+// export const productData: Product[] = [
 //   { product: "チュロス", price: "200" },
 //   { product: "かき氷", price: "200" },
 //   { product: "ペットボトル", price: "150" },
