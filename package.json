@@ -24,7 +24,7 @@
     "react-dom": "^18.3.1",
     "react-table": "^7.8.0",
     "react-zxing": "^2.0.2",
-    "styled-components": "^6.1.11",
+    "styled-components": "^6.1.14",
     "web-vitals": "^3.5.0",
     "workbox-background-sync": "^7.1.0",
     "workbox-broadcast-update": "^7.3.0",
