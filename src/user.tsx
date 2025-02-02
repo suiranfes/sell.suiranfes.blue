@@ -186,6 +186,7 @@ export const UserComponent: React.FC<{}> = () => {
   };
   return (
     <div>
+      <h2>ユーザー</h2>
       {(localStorage.getItem("isUser") == "true") ?
         <Alert severity='success'>ようこそ {localStorage.getItem("ID")} さま。</Alert>
       :

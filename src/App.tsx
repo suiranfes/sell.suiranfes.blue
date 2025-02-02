@@ -397,39 +397,25 @@ function App() {
   }
 
   return (
-    <div className="App"
-      style={{
-        margin: "0 10% 68px 10%",
-      }}>
+    <div className="App" style={{ margin: "0 10% 68px 10%" }}>
       {/* <LoginErrorComponent/> */}
+
       {/* Page1 */}
       {isVisible1 &&
         <div id="QR">
           <h2>QR コード</h2>
-          <video ref={ref}
-            style={{
-              width: "100%",
-              borderRadius: "16px",
-            }} />
-          {/*
-          <p>
+          <video ref={ref} style={{ width: "100%", borderRadius: "16px" }} />
+          {/* <p>
             <span>Last result: </span>
             <span>{qr_result}</span>
-          </p>
-          */}
+          </p> */}
           {/* <Button variant="outlined" onClick={reloadPage}>カメラを再起動</Button> */}
-
           {/* <p>合計金額: {sum} 円</p> */}
         </div>
       }
 
       {/* Page2 */}
-      {isVisible2 &&
-        <div id="clalculator">
-          <h2>電卓</h2>
-          <CreateCal data={all_products} />
-        </div>
-      }
+      {isVisible2 && <CreateCal data={all_products} />}
 
       {/* Page3 */}
       {isVisible3 &&
@@ -446,13 +432,10 @@ function App() {
           <DataTable items={data} />
         </div>
       }
+
       {/* Page4 */}
-      {isVisible4 &&
-        <div>
-          <h2>ユーザー</h2>
-          <UserComponent/>
-        </div>
-      }
+      {isVisible4 && <UserComponent />}
+
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>

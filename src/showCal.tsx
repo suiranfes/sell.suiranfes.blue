@@ -180,7 +180,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
 
 const CreateCal: React.FC<{ data: Item[] }> = ({ data }) => {
   return (
-    <ItemTable items={data} />
+    <div>
+      <h2>電卓</h2>
+      <ItemTable items={data} />
+    </div>
   );
 }
 
