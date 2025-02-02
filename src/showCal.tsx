@@ -86,7 +86,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     setTimeout(() => {
       setIsDisabled(false);//GASにいっぱいリクエストするとGASが死ぬ
     }, 1500);
-    if (localStorage.getItem("isUser") == "false"|| localStorage.getItem("isUser") == null){
+    if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
     }
@@ -122,10 +122,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
 
   const deleteData = () => {
     // if (window.confirm("本当に削除しますか？") === true) {
-      setItemList(items.map(item => ({ ...item, quantity: 0 })));
-      setSum(0);
-      set_InputValue("");
-      setchange(0);
+    setItemList(items.map(item => ({ ...item, quantity: 0 })));
+    setSum(0);
+    set_InputValue("");
+    setchange(0);
     // }
   }
 
@@ -149,7 +149,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
                   {item.product}
                 </TableCell>
                 <TableCell align="center">
-                <IconButton color='primary' onClick={() => decreaseQuantity(index)}>
+                  <IconButton color='primary' onClick={() => decreaseQuantity(index)}>
                     <RemoveIcon />
                   </IconButton>
                   {item.quantity}

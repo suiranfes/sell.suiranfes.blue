@@ -157,11 +157,11 @@ function App() {
     let keySplitArray: string[][] = localStorageLib.local_key_array();
     //console.log(keySplitArray);
 
-    for (let i = 0; i < localStorage.length -2; i++) {//左の-2でIDとisUser（ユーザー認証情報）の分のループを除く //以下同文
+    for (let i = 0; i < localStorage.length - 2; i++) {//左の-2でIDとisUser（ユーザー認証情報）の分のループを除く //以下同文
       timeArray.unshift(keySplitArray[i][1]);
     }
     //console.log(timeArray);
-    for (let i = 0; i < localStorage.length -2; i++) {
+    for (let i = 0; i < localStorage.length - 2; i++) {
       quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]));
     }
     items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
@@ -170,7 +170,7 @@ function App() {
     setSellIetm(set_array);
     let sophisticatedQuantityArray: string[][] = [];
     let newSophisticatedQuantityArray: string[] = [];
-    for (let i = 0; i < localStorage.length -2; i++) {
+    for (let i = 0; i < localStorage.length - 2; i++) {
       quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
       sophisticatedQuantityArray[i] = quantityArray[i].split(",");
     }
@@ -359,7 +359,7 @@ function App() {
   const [isVisible2, setIsVisible2] = useState<boolean>(false);
   const [isVisible3, setIsVisible3] = useState<boolean>(false);
   const [isVisible4, setIsVisible4] = useState<boolean>(false);
-  const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white","white"]);
+  const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white", "white"]);
   const Page1 = () => {
     setIsVisible1(true);
     setIsVisible2(false);
@@ -374,7 +374,7 @@ function App() {
     setIsVisible2(true);
     setIsVisible3(false);
     setIsVisible4(false);
-    setBarColor(["white", "#afeeee", "white" ,"white"])
+    setBarColor(["white", "#afeeee", "white", "white"])
     // stopScanning();
   }
   const Page3 = () => {
@@ -382,7 +382,7 @@ function App() {
     setIsVisible2(false);
     setIsVisible3(true);
     setIsVisible4(false);
-    setBarColor(["white", "white", "#afeeee","white"])
+    setBarColor(["white", "white", "#afeeee", "white"])
     reflectLocal();//localstorageのデータを全てスプレッドシートに送る
     updateData();
     // stopScanning();

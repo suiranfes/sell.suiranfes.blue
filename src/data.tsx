@@ -1,28 +1,28 @@
 import axios from 'axios';
 
 // Import するデータ形式
-interface pulProduct{
+interface pulProduct {
   itemName: string,
   itemPrice: number,
   itemImage: string
 }
 
 // Export するデータ形式
-interface product{
-  product:string,
+interface product {
+  product: string,
   price: string
 }
 
 //GitHubからデータを取得
 let productData: product[] = [];
 
-export const pullData = async () =>{
+export const pullData = async () => {
   const url = "https://suiranfes.github.io/mock-store-datas/products.json";
-  var responseData :product[] = [];
+  var responseData: product[] = [];
   try {
     const response = await axios.get(url);
     const resData = response.data;
-    responseData = resData.map(( data: pulProduct ) => ({ product: data.itemName, price: data.itemPrice.toString() }));
+    responseData = resData.map((data: pulProduct) => ({ product: data.itemName, price: data.itemPrice.toString() }));
     // console.log(responseData);
   } catch (error) {
     console.error('データ取得中にエラーが発生しました:', error);

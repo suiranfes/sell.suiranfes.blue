@@ -22,8 +22,8 @@ export const UserComponent: React.FC<{}> = () => {
   const [purchaseData, setPurchaseData] = useState<ResponseData>([]);
   const [inputValue, setInputValue] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [effectLoader,setEffectLoader] = useState<number>(0); //これが変わると↓のが呼び出される
-  const [isResponseEnd,setIsResponseEnd] = useState<boolean>(true);
+  const [effectLoader, setEffectLoader] = useState<number>(0); //これが変わると↓のが呼び出される
+  const [isResponseEnd, setIsResponseEnd] = useState<boolean>(true);
 
   const GAS_URL = import.meta.env.VITE_GAS_API_URL;
 
@@ -34,7 +34,7 @@ export const UserComponent: React.FC<{}> = () => {
       try {
         const response = await axios.get(GAS_URL);
         setIsResponseEnd(true);
-        const data = response.data; 
+        const data = response.data;
         //  fetchでGETしたいけどできなかったです。( ;∀;)
         // const response = await fetch(GAS_URL,{
         //   method : "GET",
@@ -44,8 +44,8 @@ export const UserComponent: React.FC<{}> = () => {
         // });
         // console.log(response);
         // const data = await response.json();
-        
-        
+
+
         const studentIDArray: number[] = [];
         for (const sheet of data) {
           if (sheet.sheetName === 'user') {
@@ -88,7 +88,7 @@ export const UserComponent: React.FC<{}> = () => {
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ID: now_id, data: "logout" })
-      }).then(()=>{
+      }).then(() => {
         setEffectLoader(effectLoader + 1);
       });
     }
@@ -123,7 +123,7 @@ export const UserComponent: React.FC<{}> = () => {
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ID: localStorage.getItem("ID"), data: "login" })
-        }).then(()=>{
+        }).then(() => {
           setEffectLoader(effectLoader + 1);
         });
       }
@@ -189,7 +189,7 @@ export const UserComponent: React.FC<{}> = () => {
       <h2>ユーザー</h2>
       {(localStorage.getItem("isUser") == "true") ?
         <Alert severity='success'>ようこそ {localStorage.getItem("ID")} さま。</Alert>
-      :
+        :
         <Alert severity='warning'>ログインされていません。</Alert>
       }
 
@@ -200,7 +200,7 @@ export const UserComponent: React.FC<{}> = () => {
       */}
 
       {/* <div>{String(isResponseEnd)}</div> */}
-      <div style={{ display: 'flex', alignItems: 'center'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <TextField
           variant="outlined"
           type="number"
@@ -210,7 +210,7 @@ export const UserComponent: React.FC<{}> = () => {
           style={{ fontSize: '16px', padding: '8px', margin: '10px' }}
           disabled={isAuthenticated} // ログイン時は編集不可
         />
-        {!isResponseEnd ? 
+        {!isResponseEnd ?
           <Button
             disabled
             endIcon={<CircularProgress size="24px" color='inherit' />}

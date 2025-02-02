@@ -7,11 +7,12 @@ import reportWebVitals from './reportWebVitals';
 import { pullData } from './data';
 
 const loadData = async () => {
-  await pullData(); 
+  await pullData();
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-loadData().then(()=>{//データを読み込んでから描画
+// データを読み込んでから描画
+loadData().then(() => {
   root.render(
     <React.StrictMode>
       <App />
