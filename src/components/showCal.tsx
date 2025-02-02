@@ -20,8 +20,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 //GSsheet
 import { reflectLocal } from './localToGSsheet';
 import { IconButton } from '@mui/material';
-import { Add } from '@mui/icons-material';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const columns = [
   { Header: "商品", accessor: "product" },
   { Header: "値段", accessor: "price" }
@@ -90,17 +90,17 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
       alert("ユーザーページからログインしてください");
       return;
     }
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth() + 1;
-    let day = d.getDate();
-    let hour = d.getHours().toString().padStart(2, '0');
-    let minute = d.getMinutes().toString().padStart(2, '0');
-    let seconds = d.getSeconds().toString().padStart(2, '0');
-    let UTCtime = d.getTime().toString().slice(0, -3);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    const hour = d.getHours().toString().padStart(2, '0');
+    const minute = d.getMinutes().toString().padStart(2, '0');
+    const seconds = d.getSeconds().toString().padStart(2, '0');
+    const UTCtime = d.getTime().toString().slice(0, -3);
     const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
     // console.log(date);
-    let saveData: string[] = [];
+    const saveData: string[] = [];
     for (let i = 0; i < itemList.length; i++) {
       if (itemList[i].quantity !== 0) {
         saveData.push(JSON.stringify([itemList[i].product, itemList[i].quantity]))

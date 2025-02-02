@@ -1,12 +1,35 @@
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import { VitePWA } from 'vite-plugin-pwa'
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      manifest: {
+        name: 'Suiran Sell',
+        short_name: 'SuiranSell',
+        description: '高崎高校が運営する文化祭"翠巒祭"の模擬店会計で、運営 (店) 側が利用するアプリケーションです。',
+        theme_color: '#121212',
+        icons: [
+          {
+            src: '/logo192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/logo512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
+  ],
   build: {
     outDir: 'build',
   },
@@ -20,4 +43,4 @@ export default defineConfig({
       },
     },
   },
-});
+})

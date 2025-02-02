@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 
 interface DataObject {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 interface SellItem {
@@ -13,12 +14,10 @@ interface SellItem {
   quantity: number;
 }
 
-const a = 2;
-
 // オブジェクトの配列をCSV形式の文字列に変換する関数
 function convertArrayOfObjectsToCSV(data: DataObject[]): string {
   const csv = data.map(row => {
-    return Object.entries(row).map(([key, value]) => {
+    return Object.entries(row).map(([, value]) => {
       // 値が文字列でない場合はtoString()メソッドを使用して文字列に変換
       const escapedValue = typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value.toString();
       return escapedValue;
@@ -38,13 +37,13 @@ function downloadCSV(csvData: string, fileName: string) {
 }
 
 function _getTime() {
-  let d = new Date();
-  let year = d.getFullYear().toString().padStart(4, '0');
-  let month = (d.getMonth() + 1).toString().padStart(2, '0');
-  let day = d.getDate().toString().padStart(2, '0');
-  let hour = d.getHours().toString().padStart(2, '0');
-  let minute = d.getMinutes().toString().padStart(2, '0');
-  let seconds = d.getSeconds().toString().padStart(2, '0');
+  const d = new Date();
+  const year = d.getFullYear().toString().padStart(4, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  const hour = d.getHours().toString().padStart(2, '0');
+  const minute = d.getMinutes().toString().padStart(2, '0');
+  const seconds = d.getSeconds().toString().padStart(2, '0');
   return (year + month + day + "-" + hour + minute + seconds);
 }
 
@@ -79,12 +78,14 @@ interface Item {
 }
 
 const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [fileName, setFileName] = useState('analysis_data.csv');
 
   // preserveData(data,"detailData",);
-  let to_entire_data: any[][] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const to_entire_data: any[][] = [];
 
-  let to_top_data: string[] = [""];
+  const to_top_data: string[] = [""];
   // console.log(data);
   for (let i = 0; i < productData.length; i++) {
     to_top_data.push(productData[i].product);
@@ -92,7 +93,8 @@ const CSVTableComponent2: React.FC<{ data: Item[] }> = ({ data }) => {
   to_entire_data.push(to_top_data);
   //const top_data = to_top_data;
   for (let i = 0; i < data.length; i++) {
-    let to_row_data: any[] = [data[i].time];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const to_row_data: any[] = [data[i].time];
     const tidyData: string[] = data[i].quantity.replace(/[[\]""]/g, '').split(",");
     for (let j = 0; j < productData.length; j++) {
       for (let k = 0; k < tidyData.length - 1; k++) {
