@@ -13,12 +13,12 @@ interface product {
   price: string
 }
 
-//GitHubからデータを取得
+// GitHub Pages (共有データ) からデータを取得
 let productData: product[] = [];
 
 export const pullData = async () => {
   const url = "https://suiranfes.github.io/mock-store-datas/products.json";
-  var responseData: product[] = [];
+  let responseData: product[] = [];
   try {
     const response = await axios.get(url);
     const resData = response.data;
