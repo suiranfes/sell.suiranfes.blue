@@ -18,7 +18,7 @@ const reflectLocal = async () => {
 
     const local_all_data = localStorageLib.local_all_array();
     // const labeles_all_data = local_all_data.unshift(to_top_data);
-    console.log(local_all_data);
+    // console.log(local_all_data);
 
     try {
       await fetch(GAS_URL, {
@@ -32,7 +32,7 @@ const reflectLocal = async () => {
     }
   }
   else {
-    console.log("現在保存中です。");
+    // console.log("現在保存中です。");
   }
 };
 

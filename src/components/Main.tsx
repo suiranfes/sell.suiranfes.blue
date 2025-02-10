@@ -324,7 +324,7 @@ function App() {
   const [, setResult] = useState("");
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
-      console.log(qr_result);
+      // console.log(qr_result);
       if (QR_flag === false) {
         setFlag(true);
         const outputText = qr_result.getText();
