@@ -83,10 +83,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const setLocalStorage = async () => {
-    // setIsDisabled(true);
-    // setTimeout(() => {
-    //   setIsDisabled(false);
-    // }, 1500);
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 1500);
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
