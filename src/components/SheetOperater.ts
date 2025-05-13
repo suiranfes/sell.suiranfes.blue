@@ -36,7 +36,20 @@ export const writeToSheet = async (
     });
     console.log('書き込み成功:', response);
   } catch (error) {
+    const sheetMeta = await gapi.client.sheets.spreadsheets.get({
+      spreadsheetId: SPREADSHEET_ID,
+    });
+
+    const sheets = sheetMeta.result.sheets || [];
+    const sheetExists = sheets.some(
+      (sheet: { properties: { title: string; }; }) => sheet.properties?.title === sheetName
+    );
+    if (!sheetExists) {
+      await generateSheet(sheetName);
+      writeToSheet(quantities,date)  
+    }else{
     console.error('書き込み失敗:', error);
+    }
   }
 };
 
@@ -93,4 +106,34 @@ export const deleteRowFromSheet = async (time:string) => {
   }
 };
 
-
+const generateSheet = async (sheetName:string) => {
+  const productNames = productData.map((item) => item.product);
+  const header = [
+  "日時",
+  ...productNames,
+  "メールアドレス",
+  ];
+  await gapi.client.sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SPREADSHEET_ID,
+    resource: {
+      requests: [
+        {
+          addSheet: {
+            properties: {
+              title: sheetName,
+            },
+          },
+        },
+      ],
+    },
+    });
+  await gapi.client.sheets.spreadsheets.values.update({
+    spreadsheetId: SPREADSHEET_ID,
+    range: `${sheetName}!A1`,
+    valueInputOption: 'RAW',
+    resource: {
+      values: [header],
+    },
+  });
+      console.log(`シート「${sheetName}」を作成しました`);
+}
