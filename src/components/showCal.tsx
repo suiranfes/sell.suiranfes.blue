@@ -83,24 +83,33 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   };
 
   const setLocalStorage = async () => {
-    setIsDisabled(true);
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 1500);
+    // setIsDisabled(true);
+    // setTimeout(() => {
+    //   setIsDisabled(false);
+    // }, 1500);
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
     }
-    const d = new Date();
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    const hour = d.getHours().toString().padStart(2, '0');
-    const minute = d.getMinutes().toString().padStart(2, '0');
-    const seconds = d.getSeconds().toString().padStart(2, '0');
-    const UTCtime = d.getTime().toString().slice(0, -3);
-    const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
+    // const d = new Date();
+    // const year = d.getFullYear();
+    // const month = d.getMonth() + 1;
+    // const day = d.getDate();
+    // const hour = d.getHours().toString().padStart(2, '0');
+    // const minute = d.getMinutes().toString().padStart(2, '0');
+    // const seconds = d.getSeconds().toString().padStart(2, '0');
+    // const UTCtime = d.getTime().toString().slice(0, -3);
+    // const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
     // console.log(date);
+    const now = new Date();
+    // const date = now.toLocaleString(); 
+    const date = `${now.getFullYear()}/${(now.getMonth()+1)
+  .toString().padStart(2, '0')}/${now.getDate()
+  .toString().padStart(2, '0')} ${now.getHours()
+  .toString().padStart(2, '0')}:${now.getMinutes()
+  .toString().padStart(2, '0')}:${now.getSeconds()
+  .toString().padStart(2, '0')}.${now.getMilliseconds()
+  .toString().padStart(3, '0')}`;
     const saveData: string[] = [];
     // const sheetValues: string[][] = [];
     const GSheetValues:Record<string, string> = {};
@@ -117,7 +126,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     //localStorageに保存
     localStorage.setItem(date, saveData.join());
 
-    await writeToSheet(GSheetValues);
+    await writeToSheet(GSheetValues, date);
     reflectLocal();
   }
 

@@ -7,6 +7,7 @@ import { useZxing } from 'react-zxing';
 import { reflectLocal } from './localToGSsheet';
 import { UserComponent } from './user';
 // import { LoginErrorComponent } from './loginError';
+import { deleteRowFromSheet } from './SheetOperater';
 
 // localStrage
 // import { local_key_array } from './localStorageLib';
@@ -109,6 +110,8 @@ function App() {
   const DataTable: React.FC<{ items: Item[] }> = () => {
     //console.log(items);
     const handleDelete = (index: number, time: string) => {
+      const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
+      if (!confirmed) return;
       const newData = [...data];
       newData.splice(index, 1);
       setData(newData);
@@ -119,6 +122,8 @@ function App() {
           localStorage.removeItem(getKey[i]);
         }
       }
+
+      deleteRowFromSheet(time);
     };
 
     return (
@@ -154,15 +159,19 @@ function App() {
   const updateData = () => {
     timeArray = [];
     quantityArray = [];
-    const keySplitArray: string[][] = localStorageLib.local_key_array();
+    const keySplitArray: string[] = localStorageLib.local_key_array();
     //console.log(keySplitArray);
 
-    for (let i = 0; i < localStorage.length - 2; i++) {//左の-2でIDとisUser（ユーザー認証情報）の分のループを除く //以下同文
-      timeArray.unshift(keySplitArray[i][1]);
+    for (let i = 0; i < localStorage.length ; i++) {
+      if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
+        timeArray.unshift(keySplitArray[i]);
+      }
     }
     //console.log(timeArray);
-    for (let i = 0; i < localStorage.length - 2; i++) {
-      quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]) || '');
+    for (let i = 0; i < localStorage.length ; i++) {
+        if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
+      quantityArray.unshift(localStorage.getItem(keySplitArray[i]) || '');
+      }
     }
     items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
     setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
@@ -190,38 +199,6 @@ function App() {
     //console.log(_SellItem);
     setSellIetm(_SellItem);
   }
-
-  // const [code, setCode] = useState('');
-
-  // // 合計金額
-  // let sum = 0;
-
-  // // 模擬店かどうか判別
-  // if (code.indexOf("チュロス") === 0) {
-  //   const allArray = code.split(";");// 品ごとに分割
-  //   var nameArray: string[] = new Array(allArray.length - 1);
-  //   var costArray: number[] = new Array(allArray.length - 1);
-  //   var qtyArray: number[] = new Array(allArray.length - 1);
-  //   var sumArray: number[] = new Array(allArray.length - 1);
-  //   // それぞれの情報に分割
-  //   for (let i = 0; i < allArray.length; i++) {
-  //     let a = allArray[i].split(",");
-  //     let name = a[0];
-  //     let cost = Number(a[1]);
-  //     let qty = Number(a[2]);
-  //     let eachSum = Number(a[3]);
-  //     nameArray[i] = name;
-  //     costArray[i] = cost;
-  //     qtyArray[i] = qty;
-  //     sumArray[i] = eachSum;
-  //   }
-
-  //   // 合計金額を求める処理
-  //   for (let i = 0; i < sumArray.length - 1; i++) {
-  //     sum = sum + sumArray[i]
-  //   }
-  //   // console.log(sum);
-  // }
 
   // QR コード読み込み後の処理
   const onRecognizeCode = (e: string) => {

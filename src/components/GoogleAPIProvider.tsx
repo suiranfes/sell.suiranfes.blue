@@ -4,6 +4,7 @@ import { gapi } from 'gapi-script';
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const API_KEY = import.meta.env.VITE_API_KEY;
+const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID;
 const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
 const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
 
@@ -69,4 +70,20 @@ export const useGoogleAPI = () => {
   const context = useContext(GoogleAPIContext);
   if (!context) throw new Error('useGoogleAPI must be used within GoogleAPIProvider');
   return context;
+};
+
+export const getSheetIdByName = async (sheetName: string): Promise<number> => {
+  const response = await gapi.client.sheets.spreadsheets.get({
+    spreadsheetId: SPREADSHEET_ID,
+  });
+
+  const sheet = response.result.sheets?.find(
+    (s: { properties: { title: string; }; }) => s.properties?.title === sheetName
+  );
+
+  if (!sheet || sheet.properties?.sheetId === undefined) {
+    throw new Error(`シート "${sheetName}" が見つかりません`);
+  }
+
+  return sheet.properties.sheetId;
 };

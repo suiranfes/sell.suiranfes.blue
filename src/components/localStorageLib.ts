@@ -2,10 +2,10 @@ import { productData } from "./data";
 
 export class LocalStorageLib {
 
-  local_key_array = (): string[][] => {
-    const keySplitArray: string[][] = []
+  local_key_array = (): string[] => {
+    const keySplitArray: string[] = []
     for (let i = 0; i < localStorage.length; i++) {
-      const pushkey = Object.keys(localStorage)[i].split(')');
+      const pushkey = Object.keys(localStorage)[i];
       if (pushkey[0] != "userEmail" && pushkey[0] != "isUser") {
         keySplitArray.push(pushkey);
       }
@@ -43,7 +43,7 @@ export class LocalStorageLib {
     const formatData = (localData: LocalStorageData): Array<(string | number)[]> => {
       return Object.entries(localData).map(([key, purchases]) => {
         // キーを分割して UTC 部分とローカル時間部分を抽出
-        const [utcPart, localTimePart] = key.split(")");
+        // const [utcPart, localTimePart] = key.split(")");
 
         // 商品の個数を初期化
         const quantities = Array(productData.length).fill(0);
@@ -57,7 +57,7 @@ export class LocalStorageLib {
           }
         });
 
-        return [utcPart, localTimePart, ...quantities];
+        return [key, ...quantities];
       });
     };
 
