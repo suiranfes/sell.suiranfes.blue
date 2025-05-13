@@ -20,6 +20,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 //GSsheet
 import { reflectLocal } from './localToGSsheet';
 import { IconButton } from '@mui/material';
+import { writeToSheet } from './SheetOperater';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const columns = [
@@ -81,10 +82,10 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     return (sum);
   };
 
-  const setLocalStorage = () => {
+  const setLocalStorage = async () => {
     setIsDisabled(true);
     setTimeout(() => {
-      setIsDisabled(false);//GASにいっぱいリクエストするとGASが死ぬ
+      setIsDisabled(false);
     }, 1500);
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
@@ -101,13 +102,22 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
     // console.log(date);
     const saveData: string[] = [];
+    // const sheetValues: string[][] = [];
+    const GSheetValues:Record<string, string> = {};
     for (let i = 0; i < itemList.length; i++) {
       if (itemList[i].quantity !== 0) {
-        saveData.push(JSON.stringify([itemList[i].product, itemList[i].quantity]))
+        const _product = itemList[i].product;
+        const _quantity = itemList[i].quantity.toString();
+        GSheetValues[_product] = _quantity;
+        const row = [_product, _quantity];
+        saveData.push(JSON.stringify(row));
+        // sheetValues.push([date, ...row]);
       }
     }
     //localStorageに保存
     localStorage.setItem(date, saveData.join());
+
+    await writeToSheet(GSheetValues);
     reflectLocal();
   }
 
