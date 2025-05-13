@@ -29,8 +29,9 @@ export class LocalStorageLib {
         const value = localStorage.getItem(key);
         if (value) {
           try {
+            const dataValue = JSON.parse(value).data;
             // JSON-like構造をパース
-            const parsedValue = looseJsonParse(`[${value}]`) as Array<[string, number]>;
+            const parsedValue = looseJsonParse(`[${dataValue}]`) as Array<[string, number]>;
             localStorageData[key] = parsedValue;
           } catch (e) {
             console.error(`Error parsing localStorage key "${key}":`, e);

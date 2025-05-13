@@ -35,6 +35,8 @@ export const writeToSheet = async (
       resource: body,
     });
     console.log('書き込み成功:', response);
+    return true;
+    
   } catch (error) {
     const sheetMeta = await gapi.client.sheets.spreadsheets.get({
       spreadsheetId: SPREADSHEET_ID,
@@ -49,6 +51,7 @@ export const writeToSheet = async (
       writeToSheet(quantities,date)  
     }else{
     console.error('書き込み失敗:', error);
+    return false;
     }
   }
 };

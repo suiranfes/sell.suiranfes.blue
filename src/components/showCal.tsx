@@ -100,7 +100,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     .toString().padStart(2, '0')}:${now.getSeconds()
     .toString().padStart(2, '0')}.${now.getMilliseconds()
     .toString().padStart(3, '0')}`;
-    const saveData: string[] = [];
+    const saveProductData: string[] = [];
     // const sheetValues: string[][] = [];
     const GSheetValues:Record<string, string> = {};
     for (let i = 0; i < itemList.length; i++) {
@@ -109,14 +109,20 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         const _quantity = itemList[i].quantity.toString();
         GSheetValues[_product] = _quantity;
         const row = [_product, _quantity];
-        saveData.push(JSON.stringify(row));
+        saveProductData.push(JSON.stringify(row));
         // sheetValues.push([date, ...row]);
       }
     }
+    
+  
+    const writed = await writeToSheet(GSheetValues, date);
+    const saveDate = {
+      data:saveProductData.join(),
+      synced:writed
+    } 
+    
     //localStorageに保存
-    localStorage.setItem(date, saveData.join());
-
-    await writeToSheet(GSheetValues, date);
+    localStorage.setItem(date, JSON.stringify(saveDate));
     reflectLocal();
   }
 

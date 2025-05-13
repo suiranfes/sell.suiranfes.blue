@@ -269,30 +269,7 @@ function App() {
       for (let i = 0; i < products.length; i++) {
         saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
       }
-
-      //localStorageに保存
-      // localStorage.setItem(date, saveData.join());
-      // console.log(date);
-      // console.log(saveData.join());
-
-      // timeArray = [];
-      // quantityArray = [];
-      // let keySplitArray: string[][] = []
-      // for (let i = 0; i < localStorage.length; i++) {
-      //   keySplitArray.push(Object.keys(localStorage)[i].split(')'));
-      // }
-      // keySplitArray.sort(function (a, b) { return (Number(a[0]) - Number(b[0])); });
-      // for (let i = 0; i < localStorage.length; i++) {
-      //   timeArray.unshift(keySplitArray[i][1]);
-      // }
-      // console.log(timeArray);
-      // for (let i = 0; i < localStorage.length; i++) {
-      //   quantityArray.unshift(localStorage.getItem(keySplitArray[i][0] + ")" + keySplitArray[i][1]));
-      // }
-      // items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
-      // setData(timeArray.map((time, index) => ({ time, quantity: quantityArray[index] })));
     }
-
   }
 
   // react-zxing の処理
