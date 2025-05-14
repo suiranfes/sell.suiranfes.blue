@@ -17,6 +17,7 @@ const localStorageLib = new LocalStorageLib();
 // Internal Components
 // import './style.css';
 import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
+import { TotalTable } from './totalTable';
 import { productData } from './data';
 import { CreateCal } from './showCal';
 
@@ -51,46 +52,17 @@ interface SellItem {
   item: string;
   quantity: number;
 }
-interface Item2 {
-  product: string;
-  price: number;
-  quantity: number;
-}
-
-// 買われた総数を表示する表のコンポーネント
-const ItemTable: React.FC<{ items: SellItem[] }> = ({ items }) => {
-  return (
-    <TableContainer component={Paper}>
-      <Table size='small' aria-label='simple table'>
-        <TableHead>
-          <TableRow>
-            {items.map((_item, index) => (
-              <TableCell key={index}>{_item.item}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            {items.map((_item, index) => (
-              <TableCell key={index}>{_item.quantity}</TableCell>
-            ))}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-};
 
 function App() {
-  const _productData: Item2[] = productData.map((data) => {
-    const one_of_productData = {
-      ...data,
-      price: Number(data.price),
-      quantity: 0
-    }
-    return one_of_productData;
-  });
-  const [all_products, setAll_products] = useState<Item2[]>(_productData);
+  // const _productData: Item2[] = productData.map((data) => {
+  //   const one_of_productData = {
+  //     ...data,
+  //     price: Number(data.price),
+  //     quantity: 0
+  //   }
+  //   return one_of_productData;
+  // });
+  // const [all_products, setAll_products] = useState<Item2[]>(_productData);
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
@@ -108,7 +80,8 @@ function App() {
 
   const [data, setData] = useState<Item[]>(items);
   const DataTable: React.FC<{ items: Item[] }> = () => {
-    //console.log(items);
+
+
     const handleDelete = (index: number, time: string) => {
       const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
       if (!confirmed) return;
@@ -133,6 +106,7 @@ function App() {
             <TableRow>
               <TableCell>時間</TableCell>
               <TableCell>品物の個数</TableCell>
+              <TableCell>共有</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -141,6 +115,7 @@ function App() {
               <TableRow key={index}>
                 <TableCell>{item.time}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
+                <TableCell></TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"
@@ -181,10 +156,10 @@ function App() {
     setSellIetm(set_array);
     const sophisticatedQuantityArray: string[][] = [];
     let newSophisticatedQuantityArray: string[] = [];
-    for (let i = 0; i < localStorage.length - 2; i++) {
-      quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
-      sophisticatedQuantityArray[i] = quantityArray[i].split(",");
-    }
+    // for (let i = 0; i < localStorage.length - 2; i++) {
+    //   quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
+    //   sophisticatedQuantityArray[i] = quantityArray[i].split(",");
+    // }
     newSophisticatedQuantityArray = sophisticatedQuantityArray.flat();
     //console.log(newSophisticatedQuantityArray);
     for (let i = 0; i < _SellItem.length; i++) {
@@ -242,18 +217,18 @@ function App() {
       // const date = UTCtime + ")" + year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + seconds;
       //console.log(date);
 
-      all_products.splice(0);
-      for (let i = 0; i < _nameArray.length - 1; i++) {
-        all_products.push(
-          {
-            product: _nameArray[i],
-            price: _costArray[i],
-            quantity: _qtyArray[i]
-          }
-        );
-      }
+      // all_products.splice(0);
+      // for (let i = 0; i < _nameArray.length - 1; i++) {
+      //   all_products.push(
+      //     {
+      //       product: _nameArray[i],
+      //       price: _costArray[i],
+      //       quantity: _qtyArray[i]
+      //     }
+      //   );
+      // }
       //console.log(all_products);//showCalに渡したい
-      setAll_products(all_products);
+      // setAll_products(all_products);
       //表示する商品
       products = [];
       for (let i = 0; i < _nameArray.length - 1; i++) {
@@ -371,7 +346,7 @@ function App() {
       }
 
       {/* Page2 */}
-      {isVisible2 && <CreateCal data={all_products} />}
+      {isVisible2 && <CreateCal />}
 
       {/* Page3 */}
       {isVisible3 &&
@@ -381,10 +356,10 @@ function App() {
           <h3>全体のデータ</h3>
           */}
           <h3>あなたのデータ</h3>
-          <CSVDownloadButton1 data={_SellItem} />
-          <ItemTable items={_SellItem} />
+          {/* <CSVDownloadButton1 data={_SellItem} /> */}
+          <TotalTable />
           <hr />
-          <CSVTableComponent2 data={data} />
+          {/* <CSVTableComponent2 data={data} /> */}
           <DataTable items={data} />
         </div>
       }

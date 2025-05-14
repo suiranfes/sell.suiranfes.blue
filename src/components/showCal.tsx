@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Material UI
 import Button from '@mui/material/Button';
@@ -22,6 +22,8 @@ import { reflectLocal } from './localToGSsheet';
 import { IconButton } from '@mui/material';
 import { writeToSheet } from './SheetOperater';
 
+import { productData } from './data';
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const columns = [
   { Header: "商品", accessor: "product" },
@@ -34,16 +36,29 @@ interface Item {
   quantity: number;
 }
 
-const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
-  // console.log(items);
-  // const [itemList, setItemList] = useState<Item[]>(items.map(item => ({ ...item, quantity:0 })));
-  const [itemList, setItemList] = useState<Item[]>(items);
-  let sum1 = 0;
-  items.forEach(item => {
-    sum1 += item.quantity * item.price;
+const ItemTable: React.FC<{}> = () => {
+  const [itemList, setItemList] = useState<Item[]>(
+    productData.map(value => ({
+    product: value.product,
+    price: Number(value.price),
+    quantity: 0
+  })));
+  //初期化
+  useEffect(() => {
+    const initializedList: Item[] = productData.map(value => ({
+    product: value.product,
+    price: Number(value.price),
+    quantity: 0
+  }));
+  setItemList(initializedList);
+  },[])
+  
+  let sum = 0;
+  itemList.forEach(item => {
+    sum += item.quantity * item.price;
   });
   // console.log(sum1);
-  const [_sum, setSum] = useState<number>(sum1);
+  const [_sum, setSum] = useState<number>(sum);
   const [_inputValue, set_InputValue] = useState("");
   const [change, setchange] = useState(0);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -103,7 +118,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     .toString().padStart(2, '0')}:${now.getSeconds()
     .toString().padStart(2, '0')}.${now.getMilliseconds()
     .toString().padStart(3, '0')}`;
-    const saveProductData: string[] = [];
+    const saveProductData: string[][] = [];
     // const sheetValues: string[][] = [];
     const GSheetValues:Record<string, string> = {};
     for (let i = 0; i < itemList.length; i++) {
@@ -112,7 +127,8 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
         const _quantity = itemList[i].quantity.toString();
         GSheetValues[_product] = _quantity;
         const row = [_product, _quantity];
-        saveProductData.push(JSON.stringify(row));
+        // saveProductData.push(JSON.stringify(row));
+        saveProductData.push(row);
         // sheetValues.push([date, ...row]);
       }
     }
@@ -120,7 +136,8 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   
     const writed = await writeToSheet(GSheetValues, date);
     const saveDate = {
-      data:saveProductData.join(),
+      // data:saveProductData.join(),
+      data:saveProductData,
       synced:writed
     } 
     
@@ -140,7 +157,7 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
 
   const deleteData = () => {
     // if (window.confirm("本当に削除しますか？") === true) {
-    setItemList(items.map(item => ({ ...item, quantity: 0 })));
+    setItemList(itemList.map(item => ({ ...item, quantity: 0 })));
     setSum(0);
     set_InputValue("");
     setchange(0);
@@ -196,11 +213,11 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
   );
 };
 
-const CreateCal: React.FC<{ data: Item[] }> = ({ data }) => {
+const CreateCal: React.FC<{}> = () => {
   return (
     <div>
       <h2>電卓</h2>
-      <ItemTable items={data} />
+      <ItemTable />
     </div>
   );
 }

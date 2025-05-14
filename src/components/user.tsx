@@ -2,8 +2,15 @@ import React from 'react';
 import { useGoogleAPI } from './GoogleAPIProvider';
 import { Button, Alert } from '@mui/material';
 
+import { LocalStorageLib } from './localStorageLib';
+
+
 export const UserComponent: React.FC = () => {
   const { isSignedIn, userEmail, signIn, signOut } = useGoogleAPI();
+
+  const b = new LocalStorageLib();
+  const a = b.local_total_array();
+  console.log(a);
 
   return (
     <div>
