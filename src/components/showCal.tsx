@@ -29,6 +29,10 @@ export const columns = [
   { Header: "商品", accessor: "product" },
   { Header: "値段", accessor: "price" }
 ];
+interface QrItem {
+  name: string;
+  quantity: number;
+}
 
 interface Item {
   product: string;
@@ -36,7 +40,7 @@ interface Item {
   quantity: number;
 }
 
-const ItemTable: React.FC<{}> = () => {
+const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = ({ qrItems }) => {
   const [itemList, setItemList] = useState<Item[]>(
     productData.map(value => ({
     product: value.product,
@@ -45,13 +49,21 @@ const ItemTable: React.FC<{}> = () => {
   })));
   //初期化
   useEffect(() => {
-    const initializedList: Item[] = productData.map(value => ({
-    product: value.product,
-    price: Number(value.price),
-    quantity: 0
-  }));
+  //   const initializedList: Item[] = productData.map(value => ({
+  //   product: value.product,
+  //   price: Number(value.price),
+  //   quantity: 0
+  //  }));
+    const initializedList: Item[] = productData.map(value => {
+      const matched = qrItems.find(q => q.name === value.product);
+      return {
+        product: value.product,
+        price: Number(value.price),
+        quantity: matched ? matched.quantity : 0
+      };
+    });
   setItemList(initializedList);
-  },[])
+  },[qrItems])
   
   let sum = 0;
   itemList.forEach(item => {
@@ -213,11 +225,11 @@ const ItemTable: React.FC<{}> = () => {
   );
 };
 
-const CreateCal: React.FC<{}> = () => {
+const CreateCal: React.FC<{ qrItems: QrItem[] }> = ({ qrItems }) => {
   return (
     <div>
       <h2>電卓</h2>
-      <ItemTable />
+      <ItemTable qrItems={qrItems}/>
     </div>
   );
 }

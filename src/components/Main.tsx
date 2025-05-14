@@ -14,8 +14,6 @@ const localStorageLib = new LocalStorageLib();
 // Internal Components
 // import './style.css';
 import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
-import { TotalTable } from './totalTable';
-import { DataTable } from './DataTable';
 import { productData } from './data';
 import { CreateCal } from './showCal';
 
@@ -42,6 +40,8 @@ interface SellItem {
 }
 
 function App() {
+  const [qrItems, setQrItems] = useState<{ name: string; quantity: number }[]>([]);
+
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
@@ -57,49 +57,49 @@ function App() {
   const [_SellItem, setSellIetm] = useState<SellItem[]>(set_array);
 
 
-  const updateData = () => {
-    timeArray = [];
-    quantityArray = [];
-    const keySplitArray: string[] = localStorageLib.local_key_array();
-    //console.log(keySplitArray);
+  // const updateData = () => {
+  //   timeArray = [];
+  //   quantityArray = [];
+  //   const keySplitArray: string[] = localStorageLib.local_key_array();
+  //   //console.log(keySplitArray);
 
-    for (let i = 0; i < localStorage.length ; i++) {
-      if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
-        timeArray.unshift(keySplitArray[i]);
-      }
-    }
-    //console.log(timeArray);
-    for (let i = 0; i < localStorage.length ; i++) {
-      if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
-        const localJSONData = localStorage.getItem(keySplitArray[i]) || '';
-        const localParsedData = JSON.parse(localJSONData).data;
-        quantityArray.unshift(localParsedData || '');
-      }
-    }
+  //   for (let i = 0; i < localStorage.length ; i++) {
+  //     if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
+  //       timeArray.unshift(keySplitArray[i]);
+  //     }
+  //   }
+  //   //console.log(timeArray);
+  //   for (let i = 0; i < localStorage.length ; i++) {
+  //     if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
+  //       const localJSONData = localStorage.getItem(keySplitArray[i]) || '';
+  //       const localParsedData = JSON.parse(localJSONData).data;
+  //       quantityArray.unshift(localParsedData || '');
+  //     }
+  //   }
 
-    setSellIetm(set_array);
-    const sophisticatedQuantityArray: string[][] = [];
-    let newSophisticatedQuantityArray: string[] = [];
-    // for (let i = 0; i < localStorage.length - 2; i++) {
-    //   quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
-    //   sophisticatedQuantityArray[i] = quantityArray[i].split(",");
-    // }
-    newSophisticatedQuantityArray = sophisticatedQuantityArray.flat();
-    //console.log(newSophisticatedQuantityArray);
-    for (let i = 0; i < _SellItem.length; i++) {
-      _SellItem[i].quantity = 0;
-    }
-    // console.log(productData[0].product);
-    // console.log(set_array);
+  //   setSellIetm(set_array);
+  //   const sophisticatedQuantityArray: string[][] = [];
+  //   let newSophisticatedQuantityArray: string[] = [];
+  //   // for (let i = 0; i < localStorage.length - 2; i++) {
+  //   //   quantityArray[i] = quantityArray[i].replace(/[[\]""]/g, '');
+  //   //   sophisticatedQuantityArray[i] = quantityArray[i].split(",");
+  //   // }
+  //   newSophisticatedQuantityArray = sophisticatedQuantityArray.flat();
+  //   //console.log(newSophisticatedQuantityArray);
+  //   for (let i = 0; i < _SellItem.length; i++) {
+  //     _SellItem[i].quantity = 0;
+  //   }
+  //   // console.log(productData[0].product);
+  //   // console.log(set_array);
 
-    for (let i = 0; i < newSophisticatedQuantityArray.length; i++) {
-      for (let k = 0; k < productData.length; k++) {
-        if (newSophisticatedQuantityArray[i] === productData[k].product) { _SellItem[k].quantity += Number(newSophisticatedQuantityArray[i + 1]) }
-      }
-    }
-    //console.log(_SellItem);
-    setSellIetm(_SellItem);
-  }
+  //   for (let i = 0; i < newSophisticatedQuantityArray.length; i++) {
+  //     for (let k = 0; k < productData.length; k++) {
+  //       if (newSophisticatedQuantityArray[i] === productData[k].product) { _SellItem[k].quantity += Number(newSophisticatedQuantityArray[i + 1]) }
+  //     }
+  //   }
+  //   //console.log(_SellItem);
+  //   setSellIetm(_SellItem);
+  // }
 
   // QR コード読み込み後の処理
   const onRecognizeCode = (e: string) => {
@@ -139,6 +139,7 @@ function App() {
             }
           );
         }
+        setQrItems(products);
       }
       //console.log(products);
       const saveData: string[] = [];
@@ -245,7 +246,7 @@ function App() {
       }
 
       {/* Page2 */}
-      {isVisible2 && <CreateCal />}
+      {isVisible2 && <CreateCal qrItems={qrItems} />}
 
       {/* Page3 */}
       {isVisible3 &&
@@ -256,10 +257,8 @@ function App() {
           */}
           <h3>あなたのデータ</h3>
           {/* <CSVDownloadButton1 data={_SellItem} /> */}
-          {/* <TotalTable /> */}
           <hr />
           {/* <CSVTableComponent2 data={data} /> */}
-          {/* <DataTable/> */}
           <HolisticTable />
         </div>
       }
