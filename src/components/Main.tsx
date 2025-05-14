@@ -28,6 +28,7 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import { HolisticTable } from './HolisticTable';
 
 // Default Data
 let products = [
@@ -35,10 +36,6 @@ let products = [
 ];
 
 // Interfaces
-interface Item {
-  time: string;
-  quantity: string;
-}
 interface SellItem {
   item: string;
   quantity: number;
@@ -48,7 +45,6 @@ function App() {
 
   let timeArray: string[] = ["9:00", "10:00", "11:00"]; // 時間の配列
   let quantityArray: string[] = ["3", "5", "2"]; // 品物の個数の配列
-  let items: Item[] = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
   const [QR_flag, setFlag] = useState(false);
 
   const set_array: SellItem[] = productData.map((data) => {
@@ -80,7 +76,6 @@ function App() {
         quantityArray.unshift(localParsedData || '');
       }
     }
-    items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
 
     setSellIetm(set_array);
     const sophisticatedQuantityArray: string[][] = [];
@@ -219,7 +214,7 @@ function App() {
     setIsVisible4(false);
     setBarColor(["white", "white", "#afeeee", "white"])
     reflectLocal();//localstorageのデータを全てスプレッドシートに送る
-    updateData();
+    // updateData();
     // stopScanning();
   }
   const Page4 = () => {
@@ -261,11 +256,11 @@ function App() {
           */}
           <h3>あなたのデータ</h3>
           {/* <CSVDownloadButton1 data={_SellItem} /> */}
-          <TotalTable />
+          {/* <TotalTable /> */}
           <hr />
           {/* <CSVTableComponent2 data={data} /> */}
-          {/* <DataTable items={data} /> */}
-          <DataTable/>
+          {/* <DataTable/> */}
+          <HolisticTable />
         </div>
       }
 

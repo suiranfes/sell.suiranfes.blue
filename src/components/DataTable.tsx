@@ -12,7 +12,10 @@ interface Item {
   synced: boolean;
 }
 
-export const DataTable: React.FC<{}> = () => {
+type Props = {
+  onDelete: () => void;
+};
+export const DataTable: React.FC<Props> = ({onDelete}) => {
   const [data, setData] = useState<Item[]>([]);
   const allData = localStorageLib.local_all_array();
   
@@ -44,6 +47,7 @@ export const DataTable: React.FC<{}> = () => {
     }
 
     deleteRowFromSheet(time);
+    onDelete();
   };
 
   return (
