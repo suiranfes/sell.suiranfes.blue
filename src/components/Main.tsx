@@ -169,8 +169,10 @@ function App() {
     }
     //console.log(timeArray);
     for (let i = 0; i < localStorage.length ; i++) {
-        if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
-      quantityArray.unshift(localStorage.getItem(keySplitArray[i]) || '');
+      if (keySplitArray[i] != "isUser" && keySplitArray[i] != "userEmail"){
+        const localJSONData = localStorage.getItem(keySplitArray[i]) || '';
+        const localParsedData = JSON.parse(localJSONData).data;
+        quantityArray.unshift(localParsedData || '');
       }
     }
     items = timeArray.map((time, index) => ({ time, quantity: quantityArray[index] }));
