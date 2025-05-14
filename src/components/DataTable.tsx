@@ -35,6 +35,10 @@ export const DataTable: React.FC<Props> = ({onDelete}) => {
   const handleDelete = (index: number, time: string) => {
     const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
     if (!confirmed) return;
+    if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
+      alert("ユーザーページからログインしてください");
+      return;
+    }
     const newData = [...data];
     newData.splice(index, 1);
     setData(newData);
