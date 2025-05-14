@@ -90,6 +90,9 @@ const ItemTable: React.FC<{ items: Item[] }> = ({ items }) => {
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
+    } else if(itemList.every(value => value.quantity == 0) ){
+      alert("全ての項目が0個です");
+      return;
     }
 
     const now = new Date();
