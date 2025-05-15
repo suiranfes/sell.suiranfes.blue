@@ -62,18 +62,14 @@ export const writeToSheet = async (
 export const deleteRowFromSheet = async (time:string) => {
 
   try {
-    // 1. シートの全データを取得
+    //シートの全データを取得
     const response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A2:Z`, // A1:Zならヘッダー含むが、ここではデータのみ
+      range: `${sheetName}!A2:Z`, 
     });
 
     const rows = response.result.values || [];
-    // console.log(rows);
-    // console.log(time);
-    // console.log(localStorage.getItem("userEmail"));
     
-    // 2. 対象行を探す（全て文字列で比較）
     const matchIndex = rows.findIndex((row: any[]) =>
       row[0] === time &&
       row[row.length - 1] === localStorage.getItem("userEmail")
@@ -84,9 +80,8 @@ export const deleteRowFromSheet = async (time:string) => {
       return;
     }
 
-    const rowNumber = matchIndex + 2; // A2: なので +2 が実際の行番号
+    const rowNumber = matchIndex + 2; 
 
-    // 3. batchUpdate で削除
     await gapi.client.sheets.spreadsheets.batchUpdate({
       spreadsheetId: SPREADSHEET_ID,
       resource: {

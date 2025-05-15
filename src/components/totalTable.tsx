@@ -38,5 +38,4 @@ export const TotalTable: React.FC<Props> = ({updateTrigger}) => {
       </Table>
     </TableContainer>
   );
-  //データを削除した時に反映されない
 };

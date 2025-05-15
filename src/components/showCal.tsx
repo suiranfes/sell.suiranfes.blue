@@ -130,7 +130,6 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
     .toString().padStart(2, '0')}.${now.getMilliseconds()
     .toString().padStart(3, '0')}`;
     const saveProductData: string[][] = [];
-    // const sheetValues: string[][] = [];
     const GSheetValues:Record<string, string> = {};
     for (let i = 0; i < itemList.length; i++) {
       if (itemList[i].quantity !== 0) {
@@ -138,16 +137,13 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
         const _quantity = itemList[i].quantity.toString();
         GSheetValues[_product] = _quantity;
         const row = [_product, _quantity];
-        // saveProductData.push(JSON.stringify(row));
         saveProductData.push(row);
-        // sheetValues.push([date, ...row]);
       }
     }
     
   
     const writed = await writeToSheet(GSheetValues, date);
     const saveDate = {
-      // data:saveProductData.join(),
       data:saveProductData,
       synced:writed
     } 
@@ -218,7 +214,7 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
       <p>
         <Button variant="outlined" onClick={setLocalStorage} endIcon={<CheckIcon />} disabled={isDisabled}>データを保存</Button>
       </p>
-      {/* <Button onClick={deleteLocalStorage}>データを消す (開発者向け)</Button> */}
+      {/* <Button onClick={localStorage.clear}>データを消す (開発者向け)</Button> */}
     </div>
   );
 };
