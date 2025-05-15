@@ -106,8 +106,10 @@ export const deleteRowFromSheet = async (time:string) => {
     });
 
     console.log(`行 ${rowNumber} を削除しました`);
+    return true;
   } catch (err) {
     console.error('行削除失敗:', err);
+    return false;
   }
 };
 

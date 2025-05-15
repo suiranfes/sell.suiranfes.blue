@@ -1,5 +1,6 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from "@mui/material";
 import { Delete as DeleteIcon } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { LocalStorageLib } from "./localStorageLib";
 const localStorageLib = new LocalStorageLib();
@@ -19,7 +20,7 @@ type Props = {
 };
 export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
   const [data, setData] = useState<Item[]>([]);
-  
+  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
   useEffect(() => {
     const allData = localStorageLib.local_all_array();
     const initializedArray:Item[] = [];
@@ -35,26 +36,38 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
   },[updateTrigger])
   
 
-  const handleDelete = (index: number, time: string) => {
+  const handleDelete = async (index: number, time: string) => {
     const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
     if (!confirmed) return;
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
     }
-    const newData = [...data];
-    newData.splice(index, 1);
-    setData(newData);
 
-    const getKey = Object.keys(localStorage);
-    for (let i = 0; i < getKey.length; i++) {
-      if (getKey[i].indexOf(time) >= 0) {
-        localStorage.removeItem(getKey[i]);
+    try{
+      setDeletingIndex(index);
+      const isDelete = await deleteRowFromSheet(time);
+      if(isDelete){
+        const newData = [...data];
+        newData.splice(index, 1);
+        setData(newData);
+
+        const getKey = Object.keys(localStorage);
+        for (let i = 0; i < getKey.length; i++) {
+          if (getKey[i].indexOf(time) >= 0) {
+            localStorage.removeItem(getKey[i]);
+          }
+        }
       }
+      else{
+        alert("データの削除に失敗しました。インターネットを確認してください。");
+      }
+    } catch(error) {
+      console.error("データの削除に失敗しました:", error);
+    } finally {
+      setDeletingIndex(null);
+      onDelete();
     }
-
-    deleteRowFromSheet(time);
-    onDelete();
   };
 
   return (
@@ -75,11 +88,15 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
               <TableCell>{item.quantity}</TableCell>
               <TableCell>{item.synced ? "〇" : "×"}</TableCell>
               <TableCell>
+                {deletingIndex === index ? (
+                  <CircularProgress size="20px"/>
+                ) : (
                 <IconButton
                   color="primary"
                   onClick={() => { handleDelete(index, item.time) }}>
                   <DeleteIcon />
                 </IconButton>
+                )}
               </TableCell>
             </TableRow>
           ))}
