@@ -12,12 +12,12 @@ export const HolisticTable: React.FC<{}> = () => {
 
   return(
   <div>
-    <Recovery/>
+    <Recovery onRecovery={refreshTables}/>
     <h3>あなたのデータ</h3>
     <p></p>
     <TotalTable updateTrigger={updateTrigger}/>
     <p></p>
-    <DataTable onDelete={refreshTables}/>
+    <DataTable onDelete={refreshTables} updateTrigger={updateTrigger}/>
   </div>
   )
 }

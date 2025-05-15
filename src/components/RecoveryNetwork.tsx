@@ -3,14 +3,26 @@ import UploadIcon from '@mui/icons-material/Upload';
 
 import { LocalStorageLib } from "./localStorageLib";
 import { writeToSheet } from "./SheetOperater";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const localStorageLib = new LocalStorageLib();
 
+type Props = {
+  onRecovery: () => void;
+};
+const SHARING_KEY = "sharing_in_progress";
 //synced == false のデータを送信する。
-export const Recovery: React.FC<{}> = () => {
-  const [isWorking,setIsWorking] = useState(false);
+export const Recovery: React.FC<Props> = ({onRecovery}) => {
+  const [isWorking,setIsWorking] = useState<boolean>(false);
+  useEffect(() => {
+    const sharingStatus = sessionStorage.getItem(SHARING_KEY);
+    if (sharingStatus === "true") {
+      setIsWorking(true);
+    }
+  }, []);
+
   const sendRest = async () => {
     setIsWorking(true);
+    sessionStorage.setItem(SHARING_KEY, "true");
     try{
       const allData = localStorageLib.local_all_array();
       let countSynced = 0;
@@ -41,10 +53,12 @@ export const Recovery: React.FC<{}> = () => {
       if(unsyncedCount == 0){alert("共有されていないデータはありませんでした。");}
       else if(countSynced == 0){alert("共有すべきデータはありましたが、すべての送信に失敗しました。");}
       else{alert(`共有されていなかった${countSynced}コのデータが共有されました。`);}  
-      setIsWorking(false)
-    }catch{
+    } catch {
       alert("共有中にエラーが発生しました。");
+    } finally {
+      sessionStorage.removeItem(SHARING_KEY);
       setIsWorking(false);
+      onRecovery();
     }
   }
 

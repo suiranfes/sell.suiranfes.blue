@@ -14,12 +14,14 @@ interface Item {
 
 type Props = {
   onDelete: () => void;
+  updateTrigger: number;
+
 };
-export const DataTable: React.FC<Props> = ({onDelete}) => {
+export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
   const [data, setData] = useState<Item[]>([]);
-  const allData = localStorageLib.local_all_array();
   
   useEffect(() => {
+    const allData = localStorageLib.local_all_array();
     const initializedArray:Item[] = [];
     allData.map((value) => {
       initializedArray.push({
@@ -29,7 +31,7 @@ export const DataTable: React.FC<Props> = ({onDelete}) => {
       })
     })
     setData(initializedArray);
-  },[])
+  },[updateTrigger])
   
 
   const handleDelete = (index: number, time: string) => {
