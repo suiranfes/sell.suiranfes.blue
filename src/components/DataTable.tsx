@@ -30,6 +30,7 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
         synced: value.synced,
       })
     })
+    initializedArray.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
     setData(initializedArray);
   },[updateTrigger])
   
