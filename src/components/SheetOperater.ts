@@ -38,21 +38,23 @@ export const writeToSheet = async (
     return true;
     
   } catch (error) {
-    const sheetMeta = await gapi.client.sheets.spreadsheets.get({
-      spreadsheetId: SPREADSHEET_ID,
-    });
+    try{
+      const sheetMeta = await gapi.client.sheets.spreadsheets.get({
+        spreadsheetId: SPREADSHEET_ID,
+      });
 
-    const sheets = sheetMeta.result.sheets || [];
-    const sheetExists = sheets.some(
-      (sheet: { properties: { title: string; }; }) => sheet.properties?.title === sheetName
-    );
-    if (!sheetExists) {
-      await generateSheet(sheetName);
-      writeToSheet(quantities,date)  
-    }else{
-    console.error('書き込み失敗:', error);
-    return false;
-    }
+      const sheets = sheetMeta.result.sheets || [];
+      const sheetExists = sheets.some(
+        (sheet: { properties: { title: string; }; }) => sheet.properties?.title === sheetName
+      );
+      if (!sheetExists) {
+        await generateSheet(sheetName);
+        writeToSheet(quantities,date);  
+      }
+    } catch {
+      console.error('書き込み失敗:', error);
+      return false;
+    } 
   }
 };
 

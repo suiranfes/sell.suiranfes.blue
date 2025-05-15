@@ -18,7 +18,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 //GSsheet
-import { reflectLocal } from './localToGSsheet';
 import { IconButton } from '@mui/material';
 import { writeToSheet } from './SheetOperater';
 
@@ -155,7 +154,6 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
     
     //localStorageに保存
     localStorage.setItem(date, JSON.stringify(saveDate));
-    reflectLocal();
   }
 
   const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useZxing } from 'react-zxing';
 
 // googlespreadsheet
-import { reflectLocal } from './localToGSsheet';
 import { UserComponent } from './user';
 
 // Internal Components
@@ -144,7 +143,6 @@ function App() {
     setIsVisible3(true);
     setIsVisible4(false);
     setBarColor(["white", "white", "#afeeee", "white"])
-    reflectLocal();//localstorageのデータを全てスプレッドシートに送る
     // updateData();
     // stopScanning();
   }
@@ -182,13 +180,6 @@ function App() {
       {isVisible3 &&
         <div id="data">
           <h2>データ</h2>
-          {/*
-          <h3>全体のデータ</h3>
-          */}
-          <h3>あなたのデータ</h3>
-          {/* <CSVDownloadButton1 data={_SellItem} /> */}
-          <hr />
-          {/* <CSVTableComponent2 data={data} /> */}
           <HolisticTable />
         </div>
       }
