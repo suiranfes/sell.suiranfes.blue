@@ -20,7 +20,9 @@ type Props = {
 };
 export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
   const [data, setData] = useState<Item[]>([]);
-  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
+  // const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
+  const [deletingIndexes, setDeletingIndexes] = useState<Set<number>>(new Set());
+
   useEffect(() => {
     const allData = localStorageLib.local_all_array();
     const initializedArray:Item[] = [];
@@ -44,8 +46,10 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
       return;
     }
 
+    setDeletingIndexes(prev => new Set(prev).add(index));
+    
     try{
-      setDeletingIndex(index);
+      // setDeletingIndex(index);
       const isDelete = await deleteRowFromSheet(time);
       if(isDelete){
         const newData = [...data];
@@ -65,7 +69,12 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
     } catch(error) {
       console.error("データの削除に失敗しました:", error);
     } finally {
-      setDeletingIndex(null);
+      // setDeletingIndex(null);
+      setDeletingIndexes(prev => {
+        const updated = new Set(prev);
+        updated.delete(index);
+        return updated;
+      });
       onDelete();
     }
   };
@@ -88,7 +97,7 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
               <TableCell>{item.quantity}</TableCell>
               <TableCell>{item.synced ? "〇" : "×"}</TableCell>
               <TableCell>
-                {deletingIndex === index ? (
+                {deletingIndexes.has(index) ? (
                   <CircularProgress size="20px"/>
                 ) : (
                 <IconButton
