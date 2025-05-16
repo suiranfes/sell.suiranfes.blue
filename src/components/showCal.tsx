@@ -52,11 +52,6 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   //初期化
   useEffect(() => {
-  //   const initializedList: Item[] = productData.map(value => ({
-  //   product: value.product,
-  //   price: Number(value.price),
-  //   quantity: 0
-  //  }));
     const initializedList: Item[] = productData.map(value => {
       const matched = qrItems.find(q => q.name === value.product);
       return {
@@ -66,12 +61,13 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
       };
     });
   setItemList(initializedList);
-  let newSum = 0;
-  itemList.forEach(item => {
-    newSum += item.quantity * item.price;
-  });
-  setSum(newSum);
   },[qrItems])
+  //itemListを監視してsumを計算
+  useEffect(() => {
+  const total = itemList.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  setSum(total);
+  setchange(isNaN(parseInt(_inputValue)) ? 0 : parseInt(_inputValue) - total);
+}, [itemList]);
   
   // console.log(sum1);
   const decreaseQuantity = (index: number) => {
