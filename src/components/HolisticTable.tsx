@@ -10,14 +10,14 @@ export const HolisticTable: React.FC<{}> = () => {
     setUpdateTrigger(prev => prev + 1);
   };
 
-  return(
-  <div>
-    <Recovery onRecovery={refreshTables}/>
-    <h3>あなたのデータ</h3>
-    <p></p>
-    <TotalTable updateTrigger={updateTrigger}/>
-    <p></p>
-    <DataTable onDelete={refreshTables} updateTrigger={updateTrigger}/>
-  </div>
+  return (
+    <div>
+      <Recovery onRecovery={refreshTables} />
+      <h3>あなたのデータ</h3>
+      <p></p>
+      <TotalTable updateTrigger={updateTrigger} />
+      <p></p>
+      <DataTable onDelete={refreshTables} updateTrigger={updateTrigger} />
+    </div>
   )
 }

@@ -11,7 +11,7 @@ import { UserComponent } from './user';
 import { CreateCal } from './showCal';
 
 // Material UI
-import { BottomNavigation, BottomNavigationAction, Box} from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
 // Material Icons
@@ -56,7 +56,7 @@ function App() {
         _qtyArray[i] = qty;
         _sumArray[i] = eachSum;
       }
-      
+
       //表示する商品
       products = [];
       for (let i = 0; i < _nameArray.length - 1; i++) {

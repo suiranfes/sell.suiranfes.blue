@@ -7,7 +7,7 @@ type Props = {
   updateTrigger: number;
 };
 
-export const TotalTable: React.FC<Props> = ({updateTrigger}) => {
+export const TotalTable: React.FC<Props> = ({ updateTrigger }) => {
   const [items, setItems] = useState<string[][]>([]);
 
   useEffect(() => {

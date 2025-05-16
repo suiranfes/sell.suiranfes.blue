@@ -18,14 +18,14 @@ type Props = {
   updateTrigger: number;
 
 };
-export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
+export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
   const [data, setData] = useState<Item[]>([]);
   // const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
   const [deletingIndexes, setDeletingIndexes] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const allData = localStorageLib.local_all_array();
-    const initializedArray:Item[] = [];
+    const initializedArray: Item[] = [];
     allData.map((value) => {
       initializedArray.push({
         time: value.time,
@@ -35,8 +35,7 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
     })
     initializedArray.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
     setData(initializedArray);
-  },[updateTrigger])
-  
+  }, [updateTrigger])
 
   const handleDelete = async (index: number, time: string) => {
     const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
@@ -47,11 +46,11 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
     }
 
     setDeletingIndexes(prev => new Set(prev).add(index));
-    
-    try{
+
+    try {
       // setDeletingIndex(index);
       const isDelete = await deleteRowFromSheet(time);
-      if(isDelete){
+      if (isDelete) {
         const newData = [...data];
         newData.splice(index, 1);
         setData(newData);
@@ -63,10 +62,10 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
           }
         }
       }
-      else{
+      else {
         alert("データの削除に失敗しました。インターネットを確認してください。");
       }
-    } catch(error) {
+    } catch (error) {
       console.error("データの削除に失敗しました:", error);
     } finally {
       // setDeletingIndex(null);
@@ -98,13 +97,13 @@ export const DataTable: React.FC<Props> = ({onDelete,updateTrigger}) => {
               <TableCell>{item.synced ? "〇" : "×"}</TableCell>
               <TableCell>
                 {deletingIndexes.has(index) ? (
-                  <CircularProgress size="20px"/>
+                  <CircularProgress size="20px" />
                 ) : (
-                <IconButton
-                  color="primary"
-                  onClick={() => { handleDelete(index, item.time) }}>
-                  <DeleteIcon />
-                </IconButton>
+                  <IconButton
+                    color="primary"
+                    onClick={() => { handleDelete(index, item.time) }}>
+                    <DeleteIcon />
+                  </IconButton>
                 )}
               </TableCell>
             </TableRow>

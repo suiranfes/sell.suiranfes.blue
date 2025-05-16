@@ -44,18 +44,18 @@ export class LocalStorageLib {
       }
     }
     return returnArray;
-  }  
-    
-  local_total_array = ():(string)[][] => {
-    const returnArray:(string)[][] =[]
+  }
+
+  local_total_array = (): (string)[][] => {
+    const returnArray: (string)[][] = []
     productData.map((value) => {
-      returnArray.push([value.product,"0"])
+      returnArray.push([value.product, "0"])
     })
     const allData = this.local_all_array();
     allData.map((purchase) => {
       purchase.data.map((value) => {
         returnArray.map((mainValue) => {
-          if(value[0] == mainValue[0]){
+          if (value[0] == mainValue[0]) {
             const sum = Number(value[1]) + Number(mainValue[1]);
             mainValue[1] = sum.toString();
           }
@@ -64,5 +64,4 @@ export class LocalStorageLib {
     })
     return returnArray;
   }
-    
 }

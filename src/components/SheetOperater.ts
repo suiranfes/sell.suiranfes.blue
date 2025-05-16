@@ -1,4 +1,4 @@
-import { productData } from './data'; 
+import { productData } from './data';
 import { gapi } from 'gapi-script';
 import { getSheetIdByName } from './GoogleAPIProvider';
 
@@ -6,24 +6,24 @@ const SPREADSHEET_ID = import.meta.env.VITE_SPREADSHEET_ID;
 const sheetName = '購入情報';
 
 export const writeToSheet = async (
-  quantities: Record<string, string>, 
-  date:string
+  quantities: Record<string, string>,
+  date: string
 ) => {
   const authInstance = gapi.auth2.getAuthInstance();
   const user = authInstance.currentUser.get();
   const email = user.getBasicProfile().getEmail();
 
   const productNames = productData.map((item) => item.product);
-  
+
   //業の作成
   const row: (string | number)[] = [date];
-    for (const name of productNames) {
-    row.push(Number(quantities[name]) || 0); 
+  for (const name of productNames) {
+    row.push(Number(quantities[name]) || 0);
   }
   row.push(email);
-  
+
   const body = {
-    values:[row],
+    values: [row],
   };
 
   try {
@@ -36,9 +36,9 @@ export const writeToSheet = async (
     });
     console.log('書き込み成功:', response);
     return true;
-    
+
   } catch (error) {
-    try{
+    try {
       const sheetMeta = await gapi.client.sheets.spreadsheets.get({
         spreadsheetId: SPREADSHEET_ID,
       });
@@ -49,27 +49,27 @@ export const writeToSheet = async (
       );
       if (!sheetExists) {
         await generateSheet(sheetName);
-        writeToSheet(quantities,date);  
+        writeToSheet(quantities, date);
       }
     } catch {
       console.error('書き込み失敗:', error);
       return false;
-    } 
+    }
   }
 };
 
 
-export const deleteRowFromSheet = async (time:string) => {
+export const deleteRowFromSheet = async (time: string) => {
 
   try {
     //シートの全データを取得
     const response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${sheetName}!A2:Z`, 
+      range: `${sheetName}!A2:Z`,
     });
 
     const rows = response.result.values || [];
-    
+
     const matchIndex = rows.findIndex((row: any[]) =>
       row[0] === time &&
       row[row.length - 1] === localStorage.getItem("userEmail")
@@ -80,7 +80,7 @@ export const deleteRowFromSheet = async (time:string) => {
       return;
     }
 
-    const rowNumber = matchIndex + 2; 
+    const rowNumber = matchIndex + 2;
 
     await gapi.client.sheets.spreadsheets.batchUpdate({
       spreadsheetId: SPREADSHEET_ID,
@@ -108,12 +108,12 @@ export const deleteRowFromSheet = async (time:string) => {
   }
 };
 
-const generateSheet = async (sheetName:string) => {
+const generateSheet = async (sheetName: string) => {
   const productNames = productData.map((item) => item.product);
   const header = [
-  "日時",
-  ...productNames,
-  "メールアドレス",
+    "日時",
+    ...productNames,
+    "メールアドレス",
   ];
   await gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: SPREADSHEET_ID,
@@ -128,7 +128,7 @@ const generateSheet = async (sheetName:string) => {
         },
       ],
     },
-    });
+  });
   await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId: SPREADSHEET_ID,
     range: `${sheetName}!A1`,
@@ -137,5 +137,5 @@ const generateSheet = async (sheetName:string) => {
       values: [header],
     },
   });
-      console.log(`シート「${sheetName}」を作成しました`);
+  console.log(`シート「${sheetName}」を作成しました`);
 }

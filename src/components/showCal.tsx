@@ -42,17 +42,17 @@ interface Item {
 const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = ({ qrItems }) => {
   const [itemList, setItemList] = useState<Item[]>(
     productData.map(value => ({
-    product: value.product,
-    price: Number(value.price),
-    quantity: 0
-  })));
+      product: value.product,
+      price: Number(value.price),
+      quantity: 0
+    })));
   //初期化
   useEffect(() => {
-  //   const initializedList: Item[] = productData.map(value => ({
-  //   product: value.product,
-  //   price: Number(value.price),
-  //   quantity: 0
-  //  }));
+    //   const initializedList: Item[] = productData.map(value => ({
+    //   product: value.product,
+    //   price: Number(value.price),
+    //   quantity: 0
+    //  }));
     const initializedList: Item[] = productData.map(value => {
       const matched = qrItems.find(q => q.name === value.product);
       return {
@@ -61,9 +61,9 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
         quantity: matched ? matched.quantity : 0
       };
     });
-  setItemList(initializedList);
-  },[qrItems])
-  
+    setItemList(initializedList);
+  }, [qrItems])
+
   let sum = 0;
   itemList.forEach(item => {
     sum += item.quantity * item.price;
@@ -116,21 +116,21 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
     if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
       alert("ユーザーページからログインしてください");
       return;
-    } else if(itemList.every(value => value.quantity == 0) ){
+    } else if (itemList.every(value => value.quantity == 0)) {
       alert("全ての項目が0個です");
       return;
     }
 
     const now = new Date();
-    const date = `${now.getFullYear()}/${(now.getMonth()+1)
-    .toString().padStart(2, '0')}/${now.getDate()
-    .toString().padStart(2, '0')} ${now.getHours()
-    .toString().padStart(2, '0')}:${now.getMinutes()
-    .toString().padStart(2, '0')}:${now.getSeconds()
-    .toString().padStart(2, '0')}.${now.getMilliseconds()
-    .toString().padStart(3, '0')}`;
+    const date = `${now.getFullYear()}/${(now.getMonth() + 1)
+      .toString().padStart(2, '0')}/${now.getDate()
+        .toString().padStart(2, '0')} ${now.getHours()
+          .toString().padStart(2, '0')}:${now.getMinutes()
+            .toString().padStart(2, '0')}:${now.getSeconds()
+              .toString().padStart(2, '0')}.${now.getMilliseconds()
+                .toString().padStart(3, '0')}`;
     const saveProductData: string[][] = [];
-    const GSheetValues:Record<string, string> = {};
+    const GSheetValues: Record<string, string> = {};
     for (let i = 0; i < itemList.length; i++) {
       if (itemList[i].quantity !== 0) {
         const _product = itemList[i].product;
@@ -140,14 +140,14 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
         saveProductData.push(row);
       }
     }
-    
-  
+
+
     const writed = await writeToSheet(GSheetValues, date);
     const saveDate = {
-      data:saveProductData,
-      synced:writed
-    } 
-    
+      data: saveProductData,
+      synced: writed
+    }
+
     //localStorageに保存
     localStorage.setItem(date, JSON.stringify(saveDate));
   }
@@ -223,7 +223,7 @@ const CreateCal: React.FC<{ qrItems: QrItem[] }> = ({ qrItems }) => {
   return (
     <div>
       <h2>電卓</h2>
-      <ItemTable qrItems={qrItems}/>
+      <ItemTable qrItems={qrItems} />
     </div>
   );
 }
