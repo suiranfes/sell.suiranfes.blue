@@ -1,15 +1,11 @@
 import React from 'react';
-import { useGoogleAPI } from './GoogleAPIProvider';
 import { Button, Alert } from '@mui/material';
-
+import { useGoogleAPI } from './GoogleAPIProvider';
 import { LocalStorageLib } from './localStorageLib';
-
 
 export const UserComponent: React.FC = () => {
   const { isSignedIn, userEmail, signIn, signOut } = useGoogleAPI();
-
-  const b = new LocalStorageLib();
-  const a = b.local_total_array();
+  const a = new LocalStorageLib().local_total_array();
   console.log(a);
 
   return (
@@ -23,7 +19,7 @@ export const UserComponent: React.FC = () => {
       ) : (
         <>
           <Alert severity="warning">ログインしてください</Alert>
-          <Button onClick={signIn} variant="outlined">Googleでログイン</Button>
+          <Button onClick={signIn} variant="outlined">Google でログイン</Button>
         </>
       )}
     </div>

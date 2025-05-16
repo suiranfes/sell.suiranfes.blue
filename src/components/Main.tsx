@@ -12,7 +12,6 @@ import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { HolisticTable } from './HolisticTable';
 
 // Internal Components
-// import './style.css';
 // import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
 import { CreateCal } from './showCal';
 import { UserComponent } from './user'; // Google Spread Sheet

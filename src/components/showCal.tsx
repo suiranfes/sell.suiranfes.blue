@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-// Material UI
+// Material UI/Icons
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
@@ -10,17 +10,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-// Material Icons
+import { IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 //GSsheet
-import { IconButton } from '@mui/material';
 import { writeToSheet } from './SheetOperater';
-
 import { productData } from './data';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -28,6 +25,7 @@ export const columns = [
   { Header: "商品", accessor: "product" },
   { Header: "値段", accessor: "price" }
 ];
+
 interface QrItem {
   name: string;
   quantity: number;
@@ -135,7 +133,6 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
         saveProductData.push(row);
       }
     }
-    
   
     const writed = await writeToSheet(GSheetValues, date);
     const saveDate = {

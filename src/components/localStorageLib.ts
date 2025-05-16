@@ -22,7 +22,6 @@ export class LocalStorageLib {
     return keySplitArray;
   }
 
-
   local_all_array = (): ReturnArray[] => {
     const returnArray: ReturnArray[] = [];
     for (let i = 0; i < localStorage.length; i++) {

@@ -1,16 +1,17 @@
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import UploadIcon from '@mui/icons-material/Upload';
-
 import { LocalStorageLib } from "./localStorageLib";
 import { writeToSheet } from "./SheetOperater";
-import { useEffect, useState } from "react";
+
 const localStorageLib = new LocalStorageLib();
 
 type Props = {
   onRecovery: () => void;
 };
+
 const SHARING_KEY = "sharing_in_progress";
-//synced == false のデータを送信する。
+// synced == false のデータを送信する。
 export const Recovery: React.FC<Props> = ({ onRecovery }) => {
   const [isWorking, setIsWorking] = useState<boolean>(false);
   useEffect(() => {

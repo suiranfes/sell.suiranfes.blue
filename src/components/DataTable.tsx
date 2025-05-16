@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from "@mui/material";
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
-
 import { LocalStorageLib } from "./localStorageLib";
-const localStorageLib = new LocalStorageLib();
 import { deleteRowFromSheet } from "./SheetOperater";
-import { useEffect, useState } from "react";
+
+const localStorageLib = new LocalStorageLib();
 
 interface Item {
   time: string;
@@ -16,8 +16,8 @@ interface Item {
 type Props = {
   onDelete: () => void;
   updateTrigger: number;
-
 };
+
 export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
   const [data, setData] = useState<Item[]>([]);
   // const [deletingIndex, setDeletingIndex] = useState<number | null>(null);

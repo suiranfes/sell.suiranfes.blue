@@ -58,9 +58,7 @@ export const writeToSheet = async (
   }
 };
 
-
 export const deleteRowFromSheet = async (time: string) => {
-
   try {
     //シートの全データを取得
     const response = await gapi.client.sheets.spreadsheets.values.get({
@@ -94,7 +92,7 @@ export const deleteRowFromSheet = async (time: string) => {
                 startIndex: rowNumber - 1,
                 endIndex: rowNumber,
               },
-            },
+            }
           },
         ],
       },
@@ -115,27 +113,17 @@ const generateSheet = async (sheetName: string) => {
     ...productNames,
     "メールアドレス",
   ];
+
   await gapi.client.sheets.spreadsheets.batchUpdate({
     spreadsheetId: SPREADSHEET_ID,
-    resource: {
-      requests: [
-        {
-          addSheet: {
-            properties: {
-              title: sheetName,
-            },
-          },
-        },
-      ],
-    },
+    resource: { requests: [{ addSheet: { properties: { title: sheetName } } }] },
   });
+
   await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId: SPREADSHEET_ID,
     range: `${sheetName}!A1`,
     valueInputOption: 'RAW',
-    resource: {
-      values: [header],
-    },
+    resource: { values: [header] },
   });
   console.log(`シート「${sheetName}」を作成しました`);
 }
