@@ -2,24 +2,20 @@
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
 
-// googlespreadsheet
-import { UserComponent } from './user';
-
-// Internal Components
-// import './style.css';
-// import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
-import { CreateCal } from './showCal';
-
-// Material UI
+// Material UI/Icons
 import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import Paper from '@mui/material/Paper';
-
-// Material Icons
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import { HolisticTable } from './HolisticTable';
+
+// Internal Components
+// import './style.css';
+// import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
+import { CreateCal } from './showCal';
+import { UserComponent } from './user'; // Google Spread Sheet
 
 // Default Data
 let products = [
@@ -36,45 +32,47 @@ function App() {
     console.log(e);
     const _code = e;
 
-    // 模擬店かどうか判別
-    if (_code.indexOf("チュロス") === 0) {
-      // 品ごとに分割
-      const _allArray = _code.replace(/\s+/g, "").split(";");
-      const _nameArray: string[] = new Array(_allArray.length - 1);
-      const _costArray: number[] = new Array(_allArray.length - 1);
-      const _qtyArray: number[] = new Array(_allArray.length - 1);
-      const _sumArray: number[] = new Array(_allArray.length - 1);
-      // それぞれの要素に分割
-      for (let i = 0; i < _allArray.length; i++) {
-        const a = _allArray[i].split(",");
-        const name = a[0];
-        const cost = Number(a[1]);
-        const qty = Number(a[2]);
-        const eachSum = Number(a[3]);
-        _nameArray[i] = name;
-        _costArray[i] = cost;
-        _qtyArray[i] = qty;
-        _sumArray[i] = eachSum;
-      }
+    // // 模擬店かどうか判別
+    // if (_code.indexOf("チュロス") !== 0) {
+    //   return;
+    // }
 
-      //表示する商品
-      products = [];
-      for (let i = 0; i < _nameArray.length - 1; i++) {
-        if (_qtyArray[i] !== 0) {
-          products.push(
-            {
-              name: _nameArray[i],
-              quantity: _qtyArray[i]
-            }
-          );
-        }
-        setQrItems(products);
+    // 品ごとに分割
+    const _allArray = _code.replace(/\s+/g, "").split(";");
+    const _nameArray: string[] = new Array(_allArray.length - 1);
+    const _costArray: number[] = new Array(_allArray.length - 1);
+    const _qtyArray: number[] = new Array(_allArray.length - 1);
+    const _sumArray: number[] = new Array(_allArray.length - 1);
+    // それぞれの要素に分割
+    for (let i = 0; i < _allArray.length; i++) {
+      const a = _allArray[i].split(",");
+      const name = a[0];
+      const cost = Number(a[1]);
+      const qty = Number(a[2]);
+      const eachSum = Number(a[3]);
+      _nameArray[i] = name;
+      _costArray[i] = cost;
+      _qtyArray[i] = qty;
+      _sumArray[i] = eachSum;
+    }
+
+    //表示する商品
+    products = [];
+    for (let i = 0; i < _nameArray.length - 1; i++) {
+      if (_qtyArray[i] !== 0) {
+        products.push(
+          {
+            name: _nameArray[i],
+            quantity: _qtyArray[i]
+          }
+        );
       }
-      //console.log(products);
-      const saveData: string[] = [];
-      for (let i = 0; i < products.length; i++) {
-        saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
-      }
+      setQrItems(products);
+    }
+    //console.log(products);
+    const saveData: string[] = [];
+    for (let i = 0; i < products.length; i++) {
+      saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
     }
   }
 
@@ -85,7 +83,7 @@ function App() {
   const { ref } = useZxing({
     onDecodeResult(qr_result) {
       // console.log(qr_result);
-      if (QR_flag === false) {
+      if (!QR_flag) {
         setFlag(true);
         const outputText = qr_result.getText();
 
