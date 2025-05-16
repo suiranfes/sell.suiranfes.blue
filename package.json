@@ -1,7 +1,7 @@
 {
   "name": "quickqr",
   "homepage": "https://sell.suiranfes.blue",
-  "version": "25.2.0",
+  "version": "25.5.0",
   "private": false,
   "type": "module",
   "scripts": {
