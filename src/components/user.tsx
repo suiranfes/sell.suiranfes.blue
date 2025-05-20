@@ -11,7 +11,7 @@ export const UserComponent: React.FC = () => {
       {isSignedIn && userEmail ? (
         <>
           <Alert severity="success">ようこそ {userEmail} さん</Alert>
-          <Button onClick={signOut} variant="outlined">ログアウト</Button>
+          <Button onClick={() => {signOut(); location.reload();}} variant="outlined">ログアウト</Button>
         </>
       ) : (
         <>

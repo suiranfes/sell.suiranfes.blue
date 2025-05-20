@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { productData } from './data';
 import { LocalStorageLib } from './localStorageLib';
 const localStorageLib = new LocalStorageLib();
@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 
 interface DataObject {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
