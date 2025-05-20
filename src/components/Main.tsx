@@ -31,11 +31,6 @@ function App() {
     console.log(e);
     const _code = e;
 
-    // // 模擬店かどうか判別
-    // if (_code.indexOf("チュロス") !== 0) {
-    //   return;
-    // }
-
     // 品ごとに分割
     const _allArray = _code.replace(/\s+/g, "").split(";");
     const _nameArray: string[] = new Array(_allArray.length - 1);
@@ -68,7 +63,7 @@ function App() {
       }
       setQrItems(products);
     }
-    //console.log(products);
+
     const saveData: string[] = [];
     for (let i = 0; i < products.length; i++) {
       saveData.push(JSON.stringify([products[i].name, products[i].quantity]))
@@ -171,13 +166,13 @@ function App() {
       }
 
       {/* Page2 */}
-      {isVisible2 && <CreateCal qrItems={qrItems} />}
+      {isVisible2 && <CreateCal qrItems={qrItems}/>}
 
       {/* Page3 */}
       {isVisible3 &&
         <div id="data">
           <h2>データ</h2>
-          <HolisticTable />
+          <HolisticTable/>
         </div>
       }
 

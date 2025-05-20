@@ -4,6 +4,7 @@ import { Delete as DeleteIcon } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { LocalStorageLib } from "./localStorageLib";
 import { deleteRowFromSheet } from "./SheetOperater";
+import { gapi } from "gapi-script";
 
 const localStorageLib = new LocalStorageLib();
 
@@ -19,9 +20,12 @@ type Props = {
 };
 
 export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
+  const authInstance = gapi.auth2.getAuthInstance();
+  const user = authInstance.currentUser.get();
+  const email = user?.getBasicProfile()?.getEmail();
+
   const [data, setData] = useState<Item[]>([]);
-  // const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
-  const [deletingIndexes, setDeletingIndexes] = useState<Set<number>>(new Set());
+  const [deletingIndexes, setDeletingIndexes] = useState<Set<number>>(new Set());//消去中のindexを保存
 
   useEffect(() => {
     const allData = localStorageLib.local_all_array();
@@ -37,45 +41,54 @@ export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
     setData(initializedArray);
   }, [updateTrigger])
 
-  const handleDelete = async (index: number, time: string) => {
+  const handleDelete = async (index: number, time: string, synced: boolean) => {
     const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
     if (!confirmed) return;
-    if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
-      alert("ユーザーページからログインしてください");
-      return;
-    }
-
-    setDeletingIndexes(prev => new Set(prev).add(index));
-
-    try {
-      // setDeletingIndex(index);
-      const isDelete = await deleteRowFromSheet(time);
-      if (isDelete) {
-        const newData = [...data];
-        newData.splice(index, 1);
-        setData(newData);
-
-        const getKey = Object.keys(localStorage);
+     
+    if(!synced){
+      const getKey = Object.keys(localStorage);
         for (let i = 0; i < getKey.length; i++) {
           if (getKey[i].indexOf(time) >= 0) {
             localStorage.removeItem(getKey[i]);
           }
         }
-      }
-      else {
-        alert("データの削除に失敗しました。インターネットを確認してください。");
-      }
-    } catch (error) {
-      console.error("データの削除に失敗しました:", error);
-    } finally {
-      // setDeletingIndex(null);
-      setDeletingIndexes(prev => {
-        const updated = new Set(prev);
-        updated.delete(index);
-        return updated;
-      });
-      onDelete();
     }
+    else{
+      if (email == undefined) {
+        alert("ユーザーページからログインしてください");
+        return;
+      }
+      setDeletingIndexes(prev => new Set(prev).add(index));
+      try {
+        const isDelete = await deleteRowFromSheet(time);
+        if (isDelete) {
+          const newData = [...data];
+          newData.splice(index, 1);
+          setData(newData);
+
+          const getKey = Object.keys(localStorage);
+          for (let i = 0; i < getKey.length; i++) {
+            if (getKey[i].indexOf(time) >= 0) {
+              localStorage.removeItem(getKey[i]);
+            }
+          }
+        }
+        else {
+          alert("データの削除に失敗しました。インターネットを確認してください。");
+        }
+      } catch (error) {
+        console.error("データの削除に失敗しました:", error);
+      } finally {
+        // setDeletingIndex(null);
+        setDeletingIndexes(prev => {
+          const updated = new Set(prev);
+          updated.delete(index);
+          return updated;
+        });
+        
+      }
+    }
+    onDelete();
   };
 
   return (
@@ -101,7 +114,7 @@ export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
                 ) : (
                   <IconButton
                     color="primary"
-                    onClick={() => { handleDelete(index, item.time) }}>
+                    onClick={() => { handleDelete(index, item.time, item.synced) }}>
                     <DeleteIcon />
                   </IconButton>
                 )}
