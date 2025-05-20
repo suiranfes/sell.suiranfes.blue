@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import UploadIcon from '@mui/icons-material/Upload';
 import { LocalStorageLib } from "./localStorageLib";
 import { writeToSheet } from "./SheetOperater";
+import { gapi } from "gapi-script";
 
 const localStorageLib = new LocalStorageLib();
 
@@ -20,8 +21,14 @@ export const Recovery: React.FC<Props> = ({ onRecovery }) => {
       setIsWorking(true);
     }
   }, []);
-
+  const authInstance = gapi.auth2.getAuthInstance();
+  const user = authInstance.currentUser.get();
+  const email = user?.getBasicProfile()?.getEmail();
   const sendRest = async () => {
+    if (email == undefined) {
+        alert("ユーザーページからログインしてください");
+        return;
+      }
     setIsWorking(true);
     sessionStorage.setItem(SHARING_KEY, "true");
     try {

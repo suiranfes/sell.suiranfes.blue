@@ -37,7 +37,7 @@ interface Item {
   quantity: number;
 }
 
-const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = ({ qrItems }) => {
+const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({ qrItems }) => {  
   const [itemList, setItemList] = useState<Item[]>(
     productData.map(value => ({
       product: value.product,
@@ -67,7 +67,7 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
     setchange(isNaN(parseInt(_inputValue)) ? 0 : parseInt(_inputValue) - total);
   }, [itemList]);
 
-  // console.log(sum1);
+  //＋－の処理
   const decreaseQuantity = (index: number) => {
     const updatedList = [...itemList];
     updatedList[index].quantity = Math.max(0, updatedList[index].quantity - 1);
@@ -106,10 +106,7 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
     setTimeout(() => {
       setIsDisabled(false);
     }, 1500);
-    if (localStorage.getItem("isUser") == "false" || localStorage.getItem("isUser") == null) {
-      alert("ユーザーページからログインしてください");
-      return;
-    } else if (itemList.every(value => value.quantity == 0)) {
+    if (itemList.every(value => value.quantity == 0)) {
       alert("全ての項目が0個です");
       return;
     }
@@ -211,11 +208,11 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = (
   );
 };
 
-const CreateCal: React.FC<{ qrItems: QrItem[] }> = ({ qrItems }) => {
+const CreateCal: React.FC<{ qrItems: QrItem[]}> = ({ qrItems }) => {
   return (
     <div>
       <h2>電卓</h2>
-      <ItemTable qrItems={qrItems} />
+      <ItemTable qrItems={qrItems}/>
     </div>
   );
 }
