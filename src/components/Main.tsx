@@ -1,6 +1,7 @@
 // External Libraries
 import { useState } from 'react';
 import { useZxing } from 'react-zxing';
+import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner';
 
 // Material UI/Icons
 import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
@@ -101,6 +102,14 @@ function App() {
       ref.current.pause(); // ビデオ再生を停止する
     }
   };
+
+  //react-qr-scannerの処理
+  const _onScan = (result:IDetectedBarcode[]) => {
+    const outputText = result[0].rawValue;
+    //console.log(outputText);
+    onRecognizeCode(outputText);
+    Page2();
+  }  
   // ページリロード
   function reloadPage() {
     window.location.reload();
@@ -117,7 +126,7 @@ function App() {
     setIsVisible2(false);
     setIsVisible3(false);
     setIsVisible4(false);
-    reloadPage();
+    // reloadPage();
     // QRコード後の処理のフラグを消すこと！
     setFlag(false);
   }
@@ -155,7 +164,8 @@ function App() {
       {isVisible1 &&
         <div id="QR">
           <h2>QR コード</h2>
-          <video ref={ref} style={{ width: "100%", borderRadius: "16px" }} />
+          <Scanner onScan={(result) => _onScan(result)} allowMultiple={true} sound={false}/>;
+          {/* <video ref={ref} style={{ width: "100%", borderRadius: "16px" }} /> */}
           {/* <p>
             <span>Last result: </span>
             <span>{qr_result}</span>
