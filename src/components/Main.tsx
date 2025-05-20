@@ -9,12 +9,12 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
-import { HolisticTable } from './HolisticTable';
+
 
 // Internal Components
-// import CSVTableComponent2, { CSVDownloadButton1 } from './csvDownload';
 import { CreateCal } from './showCal';
 import { UserComponent } from './user'; // Google Spread Sheet
+import { HolisticTable } from './HolisticTable';
 
 // Default Data
 let products = [{ name: '', quantity: 0 }];

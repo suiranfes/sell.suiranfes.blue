@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DataTable } from "./DataTable";
 import { TotalTable } from "./totalTable";
 import { Recovery } from "./RecoveryNetwork";
+import { CSVDownloadButtonTotal ,CSVTableComponentEach} from './csvDownload';
 
 export const HolisticTable: React.FC<{}> = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -14,9 +15,11 @@ export const HolisticTable: React.FC<{}> = () => {
     <div>
       <Recovery onRecovery={refreshTables} />
       <h3>あなたのデータ</h3>
+      <CSVDownloadButtonTotal/>
       <br />
       <TotalTable updateTrigger={updateTrigger} />
       <br />
+      <CSVTableComponentEach/>
       <DataTable onDelete={refreshTables} updateTrigger={updateTrigger} />
     </div>
   )
