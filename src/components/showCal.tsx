@@ -37,7 +37,7 @@ interface Item {
   quantity: number;
 }
 
-const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({ qrItems }) => {  
+const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[] }> = ({ qrItems }) => {
   const [itemList, setItemList] = useState<Item[]>(
     productData.map(value => ({
       product: value.product,
@@ -208,11 +208,11 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({
   );
 };
 
-const CreateCal: React.FC<{ qrItems: QrItem[]}> = ({ qrItems }) => {
+const CreateCal: React.FC<{ qrItems: QrItem[] }> = ({ qrItems }) => {
   return (
     <div>
       <h2>電卓</h2>
-      <ItemTable qrItems={qrItems}/>
+      <ItemTable qrItems={qrItems} />
     </div>
   );
 }

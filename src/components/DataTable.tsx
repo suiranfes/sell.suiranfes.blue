@@ -44,16 +44,16 @@ export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
   const handleDelete = async (index: number, time: string, synced: boolean) => {
     const confirmed = window.confirm(`データ「${time}」を削除しますか？`);
     if (!confirmed) return;
-     
-    if(!synced){
+
+    if (!synced) {
       const getKey = Object.keys(localStorage);
-        for (let i = 0; i < getKey.length; i++) {
-          if (getKey[i].indexOf(time) >= 0) {
-            localStorage.removeItem(getKey[i]);
-          }
+      for (let i = 0; i < getKey.length; i++) {
+        if (getKey[i].indexOf(time) >= 0) {
+          localStorage.removeItem(getKey[i]);
         }
+      }
     }
-    else{
+    else {
       if (email == undefined) {
         alert("ユーザーページからログインしてください");
         return;
@@ -85,7 +85,7 @@ export const DataTable: React.FC<Props> = ({ onDelete, updateTrigger }) => {
           updated.delete(index);
           return updated;
         });
-        
+
       }
     }
     onDelete();

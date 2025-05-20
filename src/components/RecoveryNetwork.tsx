@@ -26,9 +26,9 @@ export const Recovery: React.FC<Props> = ({ onRecovery }) => {
   const email = user?.getBasicProfile()?.getEmail();
   const sendRest = async () => {
     if (email == undefined) {
-        alert("ユーザーページからログインしてください");
-        return;
-      }
+      alert("ユーザーページからログインしてください");
+      return;
+    }
     setIsWorking(true);
     sessionStorage.setItem(SHARING_KEY, "true");
     try {

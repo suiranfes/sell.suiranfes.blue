@@ -12,7 +12,7 @@ export const writeToSheet = async (
   const authInstance = gapi.auth2.getAuthInstance();
   const user = authInstance.currentUser.get();
   const email = user?.getBasicProfile()?.getEmail();
-  if(email == undefined){
+  if (email == undefined) {
     console.error("ログイン状態ではありません");
     return false;
   }
