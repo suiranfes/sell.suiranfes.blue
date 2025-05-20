@@ -4,7 +4,7 @@ import { useGoogleAPI } from './GoogleAPIProvider';
 
 export const UserComponent: React.FC = () => {
   const { isSignedIn, userEmail, signIn, signOut } = useGoogleAPI();
-  
+
   return (
     <div>
       <h2>ユーザー</h2>
@@ -15,8 +15,8 @@ export const UserComponent: React.FC = () => {
         </>
       ) : (
         <>
-        <Alert severity="warning">ログインしてください</Alert>
-              <Button onClick={signIn} variant="outlined">Google でログイン</Button>
+          <Alert severity="warning">ログインしてください</Alert>
+          <Button onClick={signIn} variant="outlined">Google でログイン</Button>
         </>
       )}
     </div>

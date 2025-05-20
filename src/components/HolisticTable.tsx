@@ -14,9 +14,9 @@ export const HolisticTable: React.FC<{}> = () => {
     <div>
       <Recovery onRecovery={refreshTables} />
       <h3>あなたのデータ</h3>
-      <p></p>
+      <br />
       <TotalTable updateTrigger={updateTrigger} />
-      <p></p>
+      <br />
       <DataTable onDelete={refreshTables} updateTrigger={updateTrigger} />
     </div>
   )
