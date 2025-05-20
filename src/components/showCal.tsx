@@ -38,11 +38,7 @@ interface Item {
   quantity: number;
 }
 
-const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({ qrItems }) => {
-  const authInstance = gapi.auth2.getAuthInstance();
-  const user = authInstance.currentUser.get();
-  const email = user?.getBasicProfile()?.getEmail();
-  
+const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({ qrItems }) => {  
   const [itemList, setItemList] = useState<Item[]>(
     productData.map(value => ({
       product: value.product,
@@ -111,10 +107,7 @@ const ItemTable: React.FC<{ qrItems: { name: string; quantity: number }[]}> = ({
     setTimeout(() => {
       setIsDisabled(false);
     }, 1500);
-    if (email == undefined) {
-      // alert("ユーザーページからログインしてください");
-      // return;
-    } else if (itemList.every(value => value.quantity == 0)) {
+    if (itemList.every(value => value.quantity == 0)) {
       alert("全ての項目が0個です");
       return;
     }
