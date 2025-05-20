@@ -111,9 +111,11 @@ function App() {
     Page2();
   }  
   // ページリロード
+  /*
   function reloadPage() {
     window.location.reload();
   }
+  */
 
   // ページ処理
   const [isVisible1, setIsVisible1] = useState<boolean>(true);
@@ -164,7 +166,9 @@ function App() {
       {isVisible1 &&
         <div id="QR">
           <h2>QR コード</h2>
-          <Scanner onScan={(result) => _onScan(result)} allowMultiple={true} sound={false}/>;
+          <center>
+            <Scanner onScan={(result) => _onScan(result)} allowMultiple={true} sound={false}/>
+          </center>
           {/* <video ref={ref} style={{ width: "100%", borderRadius: "16px" }} /> */}
           {/* <p>
             <span>Last result: </span>

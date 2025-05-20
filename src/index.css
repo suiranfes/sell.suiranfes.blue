@@ -7,3 +7,14 @@
 :root {
   font-family: "IBM Plex Sans JP", "IBM Plex Sans", sans-serif;
 }
+
+video,
+canvas {
+  border-radius: 16px;
+}
+
+#QR center div {
+  align-items: center;
+  max-width: 512px;
+  max-height: 512px;
+}
