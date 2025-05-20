@@ -19,7 +19,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 //GSsheet
 import { writeToSheet } from './SheetOperater';
 import { productData } from './data';
-import { gapi } from 'gapi-script';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const columns = [
