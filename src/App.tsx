@@ -1,10 +1,13 @@
 import MainApp from './components/Main'
 import './App.css'
+import { GoogleAPIProvider } from './components/GoogleAPIProvider'
 
 function App() {
   return (
     <>
-      <MainApp />
+      <GoogleAPIProvider>
+        <MainApp />
+      </GoogleAPIProvider>
     </>
   )
 }
