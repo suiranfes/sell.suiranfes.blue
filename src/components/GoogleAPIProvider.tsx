@@ -1,5 +1,6 @@
 // GoogleAPIProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { ConfirmLogin } from './ConfirmLogin';
 import { gapi } from 'gapi-script';
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
@@ -21,6 +22,10 @@ export const GoogleAPIProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [tempEmail, setTempEmail] = useState<string | null>(null);
+  const [defaultEmail, setDefaultEmail] = useState<string | null>(null);
+
   useEffect(() => {
     function start() {
       gapi.client
@@ -38,17 +43,14 @@ export const GoogleAPIProvider: React.FC<{ children: React.ReactNode }> = ({ chi
               const profile = auth.currentUser.get().getBasicProfile();
               const email = profile.getEmail();
               setUserEmail(email);
-              const defaultEmail = localStorage.getItem("defaultEmail");
-              if(defaultEmail == null){
+              const _defaultEmail = localStorage.getItem("defaultEmail");
+              if(_defaultEmail == null){
                 localStorage.setItem('defaultEmail', email);
               }
-              else if(email != defaultEmail){
-                const isConfirm = confirm(`この端末は${defaultEmail}にログインされたことがあるようです。\n本当に${email}にログインしますか。※データが破損する恐れがあります。`);
-                if(!isConfirm){
-                  auth.signOut(); //ログイン前にメールアドレスを取得できないようなので、ログイン後に違うアカウントだったら確認しています。
-                  setUserEmail(null); 
-                  setIsSignedIn(false);
-                }
+              else if(email != _defaultEmail){
+                setTempEmail(email);
+                setDefaultEmail(_defaultEmail);
+                setModalOpen(true);//ログイン前にメールアドレスを取得できないようなので、ログイン後に違うアカウントだったら確認しています。
               }
             } 
           };
@@ -65,10 +67,34 @@ export const GoogleAPIProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     gapi.auth2.getAuthInstance().signOut();
     setUserEmail(null);
   };
-
+//modalからの処理
+  const handleConfirm = () => {
+    if (tempEmail) {
+      setUserEmail(tempEmail);
+      setIsSignedIn(true);
+    }
+    setModalOpen(false);
+  };
+  
+  const handleCancel = () => {
+    const auth = gapi.auth2.getAuthInstance();
+    auth.signOut();
+    setUserEmail(null);
+    setIsSignedIn(false);
+    setModalOpen(false);
+  };
   return (
     <GoogleAPIContext.Provider value={{ isSignedIn, userEmail, signIn, signOut }}>
       {children}
+      {modalOpen && tempEmail && defaultEmail && (
+        <ConfirmLogin
+          open={modalOpen}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          email={tempEmail}
+          defaultEmail={defaultEmail}
+        />
+      )}
     </GoogleAPIContext.Provider>
   );
 };
