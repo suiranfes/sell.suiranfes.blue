@@ -22,23 +22,20 @@ function App() {
   const [qrItems, setQrItems] = useState<{ name: string; quantity: number }[]>([]);
 
   // QR コード読み込み後の処理
-  const onRecognizeCode = (e: string) => {
-    // console.log(e);
-    const _code = e;
-
+  const onRecognizeCode = (readCode: string) => {
     // 品ごとに分割
-    const _allArray = _code.replace(/\s+/g, "").split(";");
+    const _allArray = readCode.replace(/\s+/g, "").split(";");
     const _nameArray: string[] = new Array(_allArray.length - 1);
     const _costArray: number[] = new Array(_allArray.length - 1);
     const _qtyArray: number[] = new Array(_allArray.length - 1);
     const _sumArray: number[] = new Array(_allArray.length - 1);
     // それぞれの要素に分割
     for (let i = 0; i < _allArray.length; i++) {
-      const a = _allArray[i].split(",");
-      _nameArray[i] = a[0];
-      _costArray[i] = Number(a[1]);
-      _qtyArray[i] = Number(a[2]);
-      _sumArray[i] = Number(a[3]);
+      const splitArray = _allArray[i].split(",");
+      _nameArray[i] = splitArray[0];
+      _costArray[i] = Number(splitArray[1]);
+      _qtyArray[i] = Number(splitArray[2]);
+      _sumArray[i] = Number(splitArray[3]);
     }
 
     //表示する商品
@@ -61,8 +58,7 @@ function App() {
 
   //react-qr-scannerの処理
   const _onScan = (result: IDetectedBarcode[]) => {
-    const outputText = result[0].rawValue;
-    onRecognizeCode(outputText);
+    onRecognizeCode(result[0].rawValue);
     ChangePage(2);
   }
 
