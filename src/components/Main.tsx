@@ -67,44 +67,29 @@ function App() {
   }
 
   // ページ処理
-  const [isVisible1, setIsVisible1] = useState<boolean>(true);
-  const [isVisible2, setIsVisible2] = useState<boolean>(false);
-  const [isVisible3, setIsVisible3] = useState<boolean>(false);
-  const [isVisible4, setIsVisible4] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean[]>([true, false, false, false]);
   const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white", "white"]);
   const Page1 = () => {
-    setIsVisible1(true);
-    setIsVisible2(false);
-    setIsVisible3(false);
-    setIsVisible4(false);
+    setIsVisible([true, false, false, false]);
     setBarColor(["#afeeee", "white", "white", "white"])
   }
   const Page2 = () => {
-    setIsVisible1(false);
-    setIsVisible2(true);
-    setIsVisible3(false);
-    setIsVisible4(false);
+    setIsVisible([false, true, false, false]);
     setBarColor(["white", "#afeeee", "white", "white"])
   }
   const Page3 = () => {
-    setIsVisible1(false);
-    setIsVisible2(false);
-    setIsVisible3(true);
-    setIsVisible4(false);
+    setIsVisible([false, false, true, false]);
     setBarColor(["white", "white", "#afeeee", "white"])
   }
   const Page4 = () => {
-    setIsVisible1(false);
-    setIsVisible2(false);
-    setIsVisible3(false);
-    setIsVisible4(true);
+    setIsVisible([false, false, false, true]);
     setBarColor(["white", "white", "white", "#afeeee"]);
   }
 
   return (
     <div className="App" style={{ margin: "0 10% 68px 10%" }}>
       {/* Page1 */}
-      {isVisible1 &&
+      {isVisible[0] &&
         <div id="QR">
           <h2>QR コード</h2>
           <center>
@@ -114,13 +99,13 @@ function App() {
       }
 
       {/* Page2 */}
-      {isVisible2 && <CreateCal qrItems={qrItems} />}
+      {isVisible[1] && <CreateCal qrItems={qrItems} />}
 
       {/* Page3 */}
-      {isVisible3 && <HolisticTable />}
+      {isVisible[2] && <HolisticTable />}
 
       {/* Page4 */}
-      {isVisible4 && <UserComponent />}
+      {isVisible[3] && <UserComponent />}
 
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
