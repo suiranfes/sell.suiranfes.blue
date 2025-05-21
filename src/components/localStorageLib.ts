@@ -12,7 +12,7 @@ export class LocalStorageLib {
     const keySplitArray: string[] = []
     for (let i = 0; i < localStorage.length; i++) {
       const pushkey = Object.keys(localStorage)[i];
-      if (pushkey[0] != "userEmail" && pushkey[0] != "isUser") {
+      if (pushkey[0] != "defaultEmail") {
         keySplitArray.push(pushkey);
       }
       //console.log(pushkey);
@@ -26,7 +26,7 @@ export class LocalStorageLib {
     const returnArray: ReturnArray[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key !== "userEmail" && key !== "isUser") {
+      if (key && key !== "defaultEmail" ) {
         const value = localStorage.getItem(key);
         if (value) {
           try {

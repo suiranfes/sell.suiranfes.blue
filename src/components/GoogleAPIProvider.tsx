@@ -38,12 +38,19 @@ export const GoogleAPIProvider: React.FC<{ children: React.ReactNode }> = ({ chi
               const profile = auth.currentUser.get().getBasicProfile();
               const email = profile.getEmail();
               setUserEmail(email);
-              localStorage.setItem('userEmail', email);
-              localStorage.setItem('isUser', 'true');
-            } else {
-              localStorage.setItem('isUser', 'false');
-              localStorage.removeItem('userEmail');
-            }
+              const defaultEmail = localStorage.getItem("defaultEmail");
+              if(defaultEmail == null){
+                localStorage.setItem('defaultEmail', email);
+              }
+              else if(email != defaultEmail){
+                const isConfirm = confirm(`この端末は${defaultEmail}にログインされたことがあるようです。\n本当に${email}にログインしますか。※データが破損する恐れがあります。`);
+                if(!isConfirm){
+                  auth.signOut(); //ログイン前にメールアドレスを取得できないようなので、ログイン後に違うアカウントだったら確認しています。
+                  setUserEmail(null); 
+                  setIsSignedIn(false);
+                }
+              }
+            } 
           };
           updateSigninStatus(auth.isSignedIn.get());
           auth.isSignedIn.listen(updateSigninStatus);

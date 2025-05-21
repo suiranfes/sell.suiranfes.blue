@@ -70,12 +70,15 @@ export const deleteRowFromSheet = async (time: string) => {
       spreadsheetId: SPREADSHEET_ID,
       range: `${sheetName}!A2:Z`,
     });
+    const authInstance = gapi.auth2.getAuthInstance();
+    const user = authInstance.currentUser.get();
+    const email = user?.getBasicProfile()?.getEmail();
 
     const rows = response.result.values || [];
 
     const matchIndex = rows.findIndex((row: any[]) =>
       row[0] === time &&
-      row[row.length - 1] === localStorage.getItem("userEmail")
+      row[row.length - 1] === email
     );
 
     if (matchIndex === -1) {
