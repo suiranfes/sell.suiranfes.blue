@@ -63,27 +63,20 @@ function App() {
   const _onScan = (result: IDetectedBarcode[]) => {
     const outputText = result[0].rawValue;
     onRecognizeCode(outputText);
-    Page2();
+    ChangePage(2);
   }
 
   // ページ処理
   const [isVisible, setIsVisible] = useState<boolean[]>([true, false, false, false]);
   const [BarColor, setBarColor] = useState<string[]>(["#afeeee", "white", "white", "white"]);
-  const Page1 = () => {
-    setIsVisible([true, false, false, false]);
-    setBarColor(["#afeeee", "white", "white", "white"])
-  }
-  const Page2 = () => {
-    setIsVisible([false, true, false, false]);
-    setBarColor(["white", "#afeeee", "white", "white"])
-  }
-  const Page3 = () => {
-    setIsVisible([false, false, true, false]);
-    setBarColor(["white", "white", "#afeeee", "white"])
-  }
-  const Page4 = () => {
-    setIsVisible([false, false, false, true]);
-    setBarColor(["white", "white", "white", "#afeeee"]);
+  const ChangePage = (pageNumber: number) => {
+    const visibilityArray = [false, false, false, false];
+    visibilityArray[pageNumber - 1] = true;
+    setIsVisible(visibilityArray); // ページの表示状態を更新
+
+    const colorArray = ["white", "white", "white", "white"];
+    colorArray[pageNumber - 1] = "#afeeee";
+    setBarColor(colorArray); // ページバーの背景色を更新
   }
 
   return (
@@ -110,10 +103,10 @@ function App() {
       {/* footer */}
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation>
-          <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード" icon={<QrCodeIcon />} onClick={Page1} /></Box>
-          <Box bgcolor={BarColor[1]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={Page2} /></Box>
-          <Box bgcolor={BarColor[2]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={Page3} /></Box>
-          <Box bgcolor={BarColor[3]}><BottomNavigationAction label="ユーザー" icon={<AccessibilityNewIcon />} onClick={Page4} /></Box>
+          <Box bgcolor={BarColor[0]}><BottomNavigationAction label="QR コード" icon={<QrCodeIcon />} onClick={() => ChangePage(1)} /></Box>
+          <Box bgcolor={BarColor[1]}><BottomNavigationAction label="電卓" icon={<CalculateIcon />} onClick={() => ChangePage(2)} /></Box>
+          <Box bgcolor={BarColor[2]}><BottomNavigationAction label="データ" icon={<DataThresholdingIcon />} onClick={() => ChangePage(3)} /></Box>
+          <Box bgcolor={BarColor[3]}><BottomNavigationAction label="ユーザー" icon={<AccessibilityNewIcon />} onClick={() => ChangePage(4)} /></Box>
         </BottomNavigation>
       </Paper>
     </div>
