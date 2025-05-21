@@ -10,7 +10,6 @@ import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import QrCodeIcon from '@mui/icons-material/QrCode2';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 
-
 // Internal Components
 import { CreateCal } from './showCal';
 import { UserComponent } from './user'; // Google Spread Sheet
@@ -118,12 +117,7 @@ function App() {
       {isVisible2 && <CreateCal qrItems={qrItems} />}
 
       {/* Page3 */}
-      {isVisible3 &&
-        <div id="data">
-          <h2>データ</h2>
-          <HolisticTable />
-        </div>
-      }
+      {isVisible3 && <HolisticTable />}
 
       {/* Page4 */}
       {isVisible4 && <UserComponent />}
