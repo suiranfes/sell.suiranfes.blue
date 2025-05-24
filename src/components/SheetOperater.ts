@@ -14,7 +14,7 @@ export const writeToSheet = async (
   const email = user?.getBasicProfile()?.getEmail();
   console.log(email);
   if (email == undefined) {
-    console.error("ログイン状態ではありません");
+    alert("ログイン状態ではありません");
     return false;
   }
 
@@ -83,7 +83,7 @@ export const deleteRowFromSheet = async (time: string) => {
 
     if (matchIndex === -1) {
       console.warn('一致する行が見つかりませんでした');
-      return;
+      return true;//見つかっていないので能動的に削除されたと解釈
     }
 
     const rowNumber = matchIndex + 2;
